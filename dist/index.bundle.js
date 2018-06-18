@@ -2827,7 +2827,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var DEFAULT_COMMENT_DIV_ID_PREFIX = exports.DEFAULT_COMMENT_DIV_ID_PREFIX = "commentCard_";
     var TIMESTAMPED_TRANSCRIPT_DIV_ID_PREFIX = exports.TIMESTAMPED_TRANSCRIPT_DIV_ID_PREFIX = "timestampedTranscriptCard_";
     var STRING_TRANSCRIPTION_NOT_ENABLED = exports.STRING_TRANSCRIPTION_NOT_ENABLED = "Transcription and Keywords analysis not enabled for this Submission.";
-    var STRING_TRANSCRIPTION_FAILED = exports.STRING_TRANSCRIPTION_FAILED = "Transcription and Keywords analysis not available for this Submission.";
+    var STRING_TRANSCRIPTION_FAILED = exports.STRING_TRANSCRIPTION_FAILED = "Due to an error, Transcription and Keywords analysis is not available for this Submission";
     var STRING_TRANSCRIPTION_IN_PROGRESS = exports.STRING_TRANSCRIPTION_IN_PROGRESS = "Transcription is on its way!";
     var STRING_FETCHING_TRANSCRIPTION_DATA = exports.STRING_FETCHING_TRANSCRIPTION_DATA = "Loading...";
     var STRING_FETCHING_TRANSCRIPTION_DATA_FAILED = exports.STRING_FETCHING_TRANSCRIPTION_DATA_FAILED = "Error while getting data.";
