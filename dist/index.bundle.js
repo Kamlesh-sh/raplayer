@@ -3642,7 +3642,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			search: function search(timestampedTranscripts, searchPhrases) {
 				var matchedTranscriptIndices = [];
 				var searchedTranscripts = timestampedTranscripts.map(function (timestampedTranscript, index) {
-					var text = timestampedTranscript.text;
+					var text = " " + timestampedTranscript.text + " ";
 					searchPhrases.forEach(function (phrase) {
 						var phraseWithSpaces = " " + phrase.toLowerCase() + " ";
 						var i = 0;
@@ -3655,7 +3655,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 							pos = text.toLowerCase().indexOf(phraseWithSpaces, i);
 						}
 					});
-					return _extends({}, timestampedTranscript, { text: text });
+					return _extends({}, timestampedTranscript, { text: text.substr(1, text.length - 2) });
 				});
 
 				var _transcriptionModel$h = transcriptionModel.highlightCurrentMatch(searchedTranscripts, 1, 1, matchedTranscriptIndices),

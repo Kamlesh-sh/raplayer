@@ -8,7 +8,7 @@ var transcriptionModel = {
 	search: (timestampedTranscripts, searchPhrases) => {
 		let matchedTranscriptIndices = [];
 		let searchedTranscripts = timestampedTranscripts.map(function(timestampedTranscript, index) {
-			let text = timestampedTranscript.text;
+			let text = " " + timestampedTranscript.text + " ";
 			searchPhrases.forEach((phrase) => {
 				let phraseWithSpaces = " " + phrase.toLowerCase() + " ";
 				let i = 0;
@@ -21,7 +21,7 @@ var transcriptionModel = {
 					pos = text.toLowerCase().indexOf(phraseWithSpaces, i);
 				}
 			});
-			return {...timestampedTranscript, text: text};
+			return {...timestampedTranscript, text: text.substr(1, text.length - 2)};
 		});
 		let { highlightedTranscripts } = transcriptionModel.highlightCurrentMatch(searchedTranscripts, 1, 1, matchedTranscriptIndices);
 		return {
