@@ -22,7 +22,7 @@ class FilterContainer extends Component {
 	onOptionsChangedHandler({ selectedOptions, option, selected }) {
 		if (selected) {
 			track(trackEvents.SEARCH_IN_TRANSCRIPTION, {
-				search_text: option.value,
+				evaluation_parameter_name: option.label,
 				source: 'filter'
 			});
 		}

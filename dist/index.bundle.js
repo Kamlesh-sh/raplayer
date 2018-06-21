@@ -7136,7 +7136,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 					if (selected) {
 						(0, _api.track)(_trackEvents2.default.SEARCH_IN_TRANSCRIPTION, {
-							search_text: option.value,
+							evaluation_parameter_name: option.label,
 							source: 'filter'
 						});
 					}
