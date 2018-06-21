@@ -6,7 +6,8 @@ let events = {
 	FILTER_CLICKED: "mission video comments filter",
 	COMMENT_VIEWED: "mission video comments view",
 	EMOJI_CLICKED: "emoji clicked",
-	EMOJI_CHOSEN: "emoji chosen"
+	EMOJI_CHOSEN: "emoji chosen",
+	SEARCH_IN_TRANSCRIPTION: "manager_transcription_search"
 };
 
 export default events;

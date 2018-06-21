@@ -17,16 +17,19 @@ class MultiSelectDropdown extends Component {
 
 	onOptionClick(option) {
 		let selectedOptions = [...this.state.selectedOptions];
+		let selected;
 
 		if (this.isOptionSelected(option)) {
 			selectedOptions = selectedOptions.filter(selectedOption => selectedOption.value != option.value);
+			selected = false;
 		}
 		else {
 			selectedOptions = [...selectedOptions, option];
+			selected = true;
 		}
 
 		this.setState({ selectedOptions: selectedOptions });
-		this.props.onOptionsChangedHandler({ selectedOptions: this.state.selectedOptions });
+		this.props.onOptionsChangedHandler({ selectedOptions: this.state.selectedOptions, option, selected });
 	}
 
 	isOptionSelected(option) {

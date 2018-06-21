@@ -4,6 +4,8 @@ import { namespaceConnect } from "@utils/enhancer";
 import style from "./index.scss";
 import filterImage from "images/filter.svg";
 import MultiSelectDropdown from "@components/MultiSelectDropdown";
+import { track } from "@api/api";
+import trackEvents from "@config/trackEvents";
 
 class FilterContainer extends Component {
 	constructor(props) {
@@ -17,7 +19,13 @@ class FilterContainer extends Component {
 		};
 	}
 
-	onOptionsChangedHandler({ selectedOptions }) {
+	onOptionsChangedHandler({ selectedOptions, option, selected }) {
+		if (selected) {
+			track(trackEvents.SEARCH_IN_TRANSCRIPTION, {
+				search_text: option.value,
+				source: 'filter'
+			});
+		}
 		let selectedEvalParamIds = selectedOptions.map(option => option.value);
 		let selectedEvalParams = this.props.evalParams.filter(evalParam => selectedEvalParamIds.includes(evalParam.evalParamId))
 		this.props.updateTranscriptionSearchWords({ selectedEvalParams });

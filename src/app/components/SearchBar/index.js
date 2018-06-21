@@ -1,6 +1,8 @@
 import { h, Component } from "preact";
 import closeImage from "images/close_w.svg";
 import style from "./index.scss";
+import { track } from "@api/api";
+import trackEvents from "@config/trackEvents";
 
 class SearchBar extends Component {
 	constructor(props) {
@@ -21,6 +23,10 @@ class SearchBar extends Component {
 	}
 
 	addSearchWord(newWord) {
+		track(trackEvents.SEARCH_IN_TRANSCRIPTION, {
+			search_text: newWord,
+			source: 'search_bar'
+		});
 		let searchWords = [...this.state.searchWords];
 		if (this.state.searchWords.indexOf(newWord) == -1) {
 			searchWords = [...searchWords, newWord];
