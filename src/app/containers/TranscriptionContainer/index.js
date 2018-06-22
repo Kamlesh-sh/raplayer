@@ -61,7 +61,11 @@ class TranscriptionContainer extends Component {
 						{STRING_TRANSCRIPTION_NOT_ENABLED}
 					</div>
 					<div className={[transcriptionStatus == "FAILED" ? style.show : style.hide].join(" ")} >
-						{STRING_TRANSCRIPTION_FAILED}
+						<div className={[style.textalignC, "F18 color66"].join(" ")}>
+							<div className={style.transcriptionfailed} />
+							<div style="font-weight: 600;">Oops! </div>
+							<div style="padding: 0px 80px;">{STRING_TRANSCRIPTION_FAILED}</div>
+						</div>
 					</div>
 					<div className={[transcriptionStatus == "STARTED" || transcriptionStatus == "NOT_STARTED" ? style.show : style.hide].join(" ")} >
 						<div className={style.transcriptionOnItsWay}>
