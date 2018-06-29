@@ -11,7 +11,7 @@ export const STRING_SEARCH_NAVIGATION_BAR_NO_MATCHES = "No Match Found";
 export const DEFAULT_COMMENT_DIV_ID_PREFIX = "commentCard_";
 export const TIMESTAMPED_TRANSCRIPT_DIV_ID_PREFIX = "timestampedTranscriptCard_";
 export const STRING_TRANSCRIPTION_NOT_ENABLED = "Transcription and Keywords analysis not enabled for this Submission.";
-export const STRING_TRANSCRIPTION_FAILED = "Sorry, Smart Transcribe couldn't transcribe this submission. Please proceed with reviewing.";
+export const STRING_TRANSCRIPTION_FAILED = "<div style='font-weight: 600;'>Oops! </div>Sorry, Smart Transcribe couldn't transcribe this submission. Please proceed with reviewing.";
 export const STRING_TRANSCRIPTION_IN_PROGRESS = "Transcription is on its way!";
 export const STRING_FETCHING_TRANSCRIPTION_DATA = "Loading...";
 export const STRING_FETCHING_TRANSCRIPTION_DATA_FAILED = "Error while getting data.";
