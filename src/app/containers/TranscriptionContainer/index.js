@@ -1,8 +1,8 @@
 import { h, Component } from "preact";
 import { actions } from "../../actions";
 import { namespaceConnect } from "@utils/enhancer";
-import SearchContainer from "@containers/SearchContainer";
-import FilterContainer from "@containers/FilterContainer";
+import TranscriptionSearchContainer from "@containers/TranscriptionSearchContainer";
+import TranscriptionFilterContainer from "@containers/TranscriptionFilterContainer";
 import CommentPane from "@components/CommentPane";
 import style from "./index.scss";
 import {
@@ -41,10 +41,10 @@ class TranscriptionContainer extends Component {
 				<div className={[style.rightContainor, !loading && !error ? style.show : style.hide].join(" ")} >
 					<div className={[transcriptionStatus == "SUCCESS" ? style.show : style.hide].join(" ")}>
 						<div className={style.transcriptionSearch}>
-							<SearchContainer
+							<TranscriptionSearchContainer
 								namespace={this.props.namespace}
 							/>
-							<FilterContainer
+							<TranscriptionFilterContainer
 								namespace={this.props.namespace}
 							/>
 							<div className={style.clear} />

@@ -7,7 +7,7 @@ import MultiSelectDropdown from "@components/MultiSelectDropdown";
 import { track } from "@api/api";
 import trackEvents from "@config/trackEvents";
 
-class FilterContainer extends Component {
+class TranscriptionFilterContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.onOptionsChangedHandler = this.onOptionsChangedHandler.bind(this);
@@ -75,4 +75,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default namespaceConnect(mapStateToProps, actions)(FilterContainer);
+export default namespaceConnect(mapStateToProps, actions)(TranscriptionFilterContainer);

@@ -10,7 +10,7 @@ import {
 	STRING_SEARCH_NAVIGATION_BAR_NO_MATCHES
 } from "@config/constants";
 
-class SearchContainer extends Component {
+class TranscriptionSearchContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.searchWordsChangedHandler = this.searchWordsChangedHandler.bind(this);
@@ -55,4 +55,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default namespaceConnect(mapStateToProps, actions)(SearchContainer);
+export default namespaceConnect(mapStateToProps, actions)(TranscriptionSearchContainer);
