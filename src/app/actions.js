@@ -457,12 +457,6 @@ export let actions = () => ({
 			}
 		});
 
-		// let requestObj = {
-		// 	"s3_bucket":"mtgame-cdn.mindtickle.com",
-		// 	"transcript_s3_path": "639719738272856071/user/3b1bf22a43eddbee/986188132469806518/1/video_1526978518955.out",
-		// 	"time_interval": 30
-		// };
-
 		var commentArray = [
 			{
 				time: 1,
@@ -572,7 +566,6 @@ export let actions = () => ({
 		}
 		return post(apiConfig.getTranscriptionData(state.app), { body: requestObj }).then(
 			response => {
-				// if (response.transcript_status) {}
 				let transcriptArray = [...response.timestampedTranscripts];
 				let sortedTranscriptArray = transcriptionModel.sort(transcriptArray);
 
