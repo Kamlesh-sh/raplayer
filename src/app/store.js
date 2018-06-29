@@ -22,6 +22,22 @@ const initialState = {
 	commentPane: {
 		allComments: [],
 		activeComments: []
+	},
+	transcriptionPane: {
+		searchBar: {
+			searchWords: [],
+			currentMatchNumber: 0,
+			numberOfMatches: 0
+		},
+		filter: {
+			evaluationParameters: [],
+			selectedEvalParams: []
+		},
+		timestampedTranscripts: [],
+		searchedTranscripts: [],
+		matchedTranscriptIndices: [],
+		transcriptionApiStatus: "FETCHING",
+		transcriptionStatus: "NOT_ENABLED"
 	}
 };
 

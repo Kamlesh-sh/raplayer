@@ -4,6 +4,8 @@
 </head>
 <body>
 		<div id='targetContainer' style='width:672px;height:378px;float:left'></div>
+		<div id='targetTranscriptionContainer' style='width:672px;float:right;position:relative;'>
+		</div>
 		<div id='targetCommentContainer' style='width:672px;float:right;position:relative'></div>
 </body>
 <script>
@@ -11,6 +13,7 @@
 var obj = {
 	targetVideoContainer: 'targetContainer',
 	targetCommentContainer: 'targetCommentContainer',
+	targetTranscriptionContainer: 'targetTranscriptionContainer',
 	primaryTracks: [
 	{
 		src: '360p.mp4',
@@ -23,7 +26,7 @@ var obj = {
 	app: {
 		subjectId: 123,
 		companyName: 423,
-		socialId: 111,
+		// socialId: 111,
 		author:{id: '1222222',name: "123"},
 		trackData: {
 			contentId: 1234,
@@ -32,7 +35,7 @@ var obj = {
 	},
 	showControlsOnly: false,
 	edit: true,
-	showOnboarding: true,
+	showOnboarding: false,
 	onRenderComplete: function(){
 		console.info("dne...");
 	},

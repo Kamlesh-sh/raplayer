@@ -6,4 +6,14 @@ export const STRING_NO_COMMENT = "Reviewers have not submitted any comments for 
 export const STRING_NO_COMMENT_ON_SUBMISSION = "Hover your mouse over the video progress bar and add your comments for the Learner at precise time(s). All your comments will appear here.";
 export const STRING_ONBOARDING = "Make your review more contextual and insightful for the Learner. Hover your mouse over the video progress bar and add your comments at precise time(s).";
 export const MAX_CHAR_LIMIT_COMMENT = 1000;
-
+export const STRING_TRANSCRIPTION_SEARCHBAR_PLACEHOLDER = "Search words in the transcription";
+export const STRING_SEARCH_NAVIGATION_BAR_NO_MATCHES = "No Match Found";
+export const DEFAULT_COMMENT_DIV_ID_PREFIX = "commentCard_";
+export const TIMESTAMPED_TRANSCRIPT_DIV_ID_PREFIX = "timestampedTranscriptCard_";
+export const STRING_TRANSCRIPTION_NOT_ENABLED = "Transcription and Keywords analysis not enabled for this Submission.";
+export const STRING_TRANSCRIPTION_FAILED = "<div style='font-weight: 600;'>Oops! </div>Sorry, Smart Transcribe couldn't transcribe this submission. Please proceed with reviewing.";
+export const STRING_TRANSCRIPTION_IN_PROGRESS = "Transcription is on its way!";
+export const STRING_FETCHING_TRANSCRIPTION_DATA = "Loading...";
+export const STRING_FETCHING_TRANSCRIPTION_DATA_FAILED = "Error while getting data.";
+export const CLASS_SEARCH_HIGHLIGHT = "searchHighlightStyle";
+export const CLASS_CURRENT_MATCH_HIGHLIGHT = "currentMatchHighlightStyle";

@@ -1,5 +1,7 @@
 @import "./colors.scss";
-
+body{
+	font-family: "Open Sans", Arial, sans-serif;
+}
 :global {
 	.ra-full-window {
 		width: 100% !important;
@@ -23,14 +25,35 @@
 			-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 		}
 	}
+	.currentMatchHighlightStyle{
+		background: #fff6ce;
+		font-weight: normal;
+		border-radius: 4px;
+		padding:0 2px;
+		display: inline-block;
+	}
+	.searchHighlightStyle{
+		background: #efefef;
+		font-weight: normal;
+		border-radius: 4px;
+		padding:0 2px;
+		display: inline-block;
+	}
 }
-
-.posRel {
+.ellipsis{
+overflow: hidden;
+white-space: nowrap;
+font-size: 13px;
+text-overflow: ellipsis;}
+.pos_rel {
 	position: relative;
 }
 
 .hide {
 	display: none;
+}
+.display_IB{
+	display:inline-block;
 }
 .show {
 	display: block;
@@ -61,32 +84,45 @@
 .marginT8 {
 	margin-top: 8px;
 }
-
-.marginR12 {
-	margin-right: 12px;
-}
 .marginT14 {
 	margin-top: 14px;
-}
-
-.marginR15 {
-	margin-right: 15px;
 }
 .marginT9 {
 	margin-top: 9px;
 }
-
 .marginT6 {
 	margin-top: 6px;
 }
-
 .marginT10 {
 	margin-top: 10px;
 }
 
+.marginB5 {
+	margin-bottom: 5px;
+}
+.marginB10 {
+	margin-bottom: 10px;
+}
+.marginB15 {
+	margin-bottom: 15px;
+}
+.marginB20 {
+	margin-bottom: 20px;
+}
+.marginB25 {
+	margin-bottom: 25px;
+}
+
+.marginR12 {
+	margin-right: 12px;
+}
+.marginR15 {
+	margin-right: 15px;
+}
 .marginR20 {
 	margin-right: 20px;
 }
+
 .paddingT5 {
 	padding-top: 5px;
 }
@@ -110,8 +146,17 @@
 .lineHeight18 {
 	line-height: 18px;
 }
+
 .F12 {
 	font-size: 12px;
+}
+
+.F18 {
+	font-size: 18px;
+}
+
+.color66 {
+	color: #666666;
 }
 
 .orangeColor {

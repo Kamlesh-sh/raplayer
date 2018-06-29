@@ -20,6 +20,9 @@ let apiUrls = {
 	},
 	deleteComment({ socialId, cname }) {
 		return { url: `/${cname}/social/${socialId}` };
+	},
+	getTranscriptionData({ cname }) {
+		return { url: `/${cname}/review/transcription_data` }
 	}
 };
 
