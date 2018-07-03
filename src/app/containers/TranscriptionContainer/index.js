@@ -13,11 +13,14 @@ import {
 	STRING_FETCHING_TRANSCRIPTION_DATA,
 	STRING_FETCHING_TRANSCRIPTION_DATA_FAILED
 } from "@config/constants";
+import event from "@config/trackEvents";
+import { track } from "@api/api";
 
 
 class TranscriptionContainer extends Component {
 	constructor(props) {
 		super(props);
+		this.onTranscriptionCardClickHandler = this.onTranscriptionCardClickHandler.bind(this);
 	}
 
 	componentDidMount() {
@@ -31,6 +34,17 @@ class TranscriptionContainer extends Component {
 			let elem = this.base.querySelector(elementId);
 			elem.scrollIntoViewIfNeeded();
 		}
+	}
+
+	onTranscriptionCardClickHandler(cardObj) {
+		let videoElem;
+		videoElem = document.getElementById(this.props.targetPlayerId);
+		videoElem.currentTime = cardObj.time;
+		videoElem = document.getElementById(this.props.secondaryTargetPlayerId);
+		if(videoElem){
+			videoElem.currentTime = cardObj.time;
+		}
+		track(event.TRANSCRIPTION_CARD_CLICKED, {});
 	}
 
 	render() {
@@ -53,6 +67,7 @@ class TranscriptionContainer extends Component {
 								comments={this.props.searchedTranscripts}
 								targetPlayerId={this.props.targetPlayerId}
 								commentDivIdPrefix={TIMESTAMPED_TRANSCRIPT_DIV_ID_PREFIX}
+								onPaneCardClickHandler={this.onTranscriptionCardClickHandler}
 							/>
 						</div>
 					</div>

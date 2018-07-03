@@ -45,6 +45,7 @@ class App extends Component {
 					<TranscriptionContainer
 						namespace={this.props.namespace}
 						targetPlayerId={this.props.id}
+						secondaryTargetPlayerId={secondaryId}
 					/>
 				</Provider>,
 				targetTranscriptionContainerRef,
