@@ -22,7 +22,8 @@ import FullscreenApi from "@api/fullscreen-api.js";
 
 let defaultControlOptions = {
 	download: true,
-	fullScreen: true
+	fullScreen: true,
+	captions: false
 };
 
 class VideoControls extends Component {
@@ -37,6 +38,8 @@ class VideoControls extends Component {
 		this.showTrackListHandler = this.showTrackListHandler.bind(this);
 		this.hideTrackListHandler = this.hideTrackListHandler.bind(this);
 		this.fullWindowOnEscKey = this.fullWindowOnEscKey.bind(this);
+		this.toggleCaptions = this.toggleCaptions.bind(this);
+		this.disableCaptions = this.disableCaptions.bind(this);
 		this.showTrackList;
 		this.setState({
 			showTrackList: false
@@ -247,6 +250,20 @@ class VideoControls extends Component {
 		});
 	}
 
+	toggleCaptions() {
+		let vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
+		if (vttTrack.mode == 'showing') {
+			vttTrack.mode = 'hidden';
+		}
+		else {
+			vttTrack.mode = 'showing';
+		}
+	}
+
+	disableCaptions() {
+		this.video.textTracks[0].mode = 'disabled';
+	}
+
 	commentBarDotOnMouseOutHandler(event) {
 		if (this.props.isCommentBoxActive) {
 			return;
@@ -298,6 +315,11 @@ class VideoControls extends Component {
 	) => {
 		this.video = document.getElementById(targetPlayerId);
 		controlOptions = { ...defaultControlOptions, ...controlOptions };
+
+		if (this.video && controlOptions.captions == false) {
+			this.disableCaptions();
+		}
+
 		let currentTimeString = "00:00",
 			seekTime = 0;
 		if (this.video) {
@@ -369,6 +391,16 @@ class VideoControls extends Component {
 									)}
 								</div>
 							)}
+						{controlOptions.captions && (
+							<div className={style.controlButton}>
+								<button
+									style="border:none"
+									type="button"
+									className={style.fullScreen}
+									onClick={this.toggleCaptions}
+								/>
+							</div>
+						)}
 						{controlOptions.download &&
 							downloadSrc && (
 								<div className={style.controlButton}>
