@@ -180,7 +180,7 @@ class Video extends Component {
 	}
 
 
-	render({ id, src, hidemedia, heightAuto }, { loading }) {
+	render({ id, src, captionTrackSrc, hidemedia, heightAuto }, { loading }) {
 		let kClass;
 		if (hidemedia) {
 			kClass = style.hide;
@@ -200,7 +200,10 @@ class Video extends Component {
 					onWaiting={this.showLoading}
 					onPlaying={this.hideLoading}
 					onClick={this.togglePlayPause}
-				/>
+					crossorigin="anonymous"
+				>
+					<track src={captionTrackSrc} label="Captions" kind="captions" srclang="en" default />
+				</video>
 			</div>
 		);
 	}
