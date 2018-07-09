@@ -391,6 +391,19 @@ class VideoControls extends Component {
 						{currentTimeString}
 					</div>
 					<div className={style.floatR}>
+						{controlOptions.subtitles && (
+							<div className={style.controlButton}>
+								<div>
+									<button
+										style="border:none"
+										type="button"
+										className={style.subtitles}
+										onClick={this.toggleSubtitles}
+									/>
+								</div>
+								<div className={[subtitlesOn ? style.subtitlesUnderline : null].join(" ")} />
+							</div>
+						)}
 						{videoTracks &&
 							videoTracks.length > 1 && (
 								<div
@@ -408,19 +421,6 @@ class VideoControls extends Component {
 									)}
 								</div>
 							)}
-						{controlOptions.subtitles && (
-							<div className={style.controlButton}>
-								<div>
-									<button
-										style="border:none"
-										type="button"
-										className={style.subtitles}
-										onClick={this.toggleSubtitles}
-									/>
-								</div>
-								<div className={[subtitlesOn ? style.subtitlesUnderline : null].join(" ")} />
-							</div>
-						)}
 						{controlOptions.download &&
 							downloadSrc && (
 								<div className={style.controlButton}>
