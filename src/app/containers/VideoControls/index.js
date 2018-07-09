@@ -22,7 +22,8 @@ import FullscreenApi from "@api/fullscreen-api.js";
 
 let defaultControlOptions = {
 	download: true,
-	fullScreen: true
+	fullScreen: true,
+	subtitles: false
 };
 
 class VideoControls extends Component {
@@ -37,9 +38,13 @@ class VideoControls extends Component {
 		this.showTrackListHandler = this.showTrackListHandler.bind(this);
 		this.hideTrackListHandler = this.hideTrackListHandler.bind(this);
 		this.fullWindowOnEscKey = this.fullWindowOnEscKey.bind(this);
+		this.toggleSubtitles = this.toggleSubtitles.bind(this);
+		this.disableSubtitles = this.disableSubtitles.bind(this);
+		this.applySubtitleState = this.applySubtitleState.bind(this);
 		this.showTrackList;
 		this.setState({
-			showTrackList: false
+			showTrackList: false,
+			subtitlesOn: false
 		});
 	}
 
@@ -247,6 +252,28 @@ class VideoControls extends Component {
 		});
 	}
 
+	toggleSubtitles() {
+		let subtitlesOn = this.state.subtitlesOn;
+		this.setState({
+			subtitlesOn: !subtitlesOn
+		});
+		this.applySubtitleState();
+	}
+
+	disableSubtitles() {
+		this.video.textTracks[0].mode = 'disabled';
+	}
+
+	applySubtitleState() {
+		let vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
+		if (this.state.subtitlesOn) {
+			vttTrack.mode = 'showing';
+		}
+		else {
+			vttTrack.mode = 'hidden';
+		}
+	}
+
 	commentBarDotOnMouseOutHandler(event) {
 		if (this.props.isCommentBoxActive) {
 			return;
@@ -298,6 +325,17 @@ class VideoControls extends Component {
 	) => {
 		this.video = document.getElementById(targetPlayerId);
 		controlOptions = { ...defaultControlOptions, ...controlOptions };
+
+		if (this.video) {
+			if (controlOptions.subtitles == false) {
+				this.disableSubtitles();
+			}
+			else {
+				this.applySubtitleState();
+			}
+		}
+
+
 		let currentTimeString = "00:00",
 			seekTime = 0;
 		if (this.video) {
@@ -324,6 +362,7 @@ class VideoControls extends Component {
 		let videoControlsStyle = {
 			height: isIE() ? "60px" : "55px"
 		};
+		let subtitlesOn = this.state.subtitlesOn;
 
 		return (
 			<div
@@ -352,6 +391,19 @@ class VideoControls extends Component {
 						{currentTimeString}
 					</div>
 					<div className={style.floatR}>
+						{controlOptions.subtitles && (
+							<div className={style.controlButton}>
+								<div>
+									<button
+										style="border:none"
+										type="button"
+										className={style.subtitles}
+										onClick={this.toggleSubtitles}
+									/>
+								</div>
+								<div className={[subtitlesOn ? style.subtitlesUnderline : null].join(" ")} />
+							</div>
+						)}
 						{videoTracks &&
 							videoTracks.length > 1 && (
 								<div
