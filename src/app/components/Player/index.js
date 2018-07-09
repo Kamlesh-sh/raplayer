@@ -109,7 +109,7 @@ class Player extends Component {
 			secondaryId,
 			src,
 			secondarySrc,
-			captionTrackSrc,
+			subtitleTrackSrc,
 			updateMediaAttributes,
 			onRenderComplete,
 			hidemedia,
@@ -123,7 +123,7 @@ class Player extends Component {
 			>
 				<Video
 					src={src}
-					captionTrackSrc={captionTrackSrc}
+					subtitleTrackSrc={subtitleTrackSrc}
 					updateMediaAttributes={updateMediaAttributes}
 					ref={e => (this.video = e)}
 					currentTime={currentTime}

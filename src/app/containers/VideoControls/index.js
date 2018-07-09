@@ -23,7 +23,7 @@ import FullscreenApi from "@api/fullscreen-api.js";
 let defaultControlOptions = {
 	download: true,
 	fullScreen: true,
-	captions: false
+	subtitles: false
 };
 
 class VideoControls extends Component {
@@ -38,11 +38,13 @@ class VideoControls extends Component {
 		this.showTrackListHandler = this.showTrackListHandler.bind(this);
 		this.hideTrackListHandler = this.hideTrackListHandler.bind(this);
 		this.fullWindowOnEscKey = this.fullWindowOnEscKey.bind(this);
-		this.toggleCaptions = this.toggleCaptions.bind(this);
-		this.disableCaptions = this.disableCaptions.bind(this);
+		this.toggleSubtitles = this.toggleSubtitles.bind(this);
+		this.disableSubtitles = this.disableSubtitles.bind(this);
+		this.applySubtitleState = this.applySubtitleState.bind(this);
 		this.showTrackList;
 		this.setState({
-			showTrackList: false
+			showTrackList: false,
+			subtitlesOn: false
 		});
 	}
 
@@ -250,18 +252,26 @@ class VideoControls extends Component {
 		});
 	}
 
-	toggleCaptions() {
-		let vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
-		if (vttTrack.mode == 'showing') {
-			vttTrack.mode = 'hidden';
-		}
-		else {
-			vttTrack.mode = 'showing';
-		}
+	toggleSubtitles() {
+		let subtitlesOn = this.state.subtitlesOn;
+		this.setState({
+			subtitlesOn: !subtitlesOn
+		});
+		this.applySubtitleState();
 	}
 
-	disableCaptions() {
+	disableSubtitles() {
 		this.video.textTracks[0].mode = 'disabled';
+	}
+
+	applySubtitleState() {
+		let vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
+		if (this.state.subtitlesOn) {
+			vttTrack.mode = 'showing';
+		}
+		else {
+			vttTrack.mode = 'hidden';
+		}
 	}
 
 	commentBarDotOnMouseOutHandler(event) {
@@ -316,9 +326,15 @@ class VideoControls extends Component {
 		this.video = document.getElementById(targetPlayerId);
 		controlOptions = { ...defaultControlOptions, ...controlOptions };
 
-		if (this.video && controlOptions.captions == false) {
-			this.disableCaptions();
+		if (this.video) {
+			if (controlOptions.subtitles == false) {
+				this.disableSubtitles();
+			}
+			else {
+				this.applySubtitleState();
+			}
 		}
+
 
 		let currentTimeString = "00:00",
 			seekTime = 0;
@@ -391,13 +407,13 @@ class VideoControls extends Component {
 									)}
 								</div>
 							)}
-						{controlOptions.captions && (
+						{controlOptions.subtitles && (
 							<div className={style.controlButton}>
 								<button
 									style="border:none"
 									type="button"
 									className={style.fullScreen}
-									onClick={this.toggleCaptions}
+									onClick={this.toggleSubtitles}
 								/>
 							</div>
 						)}

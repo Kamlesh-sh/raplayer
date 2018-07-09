@@ -5323,14 +5323,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					    namespace = _props3.namespace,
 					    controlOptions = _props3.controlOptions,
 					    downloadSrc = _props3.downloadSrc,
-					    captionTrackSrc = _props3.captionTrackSrc,
+					    subtitleTrackSrc = _props3.subtitleTrackSrc,
 					    secondaryId = _props3.secondaryId,
 					    popupSelector = _props3.popupSelector;
 
 					return (0, _preact.h)(_VideoPlayer2.default, {
 						primaryTracks: primaryTracks,
 						downloadSrc: downloadSrc,
-						captionTrackSrc: captionTrackSrc,
+						subtitleTrackSrc: subtitleTrackSrc,
 						id: this.props.id,
 						secondaryId: secondaryId,
 						edit: edit,
@@ -9007,7 +9007,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					var _this$props = _this.props,
 					    primaryTracks = _this$props.primaryTracks,
 					    secondaryTracks = _this$props.secondaryTracks,
-					    captionTrackSrc = _this$props.captionTrackSrc,
+					    subtitleTrackSrc = _this$props.subtitleTrackSrc,
 					    fullScreen = _this$props.fullScreen,
 					    edit = _this$props.edit,
 					    id = _this$props.id,
@@ -9042,7 +9042,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						},
 						src: primaryTracks[selectedTrack].src,
 						secondarySrc: secondaryTracks && secondaryTracks[0] && secondaryTracks[0].src,
-						captionTrackSrc: captionTrackSrc,
+						subtitleTrackSrc: subtitleTrackSrc,
 						updateMediaAttributes: _this.updateMediaAttributes,
 						onVideoLoaded: _this.onVideoLoadedHandler,
 						onVideoEnded: _this.onVideoEndedHandler,
@@ -9343,7 +9343,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		var defaultControlOptions = {
 			download: true,
 			fullScreen: true,
-			captions: false
+			subtitles: false
 		};
 
 		var VideoControls = function (_Component) {
@@ -9380,8 +9380,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					_this.video = document.getElementById(targetPlayerId);
 					controlOptions = _extends({}, defaultControlOptions, controlOptions);
 
-					if (_this.video && controlOptions.captions == false) {
-						_this.disableCaptions();
+					if (_this.video) {
+						if (controlOptions.subtitles == false) {
+							_this.disableSubtitles();
+						} else {
+							_this.applySubtitleState();
+						}
 					}
 
 					var currentTimeString = "00:00",
@@ -9433,11 +9437,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						tracks: videoTracks,
 						onSelect: onSelectTrack,
 						selectedTrack: selectedTrack
-					})), controlOptions.captions && (0, _preact.h)("div", { className: _index2.default.controlButton }, (0, _preact.h)("button", {
+					})), controlOptions.subtitles && (0, _preact.h)("div", { className: _index2.default.controlButton }, (0, _preact.h)("button", {
 						style: "border:none",
 						type: "button",
 						className: _index2.default.fullScreen,
-						onClick: _this.toggleCaptions
+						onClick: _this.toggleSubtitles
 					})), controlOptions.download && downloadSrc && (0, _preact.h)("div", { className: _index2.default.controlButton }, (0, _preact.h)("a", {
 						target: "_blank",
 						style: "border:none",
@@ -9472,11 +9476,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				_this.showTrackListHandler = _this.showTrackListHandler.bind(_this);
 				_this.hideTrackListHandler = _this.hideTrackListHandler.bind(_this);
 				_this.fullWindowOnEscKey = _this.fullWindowOnEscKey.bind(_this);
-				_this.toggleCaptions = _this.toggleCaptions.bind(_this);
-				_this.disableCaptions = _this.disableCaptions.bind(_this);
+				_this.toggleSubtitles = _this.toggleSubtitles.bind(_this);
+				_this.disableSubtitles = _this.disableSubtitles.bind(_this);
 				_this.showTrackList;
 				_this.setState({
-					showTrackList: false
+					showTrackList: false,
+					subtitlesOn: false
 				});
 				return _this;
 			}
@@ -9694,19 +9699,28 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					}));
 				}
 			}, {
-				key: "toggleCaptions",
-				value: function toggleCaptions() {
-					var vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
-					if (vttTrack.mode == 'showing') {
-						vttTrack.mode = 'hidden';
-					} else {
-						vttTrack.mode = 'showing';
-					}
+				key: "toggleSubtitles",
+				value: function toggleSubtitles() {
+					var subtitlesOn = this.state.subtitlesOn;
+					this.setState({
+						subtitlesOn: !subtitlesOn
+					});
+					this.applySubtitleState();
 				}
 			}, {
-				key: "disableCaptions",
-				value: function disableCaptions() {
+				key: "disableSubtitles",
+				value: function disableSubtitles() {
 					this.video.textTracks[0].mode = 'disabled';
+				}
+			}, {
+				key: "applySubtitleState",
+				value: function applySubtitleState() {
+					var vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
+					if (this.state.subtitlesOn) {
+						vttTrack.mode = 'showing';
+					} else {
+						vttTrack.mode = 'hidden';
+					}
 				}
 			}, {
 				key: "commentBarDotOnMouseOutHandler",
@@ -11721,7 +11735,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					    secondaryId = _ref.secondaryId,
 					    src = _ref.src,
 					    secondarySrc = _ref.secondarySrc,
-					    captionTrackSrc = _ref.captionTrackSrc,
+					    subtitleTrackSrc = _ref.subtitleTrackSrc,
 					    updateMediaAttributes = _ref.updateMediaAttributes,
 					    onRenderComplete = _ref.onRenderComplete,
 					    hidemedia = _ref.hidemedia,
@@ -11732,7 +11746,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						className: _index2.default.playerContainer
 					}, (0, _preact.h)(_index6.default, {
 						src: src,
-						captionTrackSrc: captionTrackSrc,
+						subtitleTrackSrc: subtitleTrackSrc,
 						updateMediaAttributes: updateMediaAttributes,
 						ref: function ref(e) {
 							return _this2.video = e;
@@ -12077,7 +12091,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 					var id = _ref.id,
 					    src = _ref.src,
-					    captionTrackSrc = _ref.captionTrackSrc,
+					    subtitleTrackSrc = _ref.subtitleTrackSrc,
 					    hidemedia = _ref.hidemedia,
 					    heightAuto = _ref.heightAuto;
 					var loading = _ref2.loading;
@@ -12101,7 +12115,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						onPlaying: this.hideLoading,
 						onClick: this.togglePlayPause,
 						crossorigin: "anonymous"
-					}, (0, _preact.h)("track", { src: captionTrackSrc, label: "Captions", kind: "captions", srclang: "en", "default": true })));
+					}, (0, _preact.h)("track", { src: subtitleTrackSrc, label: "Subtitles", kind: "captions", srclang: "en", "default": true })));
 				}
 			}]);
 

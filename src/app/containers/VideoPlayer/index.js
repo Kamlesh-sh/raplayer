@@ -117,7 +117,7 @@ class VideoPlayerContainer extends Component {
 		const {
 			primaryTracks,
 			secondaryTracks,
-			captionTrackSrc,
+			subtitleTrackSrc,
 			fullScreen,
 			edit,
 			id,
@@ -148,7 +148,7 @@ class VideoPlayerContainer extends Component {
 					ref={e => (this.videoPlayer = e)}
 					src={primaryTracks[selectedTrack].src}
 					secondarySrc={secondaryTracks && secondaryTracks[0] && secondaryTracks[0].src}
-					captionTrackSrc={captionTrackSrc}
+					subtitleTrackSrc={subtitleTrackSrc}
 					updateMediaAttributes={this.updateMediaAttributes}
 					onVideoLoaded={this.onVideoLoadedHandler}
 					onVideoEnded={this.onVideoEndedHandler}

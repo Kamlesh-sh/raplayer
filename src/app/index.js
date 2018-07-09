@@ -89,7 +89,7 @@ class App extends Component {
 			namespace,
 			controlOptions,
 			downloadSrc,
-			captionTrackSrc,
+			subtitleTrackSrc,
 			secondaryId,
 			popupSelector
 		} = this.props;
@@ -98,7 +98,7 @@ class App extends Component {
 			<VideoPlayerContainer
 				primaryTracks={primaryTracks}
 				downloadSrc={downloadSrc}
-				captionTrackSrc={captionTrackSrc}
+				subtitleTrackSrc={subtitleTrackSrc}
 				id={this.props.id}
 				secondaryId={secondaryId}
 				edit={edit}
