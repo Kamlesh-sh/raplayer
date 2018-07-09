@@ -362,6 +362,7 @@ class VideoControls extends Component {
 		let videoControlsStyle = {
 			height: isIE() ? "60px" : "55px"
 		};
+		let subtitlesOn = this.state.subtitlesOn;
 
 		return (
 			<div
@@ -409,12 +410,15 @@ class VideoControls extends Component {
 							)}
 						{controlOptions.subtitles && (
 							<div className={style.controlButton}>
-								<button
-									style="border:none"
-									type="button"
-									className={style.fullScreen}
-									onClick={this.toggleSubtitles}
-								/>
+								<div>
+									<button
+										style="border:none"
+										type="button"
+										className={style.subtitles}
+										onClick={this.toggleSubtitles}
+									/>
+								</div>
+								<div className={[subtitlesOn ? style.subtitlesUnderline : null].join(" ")} />
 							</div>
 						)}
 						{controlOptions.download &&
