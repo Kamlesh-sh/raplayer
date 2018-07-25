@@ -44,7 +44,7 @@ class VideoControls extends Component {
 		this.showTrackList;
 		this.setState({
 			showTrackList: false,
-			subtitlesOn: false
+			subtitlesOn: true
 		});
 	}
 
