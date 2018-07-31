@@ -3,7 +3,8 @@ import App from "./app/index";
 import { getStore } from "./app/store";
 import { Provider } from "unistore/preact";
 import { removePlayer, getPlayer, setTrackingService } from "@api/api";
-import "promise-polyfill/src/polyfill";
+import ES6Promise from 'es6-promise';
+ES6Promise.polyfill();
 import "whatwg-fetch";
 
 
