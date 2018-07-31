@@ -27,7 +27,7 @@ class TranscriptionFilterContainer extends Component {
 			});
 		}
 		let selectedEvalParamIds = selectedOptions.map(option => option.value);
-		let selectedEvalParams = this.props.evalParams.filter(evalParam => selectedEvalParamIds.includes(evalParam.evalParamId))
+		let selectedEvalParams = this.props.evalParams.filter(evalParam => selectedEvalParamIds.indexOf(evalParam.evalParamId) > -1)
 		this.props.updateTranscriptionSearchWords({ selectedEvalParams });
 	}
 
