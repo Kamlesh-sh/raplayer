@@ -324,15 +324,12 @@ class VideoControls extends Component {
 		{ showTrackList }
 	) => {
 		this.video = document.getElementById(targetPlayerId);
-		controlOptions = { ...defaultControlOptions, ...controlOptions };
-
+		let _controlOptions = { ...defaultControlOptions, ...controlOptions };
+		if(isIE()) {
+			_controlOptions.subtitles = false;
+		}
 		if (this.video) {
-			if (controlOptions.subtitles == false) {
-				this.disableSubtitles();
-			}
-			else {
-				this.applySubtitleState();
-			}
+			(!_controlOptions.subtitles) ? this.disableSubtitles(): this.applySubtitleState();
 		}
 
 
@@ -391,7 +388,7 @@ class VideoControls extends Component {
 						{currentTimeString}
 					</div>
 					<div className={style.floatR}>
-						{controlOptions.subtitles && (
+						{_controlOptions.subtitles && (
 							<div className={style.controlButton}>
 								<div>
 									<button
@@ -421,7 +418,7 @@ class VideoControls extends Component {
 									)}
 								</div>
 							)}
-						{controlOptions.download &&
+						{_controlOptions.download &&
 							downloadSrc && (
 								<div className={style.controlButton}>
 									<a
@@ -434,7 +431,7 @@ class VideoControls extends Component {
 									/>
 								</div>
 							)}
-						{controlOptions.fullScreen && (
+						{_controlOptions.fullScreen && (
 							<div className={style.controlButton}>
 								<button
 									style="border:none"
