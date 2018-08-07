@@ -12,6 +12,7 @@ import {
 	MAX_CHAR_LIMIT_COMMENT
 } from "@config/constants";
 import EmojiPicker from "@components/EmojiPicker";
+import Loader from "@components/Loader";
 
 class CommentBox extends Component {
 	constructor() {
@@ -23,13 +24,14 @@ class CommentBox extends Component {
 		this.emojiOnSelectHandler = this.emojiOnSelectHandler.bind(this);
 		this.postCommentHandler = this.postCommentHandler.bind(this);
 		let intialState = {
-			disableSaveButton: true
+			disableSaveButton: true,
+			isSubmitting: false
 		};
 		this.setState(intialState);
 	}
 	emojiOnSelectHandler(selectedEmoji) {
 		if (this.commentTextArea.value.length < MAX_CHAR_LIMIT_COMMENT) {
-			insertAtCursor(this.commentTextArea,selectedEmoji)
+			insertAtCursor(this.commentTextArea, selectedEmoji);
 			let text = this.commentTextArea.value;
 			this.props.showCommentBox({
 				text
@@ -63,14 +65,20 @@ class CommentBox extends Component {
 		this.setState({
 			disableSaveButton: false
 		});
-		this.commentTextArea.addEventListener("keydown", this.autosize.bind(this));
+		this.commentTextArea.addEventListener(
+			"keydown",
+			this.autosize.bind(this)
+		);
 		this.commentTextArea.focus();
 	}
 
 	componentDidMount() {
 		this.autosize();
 		if (!this.props.readOnly) {
-			this.commentTextArea.addEventListener("keydown", this.autosize.bind(this));
+			this.commentTextArea.addEventListener(
+				"keydown",
+				this.autosize.bind(this)
+			);
 			this.commentTextArea.focus();
 		}
 	}
@@ -85,7 +93,10 @@ class CommentBox extends Component {
 			cancelLabel: STRING_CANCEL,
 			popupSelector: this.props.popupSelector,
 			onConfirm: () => {
-				this.props.deleteComment({commentObj: props, isCommentBox: true});
+				this.props.deleteComment({
+					commentObj: props,
+					isCommentBox: true
+				});
 				this.props.hideCommentBox();
 			},
 			onCancel: () => {}
@@ -96,13 +107,19 @@ class CommentBox extends Component {
 		if (this.state.disableSaveButton) {
 			return;
 		}
-		let text =  this.commentTextArea.value && this.commentTextArea.value.trim();
-		if(!text){
+		let text =
+			this.commentTextArea.value && this.commentTextArea.value.trim();
+		if (!text) {
 			return;
 		}
-		this.setState({
-			disableSaveButton: true
-		});
+		this.setState(
+			{
+				disableSaveButton: true
+			},
+			() => {
+				console.log(this.state.disableSaveButton); //eslint-disable-line
+			}
+		);
 		if (this.props.id) {
 			this.props.editComment({
 				commentObj: {
@@ -114,17 +131,23 @@ class CommentBox extends Component {
 			});
 			return;
 		}
-		this.props.postComment({
-			text,
-			time: this.props.time
+		this.setState({
+			isSubmitting: true
 		});
+		setTimeout(() => {
+			this.props.postComment({
+				text,
+				time: this.props.time
+			});
+		}, 1000);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.showError) {
 			clearTimeout(this.timer);
 			this.setState({
-				disableSaveButton: false
+				disableSaveButton: false,
+				isSubmitting: false
 			});
 			this.timer = setTimeout(() => {
 				this.props.hideCommentBoxError();
@@ -152,24 +175,52 @@ class CommentBox extends Component {
 		this.autosize();
 	}
 
-	shouldComponentUpdate(nextProps){
-		let { xPos, time, commentText, readOnly, downArrowXPos, edit, showError, author ,fullScreen} = this.props;
-		if(xPos !== nextProps.xPos || 
-			time !== nextProps.time ||
-			commentText !== nextProps.commentText ||
-			readOnly !== nextProps.readOnly ||
-			downArrowXPos !== nextProps.downArrowXPos ||
-			edit !== nextProps.edit ||
-			showError !== nextProps.showError ||
-			author !== nextProps.author ||
-			fullScreen !== nextProps.fullScreen){
+	shouldComponentUpdate(nextProps, nextState) {
+		let {
+			xPos,
+			time,
+			commentText,
+			readOnly,
+			downArrowXPos,
+			edit,
+			showError,
+			author,
+			fullScreen
+		} = this.props;
+		let { isSubmitting, disableSaveButton } = this.state;
+		if (
+			(xPos !== nextProps.xPos ||
+				time !== nextProps.time ||
+				commentText !== nextProps.commentText ||
+				readOnly !== nextProps.readOnly ||
+				downArrowXPos !== nextProps.downArrowXPos ||
+				edit !== nextProps.edit ||
+				showError !== nextProps.showError ||
+				author !== nextProps.author ||
+				fullScreen !== nextProps.fullScreen,
+			isSubmitting !== nextState.isSubmitting,
+			disableSaveButton !== nextState.disableSaveButton)
+		) {
 			return true;
 		}
 
 		return false;
 	}
 
-	render({ xPos, time, commentText, readOnly, downArrowXPos, edit, showError, author ,fullScreen}, { disableSaveButton }) {
+	render(
+		{
+			xPos,
+			time,
+			commentText,
+			readOnly,
+			downArrowXPos,
+			edit,
+			showError,
+			author,
+			fullScreen
+		},
+		{ disableSaveButton, isSubmitting }
+	) {
 		let divStyle = {
 				left: xPos
 			},
@@ -191,8 +242,8 @@ class CommentBox extends Component {
 				backgroundColor: colorMap[author.id]
 			};
 		}
-		if(fullScreen){
-			divStyle.position = 'fixed !important';
+		if (fullScreen) {
+			divStyle.position = "fixed !important";
 		}
 
 		return (
@@ -205,10 +256,19 @@ class CommentBox extends Component {
 						</span>
 					</div>
 					{edit &&
-						this.props.id && disableSaveButton && (
+						this.props.id &&
+						disableSaveButton && (
 							<div className={style.acControlTopRight}>
-								<span onClick={this.editClickHandler} title="edit" className={style.edit} />
-								<span onClick={this.deleteClickHandler} title="delete" className={style.delete} />
+								<span
+									onClick={this.editClickHandler}
+									title="edit"
+									className={style.edit}
+								/>
+								<span
+									onClick={this.deleteClickHandler}
+									title="delete"
+									className={style.delete}
+								/>
 							</div>
 						)}
 					<textarea
@@ -223,10 +283,37 @@ class CommentBox extends Component {
 						}}
 						value={parseText(commentText)}
 					/>
-					<div className={style.acBoxControls + " " + (readOnly ? style.hide : style.show)}>
-						<EmojiPicker toLeft="true" onSelect={this.emojiOnSelectHandler}  />
-						<span title="save" className={[style.acActionButton,style.save,(disableSaveButton ? style.disable : "")].join(' ')} onClick={this.postCommentHandler} />
-						<span title="discard" className={[style.acActionButton,style.cancel].join(' ')} onClick={this.closeSelf} />
+					<div
+						className={
+							style.acBoxControls +
+							" " +
+							(readOnly ? style.hide : style.show)
+						}
+					>
+						<EmojiPicker
+							toLeft="true"
+							onSelect={this.emojiOnSelectHandler}
+						/>
+						{!isSubmitting && (
+							<span
+								title="save"
+								className={[
+									style.acActionButton,
+									style.save,
+									disableSaveButton ? style.disable : ""
+								].join(" ")}
+								onClick={this.postCommentHandler}
+							/>
+						)}
+						{isSubmitting && <Loader />}
+						<span
+							title="discard"
+							className={[
+								style.acActionButton,
+								style.cancel
+							].join(" ")}
+							onClick={this.closeSelf}
+						/>
 					</div>
 					{showError && (
 						<div className={[style.error, style.floatR].join(" ")}>
