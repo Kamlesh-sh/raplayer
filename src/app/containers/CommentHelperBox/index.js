@@ -79,7 +79,10 @@ class CommentHelperBox extends Component {
 						<span className={style.plusIcon}>+</span> Add Comments @{timestampReadable}
 					</div>
 					<div className={style.chBoxControls}>
-						<EmojiPicker onSelect={this.emojiOnSelectHandler} />
+						<EmojiPicker onSelect={this.emojiOnSelectHandler} onClick={() => {
+							let { time, onClickHandler } = this.props;
+							onClickHandler(time);
+						}} />
 					</div>
 					<div className={style.clear} />
 				</div>

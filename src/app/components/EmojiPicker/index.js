@@ -106,7 +106,8 @@ class EmojiPicker extends Component {
 			showEmojiList: this.show
 		});
 		event.stopPropagation();
-		track(trackEvents.EMOJI_CLICKED)
+		track(trackEvents.EMOJI_CLICKED);
+		this.props.onClick();
 	}
 
 	emojiSelectHandler(event) {
