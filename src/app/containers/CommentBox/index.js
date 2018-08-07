@@ -112,14 +112,12 @@ class CommentBox extends Component {
 		if (!text) {
 			return;
 		}
-		this.setState(
-			{
-				disableSaveButton: true
-			},
-			() => {
-				console.log(this.state.disableSaveButton); //eslint-disable-line
-			}
-		);
+		this.setState({
+			disableSaveButton: true
+		});
+		this.setState({
+			isSubmitting: true
+		});
 		if (this.props.id) {
 			this.props.editComment({
 				commentObj: {
@@ -131,15 +129,11 @@ class CommentBox extends Component {
 			});
 			return;
 		}
-		this.setState({
-			isSubmitting: true
+
+		this.props.postComment({
+			text,
+			time: this.props.time
 		});
-		setTimeout(() => {
-			this.props.postComment({
-				text,
-				time: this.props.time
-			});
-		}, 1000);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -189,17 +183,17 @@ class CommentBox extends Component {
 		} = this.props;
 		let { isSubmitting, disableSaveButton } = this.state;
 		if (
-			(xPos !== nextProps.xPos ||
-				time !== nextProps.time ||
-				commentText !== nextProps.commentText ||
-				readOnly !== nextProps.readOnly ||
-				downArrowXPos !== nextProps.downArrowXPos ||
-				edit !== nextProps.edit ||
-				showError !== nextProps.showError ||
-				author !== nextProps.author ||
-				fullScreen !== nextProps.fullScreen,
-			isSubmitting !== nextState.isSubmitting,
-			disableSaveButton !== nextState.disableSaveButton)
+			xPos !== nextProps.xPos ||
+			time !== nextProps.time ||
+			commentText !== nextProps.commentText ||
+			readOnly !== nextProps.readOnly ||
+			downArrowXPos !== nextProps.downArrowXPos ||
+			edit !== nextProps.edit ||
+			showError !== nextProps.showError ||
+			author !== nextProps.author ||
+			fullScreen !== nextProps.fullScreen ||
+			isSubmitting !== nextState.isSubmitting ||
+			disableSaveButton !== nextState.disableSaveButton
 		) {
 			return true;
 		}
