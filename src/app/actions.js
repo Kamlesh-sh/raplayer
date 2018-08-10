@@ -120,7 +120,7 @@ export let actions = () => ({
 				if (!response.id) {
 					return {};
 				}
-				track(event.POST_COMMENT,{
+				track(event.POST_COMMENT, {
 					commentId: response.id
 				});
 				let commentArray = state.commentPane.allComments || [];
@@ -132,7 +132,10 @@ export let actions = () => ({
 					time
 				});
 
-				let sortedCommentArray = commentModel.sort([commentObj, ...commentArray]);
+				let sortedCommentArray = commentModel.sort([
+					commentObj,
+					...commentArray
+				]);
 				return {
 					...state,
 					commentPane: {
@@ -167,85 +170,6 @@ export let actions = () => ({
 			commentPane: defaultObj
 		});
 		let { filter } = payload;
-		// var commentArray = [
-		// 	{
-		// 		time: 1,
-		// 		id: 1,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 12,
-		// 			name: "Afroz alam"
-		// 		},
-		// 		text: "kw clarity 2 TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle."
-		// 	},
-		// 	{
-		// 		time: 12,
-		// 		id: 13,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 123,
-		// 			name: "Afroz kana"
-		// 		},
-		// 		text: "TI feel like "
-		// 	},
-		// 	{
-		// 		time: 13,
-		// 		id: 12,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 123,
-		// 			name: "Afroz kana"
-		// 		},
-		// 		text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle"
-		// 	},
-		// 	{
-		// 		time: 25,
-		// 		id: 3,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 12,
-		// 			name: "Afroz"
-		// 		},
-		// 		text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle kw knowledge 2"
-		// 	},
-		// 	{
-		// 		time: 35,
-		// 		id: 4,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 123,
-		// 			name: "Afroz kaana"
-		// 		},
-		// 		text: "test keywords kw knowledge 1"
-		// 	},
-		// 	{
-		// 		time: 40,
-		// 		id: 41111,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 12,
-		// 			name: "Afroz"
-		// 		},
-		// 		text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle"
-		// 	},
-		// 	{
-		// 		time: 60,
-		// 		id: 12564,
-		// 		cname: 2,
-		// 		author: {
-		// 			id: 123,
-		// 			name: "Afroz kaana"
-		// 		},
-		// 		text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle kw clarity 1"
-		// 	}
-		// ];
-
-		// defaultObj = {
-		// 	allComments: commentArray,
-		// 	activeComments: commentArray,
-		// 	isFetching: false
-		// };
-		/*eslint-disable */
 
 		if (!state.app.socialId) {
 			return {
@@ -283,34 +207,18 @@ export let actions = () => ({
 				};
 			}
 		);
-
-		//commentArray = [];
-
-		/*eslint-disable */
-		// return new Promise(function(resolve, reject) {
-		// 	setTimeout(function() {
-		// 		resolve({
-		// 			commentPane: {
-		// 				allComments: commentArray,
-		// 				activeComments: commentArray,
-		// 				isFetching: false
-		// 			}
-		// 		});
-		// 	}, 1000);
-		// });
-		/*eslint-disable */
 	},
-	deleteComment: (state, {commentObj, isCommentBox}) => {
+	deleteComment: (state, { commentObj, isCommentBox }) => {
 		let urlObj = {
 			cname: state.app.cname,
 			socialId: commentObj.id
 		};
 
 		return del(apiConfig.deleteComment(urlObj)).then(
-			response => {
-				track(event.DELETE_COMMENT,{
+			() => {
+				track(event.DELETE_COMMENT, {
 					commentId: commentObj.id,
-					source: isCommentBox ? "seekbar": "tab"
+					source: isCommentBox ? "seekbar" : "tab"
 				});
 				let commentArray = state.commentPane.allComments,
 					newCommentArray = [];
@@ -331,8 +239,11 @@ export let actions = () => ({
 					}
 				};
 
-				if(state.commentBox.show && commentObj.id === state.commentBox.data.id) {
-					 finalState = {
+				if (
+					state.commentBox.show &&
+					commentObj.id === state.commentBox.data.id
+				) {
+					finalState = {
 						...finalState,
 						commentBox: {
 							show: false,
@@ -359,10 +270,10 @@ export let actions = () => ({
 		});
 
 		return put(apiConfig.editComment(urlObj), { body: payload }).then(
-			response => {
-				track(event.EDIT_COMMENT,{
+			() => {
+				track(event.EDIT_COMMENT, {
 					commentId: commentObj.id,
-					source: isCommentBox ? "seekbar": "tab"
+					source: isCommentBox ? "seekbar" : "tab"
 				});
 				let commentArray = state.commentPane.allComments,
 					newCommentArray = [];
@@ -434,7 +345,9 @@ export let actions = () => ({
 				newCommentArray.push(comment);
 			}
 		});
-		newCommentArray = newCommentArray.length ? newCommentArray : commentArray;
+		newCommentArray = newCommentArray.length
+			? newCommentArray
+			: commentArray;
 		return {
 			...state,
 			commentPane: {
@@ -456,79 +369,6 @@ export let actions = () => ({
 				error: false
 			}
 		});
-
-		var commentArray = [
-			{
-				time: 1,
-				id: 1,
-				cname: 2,
-				author: {
-					id: 12,
-					name: ""
-				},
-				text: "kw clarity 2 TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle.TI feel like we saw this shot twice. Maybe we could try cutting to a different angle."
-			},
-			{
-				time: 12,
-				id: 13,
-				cname: 2,
-				author: {
-					id: 123,
-					name: ""
-				},
-				text: "TI feel like "
-			},
-			{
-				time: 13,
-				id: 12,
-				cname: 2,
-				author: {
-					id: 123,
-					name: ""
-				},
-				text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle"
-			},
-			{
-				time: 25,
-				id: 3,
-				cname: 2,
-				author: {
-					id: 12,
-					name: ""
-				},
-				text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle kw knowledge 2"
-			},
-			{
-				time: 35,
-				id: 4,
-				cname: 2,
-				author: {
-					id: 123,
-					name: ""
-				},
-				text: "test keywords kw knowledge 1"
-			},
-			{
-				time: 40,
-				id: 41111,
-				cname: 2,
-				author: {
-					id: 12,
-					name: ""
-				},
-				text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle"
-			},
-			{
-				time: 60,
-				id: 12564,
-				cname: 2,
-				author: {
-					id: 123,
-					name: ""
-				},
-				text: "TI feel like we saw this shot twice. Maybe we could try cutting to a different angle kw clarity 1"
-			}
-		];
 
 		// return {
 		// 	...state,
@@ -563,11 +403,15 @@ export let actions = () => ({
 			entityId: state.app.entityId,
 			loId: state.app.playableObjectId,
 			submissionId: state.app.subjectId
-		}
-		return post(apiConfig.getTranscriptionData(state.app), { body: requestObj }).then(
+		};
+		return post(apiConfig.getTranscriptionData(state.app), {
+			body: requestObj
+		}).then(
 			response => {
 				let transcriptArray = [...response.timestampedTranscripts];
-				let sortedTranscriptArray = transcriptionModel.sort(transcriptArray);
+				let sortedTranscriptArray = transcriptionModel.sort(
+					transcriptArray
+				);
 
 				let evalParams = [...response.evaluationParameters];
 				let transcriptionStatus = response.transcriptionStatus;
@@ -605,31 +449,50 @@ export let actions = () => ({
 		);
 	},
 
-	navigateToMatchNum:(state, { currentMatchNumber }) => {
-		let { highlightedTranscripts } = transcriptionModel.highlightCurrentMatch(state.transcriptionPane.searchedTranscripts, currentMatchNumber,
-			state.transcriptionPane.searchBar.currentMatchNumber, state.transcriptionPane.matchedTranscriptIndices);
+	navigateToMatchNum: (state, { currentMatchNumber }) => {
+		let {
+			highlightedTranscripts
+		} = transcriptionModel.highlightCurrentMatch(
+			state.transcriptionPane.searchedTranscripts,
+			currentMatchNumber,
+			state.transcriptionPane.searchBar.currentMatchNumber,
+			state.transcriptionPane.matchedTranscriptIndices
+		);
 		return {
 			...state,
 			transcriptionPane: {
 				...state.transcriptionPane,
 				searchBar: {
 					...state.transcriptionPane.searchBar,
-					currentMatchNumber: currentMatchNumber,
+					currentMatchNumber: currentMatchNumber
 				},
 				searchedTranscripts: highlightedTranscripts
 			}
-		}
+		};
 	},
 
-	updateTranscriptionSearchWords: (state, { searchWords, selectedEvalParams }) => {
-		searchWords = searchWords || state.transcriptionPane.searchBar.searchWords;
-		selectedEvalParams = selectedEvalParams || state.transcriptionPane.filter.selectedEvalParams;
+	updateTranscriptionSearchWords: (
+		state,
+		{ searchWords, selectedEvalParams }
+	) => {
+		searchWords =
+			searchWords || state.transcriptionPane.searchBar.searchWords;
+		selectedEvalParams =
+			selectedEvalParams ||
+			state.transcriptionPane.filter.selectedEvalParams;
 
-		let searchKeywords = transcriptionModel.getKeywordsInParams(selectedEvalParams);
+		let searchKeywords = transcriptionModel.getKeywordsInParams(
+			selectedEvalParams
+		);
 		let allWords = searchWords.concat(searchKeywords);
 
-		let { searchedTranscripts, matchedTranscriptIndices } =
-			transcriptionModel.search(state.transcriptionPane.timestampedTranscripts, allWords);
+		let {
+			searchedTranscripts,
+			matchedTranscriptIndices
+		} = transcriptionModel.search(
+			state.transcriptionPane.timestampedTranscripts,
+			allWords
+		);
 
 		return {
 			...state,
@@ -638,16 +501,17 @@ export let actions = () => ({
 				searchBar: {
 					...state.transcriptionPane.searchBar,
 					searchWords: searchWords,
-					currentMatchNumber: (matchedTranscriptIndices.length == 0) ? 0 : 1,
+					currentMatchNumber:
+						matchedTranscriptIndices.length == 0 ? 0 : 1,
 					numberOfMatches: matchedTranscriptIndices.length
 				},
 				filter: {
 					...state.transcriptionPane.filter,
-					selectedEvalParams: selectedEvalParams,
+					selectedEvalParams: selectedEvalParams
 				},
 				searchedTranscripts: searchedTranscripts,
 				matchedTranscriptIndices: matchedTranscriptIndices
 			}
-		}
-	},
+		};
+	}
 });

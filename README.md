@@ -52,7 +52,7 @@ RaPlayer accepts following options:
  	},
  	showOnboarding: true | false,
  	downloadSrc: < string > ,
- 	edit: $scope.isAddingCommentAllowed,
+ 	edit: true| false,
  	onRenderComplete: callback,
  	onCommentPaneRender: callback,
  	filter: {
