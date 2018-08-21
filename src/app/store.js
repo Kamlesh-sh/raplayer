@@ -23,6 +23,7 @@ const initialState = {
 		allComments: [],
 		activeComments: []
 	},
+	pitch:{},
 	transcriptionPane: {
 		searchBar: {
 			searchWords: [],

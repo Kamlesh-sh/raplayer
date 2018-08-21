@@ -1,12 +1,15 @@
 <html>
 <head>
-	<script type="text/javascript" src='../dist/index.bundle.js'></script>
+	<script type="text/javascript" src='../dist/player.bundle.js'></script>
+	<script type="text/javascript" src='../dist/pitchChart.bundle.js'></script>
 </head>
 <body>
+		 <div id='targetContainer' style='width:672px;height:378px;float:left'></div>
 		<div id='targetContainer' style='width:672px;height:378px;float:left'></div>
 		<div id='targetTranscriptionContainer' style='width:672px;float:right;position:relative;'>
 		</div>
 		<div id='targetCommentContainer' style='width:672px;float:right;position:relative'></div>
+		<div id='prashank' style='width: 672px;height: 200px;'></div>
 </body>
 <script>
 
@@ -44,9 +47,15 @@ var obj = {
 	}
 };
 try{
-	const raPlayer = new RaPlayer(obj);
+	const raPlayer = new RaPlayer.player(obj);
 	raPlayer.setup();
 } catch(ex){
+	console.info(ex);
+}
+try{
+const PitchChart = new RaPlayer.pitchChart({targetChartContainer:"prashank"});
+PitchChart.setup()
+}catch(ex){
 	console.info(ex);
 }
 

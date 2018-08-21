@@ -114,6 +114,10 @@ export function getPrefixes() {
 	return pfx;
 }
 
+export const isUndefined = value => {
+  return typeof value === "undefined";
+};
+
 export function titleCase(str) {
 	str = str.toLowerCase().split(" ");
 	for (var i = 0; i < str.length; i++) {
