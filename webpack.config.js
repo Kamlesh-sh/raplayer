@@ -4,11 +4,12 @@ var resolve = require("path").resolve;
 
 var WebpackConfig = {
     entry: {
-        index: ["./src/index.js"]
+        player: "./src/index.js",
+        pitchChart: "./src/pitchChart.js"
     },
     output: {
         path: path.join(__dirname, "dist"),
-        library: "RaPlayer",
+        library: ["RaPlayer","[name]"],
         filename: "[name].bundle.js",
         libraryTarget: "umd",
         umdNamedDefine: true
@@ -84,7 +85,9 @@ var WebpackConfig = {
                         options: {
                             modules: true,
                             localIdentName:
-                                process.env.ENV === "prod" ? "[hash:base64:5]" : "[folder]__[local]___[hash:base64:5]",
+                                process.env.ENV === "prod"
+                                    ? "[hash:base64:5]"
+                                    : "[folder]__[local]___[hash:base64:5]",
                             discardComments: {
                                 removeAll: true
                             },

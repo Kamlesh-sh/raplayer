@@ -22,7 +22,8 @@ const initialState = {
 	commentPane: {
 		allComments: [],
 		activeComments: []
-	}
+	},
+	pitch:{}
 };
 
 const state = {};
