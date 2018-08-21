@@ -38,7 +38,7 @@ class CommentCard extends Component {
 		}
 	}
 
-	setEdit(flag){
+	setEdit(flag) {
 		this.setState({
 			editComment: flag
 		});
@@ -49,11 +49,12 @@ class CommentCard extends Component {
 		this.props.onDeleteConfirm();
 		ConfirmAlert({
 			title: STRING_DELETE_COMMENT,
+			popupSelector: this.props.popupSelector,
 			message: STRING_DELETED_COMMENT_CANT_BE_RESTORED,
 			confirmLabel: STRING_DELETE,
 			cancelLabel: STRING_CANCEL,
 			onConfirm: () => {
-				this.props.deleteComment(this.props.cardObj);
+				this.props.deleteComment({ commentObj: this.props.cardObj });
 			},
 			onCancel: () => {}
 		});
@@ -65,7 +66,7 @@ class CommentCard extends Component {
 		this.setEdit(true);
 	}
 
-	discard(){
+	discard() {
 		this.setEdit(false);
 	}
 
@@ -81,7 +82,7 @@ class CommentCard extends Component {
 		});
 	}
 
-	saveClickHandler(event){
+	saveClickHandler(event) {
 		event.stopPropagation();
 		let text = this.textareaElem.getText();
 		this.saveHandler(text);
@@ -90,7 +91,7 @@ class CommentCard extends Component {
 	saveHandler(text) {
 		text = text || this.textareaElem.getText();
 		text = text && text.trim();
-		if(!text) {
+		if (!text) {
 			return;
 		}
 		this.setEdit(false);
@@ -106,13 +107,13 @@ class CommentCard extends Component {
 		}
 	}
 
-	discardHandler(event){
+	discardHandler(event) {
 		event.stopPropagation();
 		this.discard();
 		this.hideControlsHandler();
 	}
 
-	onKeyChange(e){
+	onKeyChange(e) {
 		let text = e.target.value;
 		text = text && text.trim();
 		this.setState({
@@ -121,6 +122,7 @@ class CommentCard extends Component {
 	}
 
 	componentWillReceiveProps({ cardObj }) {
+		this.setEdit(false);
 		if (cardObj.error) {
 			this.setEdit(true);
 			clearTimeout(this.timer);
@@ -149,6 +151,7 @@ class CommentCard extends Component {
 				onClick={this.cardClickHandler}
 				onMouseOver={this.showControlsHandler}
 				onMouseOut={this.hideControlsHandler}
+				id={this.props.divId}
 			>
 				<div className={style.timestampContainer}>
 					<span className={style.timestamp} style={timeStampColor}>
@@ -174,7 +177,7 @@ class CommentCard extends Component {
 						)}
 				</div>
 				<div className={style.commentDivider} />
-				{!editComment && <div className={style.text}>{parseText(cardObj.text)}</div>}
+				{!editComment && <div className={style.text} dangerouslySetInnerHTML={{__html: parseText(cardObj.text)}} />}
 				{editComment && (
 					<ResizableTextArea
 						ref={c => (this.textareaElem = c)}
@@ -192,7 +195,11 @@ class CommentCard extends Component {
 				)}
 				{editComment && (
 					<div className={style.actionControls}>
-						<span title="save" className={[style.save,(disableSaveButton ? style.disable : "")].join(' ')} onClick={this.saveClickHandler} />
+						<span
+							title="save"
+							className={[style.save, disableSaveButton ? style.disable : ""].join(" ")}
+							onClick={this.saveClickHandler}
+						/>
 						<span title="discard" className={style.discard} onClick={this.discardHandler} />
 					</div>
 				)}

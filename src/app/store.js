@@ -23,7 +23,23 @@ const initialState = {
 		allComments: [],
 		activeComments: []
 	},
-	pitch:{}
+	pitch:{},
+	transcriptionPane: {
+		searchBar: {
+			searchWords: [],
+			currentMatchNumber: 0,
+			numberOfMatches: 0
+		},
+		filter: {
+			evaluationParameters: [],
+			selectedEvalParams: []
+		},
+		timestampedTranscripts: [],
+		searchedTranscripts: [],
+		matchedTranscriptIndices: [],
+		transcriptionApiStatus: "FETCHING",
+		transcriptionStatus: "NOT_ENABLED"
+	}
 };
 
 const state = {};

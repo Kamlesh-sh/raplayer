@@ -1,0 +1,52 @@
+@import '~styles/index.scss';
+
+.rightContainor{
+    width:100%;
+    .transcriptionSearch{
+      padding: 30px 40px 0px 20px;
+      margin-bottom: 15px;
+    }
+}
+.heightCalcTranscription{
+  height: calc(100vh - 201px);
+}
+.heightCalcComment{
+	overflow-x: auto;
+	height: calc(100vh - 288px);
+}
+.heightCalcTagAdded{
+	overflow-x: auto;
+	height: calc(100vh - 317px);
+}
+.transcriptionOnItsWay{
+  text-align: center;
+  padding-top: 120px;
+  padding-bottom: 20px;
+
+  .transcription_truck{
+       height: 57px;
+       width: 101px;
+       background-image: url(images/transcription_truck.svg);
+       background-repeat: no-repeat;
+  }
+}
+
+.transcriptionfailed{
+  height: 110px;
+  width: 216px;
+  background-image: url(images/transcriptionfailed.png);
+  background-repeat: no-repeat;
+  margin: 80px auto 34px auto;    
+}
+
+.transcriptionFailedMessage {
+  padding: 0px 80px;
+}
+
+
+.transcriptionProgressMessage {
+  font-size: 18px;
+  color: #666666;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

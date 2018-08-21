@@ -1,6 +1,6 @@
 {
   "name": "raplayer",
-  "version": "1.1.0",
+  "version": "1.1.10",
   "description": "",
   "main": "dist/index.build.js",
   "scripts": {
@@ -50,9 +50,7 @@
     "promise-polyfill": "^7.1.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
-    "url-loader": "^0.6.2"
-  },
-  "dependencies": {
+    "url-loader": "^0.6.2",
     "base64-inline-loader": "^1.1.0",
     "deepmerge": "^2.1.0",
     "highcharts": "^6.1.1",
@@ -60,5 +58,8 @@
     "unistore": "^3.0.4",
     "webpack": "^3.10.0",
     "whatwg-fetch": "^2.0.3"
+  },
+  "dependencies": {
+    "es6-promise": "^4.2.4"
   }
 }

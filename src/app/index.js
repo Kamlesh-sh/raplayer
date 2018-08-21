@@ -1,6 +1,7 @@
 import { h, Component, render } from "preact";
 import VideoPlayerContainer from "@containers/VideoPlayer";
 import CommentPaneContainer from "@containers/CommentPaneContainer";
+import TranscriptionContainer from "@containers/TranscriptionContainer";
 import OnBoardingBox from "@components/OnBoardingBox";
 import { Provider } from "unistore/preact";
 import { namespaceConnect } from "@utils/enhancer";
@@ -15,8 +16,12 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		const { targetCommentContainer, edit, onCommentPaneRender, showOnboarding, filter, secondaryId } = this.props;
+		const { targetCommentContainer, targetTranscriptionContainer, edit, onCommentPaneRender, showOnboarding, filter, secondaryId, popupSelector } = this.props;
 		let targetCommentContainerRef = document.getElementById(targetCommentContainer);
+		let targetTranscriptionContainerRef = document.getElementById(targetTranscriptionContainer);
+		if(!targetCommentContainerRef){
+			return;
+		}
 
 		this.commentContainerRoot = render(
 			<Provider store={this.context.store}>
@@ -25,6 +30,7 @@ class App extends Component {
 					targetPlayerId={this.props.id}
 					secondaryTargetPlayerId={secondaryId}
 					filter={filter}
+					popupSelector={popupSelector}
 					namespace={this.props.namespace}
 					onCommentPaneRender={onCommentPaneRender}
 				/>
@@ -32,6 +38,21 @@ class App extends Component {
 			targetCommentContainerRef,
 			targetCommentContainerRef.lastChild
 		);
+
+		if(targetTranscriptionContainerRef){
+			this.transcriptionContainerRoot = render(
+				<Provider store={this.context.store}>
+					<TranscriptionContainer
+						namespace={this.props.namespace}
+						targetPlayerId={this.props.id}
+						secondaryTargetPlayerId={secondaryId}
+					/>
+				</Provider>,
+				targetTranscriptionContainerRef,
+				targetTranscriptionContainerRef.lastChild
+			);
+		}
+
 
 		if (showOnboarding && edit) {
 			this.onBoardingContainerRoot = render(
@@ -44,11 +65,17 @@ class App extends Component {
 	}
 
 	componentWillUnmount() {
-		const { targetCommentContainer } = this.props;
+		const { targetCommentContainer, targetTranscriptionContainer } = this.props;
 		let targetCommentContainerRef = document.getElementById(targetCommentContainer);
-		render("", document.getElementById(targetCommentContainerRef), this.commentContainerRoot);
+		let targetTranscriptionContainerRef = document.getElementById(targetTranscriptionContainer);
+		if(this.commentContainerRoot){
+			render("", document.getElementById(targetCommentContainerRef), this.commentContainerRoot);
+		}
 		if (this.onBoardingContainerRoot) {
 			render("", document.getElementById(targetCommentContainerRef), this.onBoardingContainerRoot);
+		}
+		if (this.transcriptionContainerRoot) {
+			render("", document.getElementById(targetTranscriptionContainerRef), this.transcriptionContainerRoot);
 		}
 	}
 
@@ -62,16 +89,20 @@ class App extends Component {
 			namespace,
 			controlOptions,
 			downloadSrc,
-			secondaryId
+			subtitleTrackSrc,
+			secondaryId,
+			popupSelector
 		} = this.props;
 
 		return (
 			<VideoPlayerContainer
 				primaryTracks={primaryTracks}
 				downloadSrc={downloadSrc}
+				subtitleTrackSrc={subtitleTrackSrc}
 				id={this.props.id}
 				secondaryId={secondaryId}
 				edit={edit}
+				popupSelector={popupSelector}
 				namespace={namespace}
 				secondaryTracks={secondaryTracks}
 				onRenderComplete={onRenderComplete}

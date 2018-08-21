@@ -1,0 +1,28 @@
+@import '~styles/index.scss';
+.selectFilter{
+      float: left;
+      position: relative;
+      width: 27px;
+      z-index: 9;
+      outline: none;
+      margin-left: 10px;
+      .counter{
+        background: #0072BC;
+        padding: 1px 5px;
+        color: white;
+        position: absolute;
+        top: -5px;
+        right: -9px;
+        border-radius: 15px;
+        font-size: 11px;
+      }
+
+    .filterIconHolder{
+      border: 1px solid #ddd;
+      background: #fff;
+      padding:4px;
+      height: 28px;
+      cursor: pointer;
+      width: 28px;
+    }
+}

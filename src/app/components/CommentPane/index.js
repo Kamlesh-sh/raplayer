@@ -2,6 +2,9 @@ import { h, Component } from "preact";
 import style from "./index.scss";
 import CommentCard from "../CommentCard";
 import { getColorMap } from "@utils/core";
+import {
+	DEFAULT_COMMENT_DIV_ID_PREFIX
+} from "@config/constants";
 
 class CommentPane extends Component {
 	constructor() {
@@ -20,7 +23,7 @@ class CommentPane extends Component {
 			this.commentPaneComponents[key].discard();
 		}
 	};
-	
+
 	render() {
 		const {
 			comments,
@@ -31,7 +34,8 @@ class CommentPane extends Component {
 			onPaneCardClickHandler,
 			noCommentDiv,
 			onDeleteConfirm,
-			hideCommentCardError
+			hideCommentCardError,
+			popupSelector
 		} = this.props;
 		if (!comments || !comments.length) {
 			return <div className={style.commentPane}>{noCommentDiv}</div>;
@@ -46,6 +50,7 @@ class CommentPane extends Component {
 							key={i}
 							ref={c => (this.commentPaneComponents[i] = c)}
 							edit={edit}
+							popupSelector={popupSelector}
 							targetPlayerId={targetPlayerId}
 							editComment={editComment}
 							deleteComment={deleteComment}
@@ -54,6 +59,7 @@ class CommentPane extends Component {
 							hideErrorhandler={hideCommentCardError}
 							colorCode={colorMap[comment.author.id]}
 							onCommentEdit={this.closeAnyActiveEdit}
+							divId={(this.props.commentDivIdPrefix || DEFAULT_COMMENT_DIV_ID_PREFIX) + comment.id}
 						/>
 					))}
 				</div>

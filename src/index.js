@@ -2,13 +2,13 @@ import { h, render } from "preact";
 import App from "./app/index";
 import { getStore } from "./app/store";
 import { Provider } from "unistore/preact";
-import {removePlayer,getPlayer} from "@api/api";
-import "promise-polyfill/src/polyfill";
+import { removePlayer, getPlayer, setTrackingService } from "@api/api";
+import ES6Promise from 'es6-promise';
+ES6Promise.polyfill();
 import "whatwg-fetch";
 
+
 let count = 0;
-
-
 
 class RaPlayer {
 	constructor(props = {}) {
@@ -20,10 +20,14 @@ class RaPlayer {
 	 * @returns {void}
 	 */
 	setup() {
-		let { targetVideoContainer } = this.props;
+		let { targetVideoContainer, showControlsOnly, trackEvent, app } = this.props;
+		setTrackingService(trackEvent, (app && app.trackData));
 		let namespace = "ra_" + count++;
 		this.id = this.props.id = this.props.id || "an-vid-" + namespace;
 		this.props.secondaryId = this.id + "-secondary";
+		if (!showControlsOnly) {
+			this.props.popupSelector = this.id + "-popup";
+		}
 		let store = getStore(namespace, {
 			app: this.props.app
 		});

@@ -117,6 +117,7 @@ class VideoPlayerContainer extends Component {
 		const {
 			primaryTracks,
 			secondaryTracks,
+			subtitleTrackSrc,
 			fullScreen,
 			edit,
 			id,
@@ -125,7 +126,8 @@ class VideoPlayerContainer extends Component {
 			showControlsOnly,
 			namespace,
 			controlOptions,
-			downloadSrc
+			downloadSrc,
+			popupSelector
 		} = this.props;
 		let { controls, selectedTrack, showPlayButton, currentTime } = this.state;
 		controls = showControlsOnly || controls;
@@ -141,10 +143,12 @@ class VideoPlayerContainer extends Component {
 				onMouseOut={this.hideControls}
 			>
 				{showPlayButton && !showControlsOnly && <div className={style.play}  onClick={this.togglePlayPause} />}
+				<div id={popupSelector} />
 				<Player
 					ref={e => (this.videoPlayer = e)}
 					src={primaryTracks[selectedTrack].src}
 					secondarySrc={secondaryTracks && secondaryTracks[0] && secondaryTracks[0].src}
+					subtitleTrackSrc={subtitleTrackSrc}
 					updateMediaAttributes={this.updateMediaAttributes}
 					onVideoLoaded={this.onVideoLoadedHandler}
 					onVideoEnded={this.onVideoEndedHandler}
@@ -170,6 +174,7 @@ class VideoPlayerContainer extends Component {
 						videoPauseAtTimeHandler={this.videoPauseAtTimeHandler}
 						controlOptions={controlOptions}
 						namespace={namespace}
+						popupSelector={popupSelector}
 						currentTime={currentTime}
 					/>
 				</div>

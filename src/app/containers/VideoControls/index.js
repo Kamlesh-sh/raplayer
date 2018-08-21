@@ -1,7 +1,16 @@
 import { h, Component } from "preact";
 import style from "./index.scss";
 import { actions } from "../../actions";
-import { runPrefixMethod, getPrefixes, toHHMMSS, getElementOffset, getColorMap, isIE } from "@utils/core";
+import {
+	runPrefixMethod,
+	getPrefixes,
+	toHHMMSS,
+	getElementOffset,
+	getColorMap,
+	isIE,
+	addClass,
+	removeClass
+} from "@utils/core";
 import { namespaceConnect } from "@utils/enhancer";
 import CommentBox from "../CommentBox";
 import CommentHelperBox from "../CommentHelperBox";
@@ -9,10 +18,12 @@ import TimeBar from "@components/TimeBar";
 import VolumeBar from "@components/VolumeBar";
 import CommentBarDot from "@components/CommentBarDot";
 import TracksList from "@components/TracksList";
+import FullscreenApi from "@api/fullscreen-api.js";
 
 let defaultControlOptions = {
 	download: true,
-	fullScreen: true
+	fullScreen: true,
+	subtitles: false
 };
 
 class VideoControls extends Component {
@@ -26,9 +37,14 @@ class VideoControls extends Component {
 		this.commentBarDotOnMouseOutHandler = this.commentBarDotOnMouseOutHandler.bind(this);
 		this.showTrackListHandler = this.showTrackListHandler.bind(this);
 		this.hideTrackListHandler = this.hideTrackListHandler.bind(this);
+		this.fullWindowOnEscKey = this.fullWindowOnEscKey.bind(this);
+		this.toggleSubtitles = this.toggleSubtitles.bind(this);
+		this.disableSubtitles = this.disableSubtitles.bind(this);
+		this.applySubtitleState = this.applySubtitleState.bind(this);
 		this.showTrackList;
 		this.setState({
-			showTrackList: false
+			showTrackList: false,
+			subtitlesOn: true
 		});
 	}
 
@@ -59,29 +75,85 @@ class VideoControls extends Component {
 		}
 	}
 
-	exitHandler() {
+
+	exitHandler(event) {
+		if(!event){
+			return;
+		}
+		event.stopImmediatePropagation();
+		if(this.fullWindow){
+			this.fullWindow = false;
+			this.props.updateMediaAttributes({ fullScreen: false });
+		} else {
+			this.fullWindow = true;
+			this.props.updateMediaAttributes({ fullScreen: true });
+		}
+		this.props.hideCommentBox();
 		const pfx = getPrefixes();
 		let that = this;
-		let parent = this.container.parentNode.parentNode;
+		let parent = this.container && this.container.parentNode.parentNode;
 		pfx.forEach(function(prefix) {
-			parent.removeEventListener(prefix + "fullscreenchange", that.exitHandler.bind(that));
+			if (parent) {
+				parent.removeEventListener(prefix + "fullscreenchange", that.exitHandler.bind(that));
+			}
+			document.removeEventListener(prefix + "fullscreenchange", that.exitHandler.bind(that));
 		});
 	}
 
+	enterFullWindow() {
+		this.fullWindow = true;
+		this.docOrigOverflow = document.documentElement.style.overflow;
+		document.addEventListener("keydown", this.fullWindowOnEscKey);
+		document.documentElement.style.overflow = "hidden";
+		addClass(document.body, "ra-full-window");
+		this.props.updateMediaAttributes({ fullScreen: true });
+		this.originalWidth = this.rootElem.style.width;
+		this.originalHeight = this.rootElem.style.height;
+		this.rootElem.style.width = document.body.clientWidth;
+		this.rootElem.style.height = document.body.clientHeight;
+	}
+
+	fullWindowOnEscKey(event) {
+		if (event.keyCode === 27) {
+			this.exitFullWindow();
+		}
+	}
+
+
+
+	exitFullWindow() {
+		this.fullWindow = false;
+		document.removeEventListener("keydown", this.fullWindowOnEscKey);
+		document.documentElement.style.overflow = this.docOrigOverflow;
+		removeClass(document.body, "ra-full-window");
+		this.props.updateMediaAttributes({ fullScreen: false });
+		this.rootElem.style.width = this.originalWidth ;
+		this.rootElem.style.height = this.originalHeight;
+	}
+
 	toggleFullscreen() {
+		const fsApi = FullscreenApi;
+		this.props.hideCommentBox();
 		const pfx = getPrefixes();
-		let parent = this.container.parentNode.parentNode;
+		let parent = this.container.parentNode.parentNode; // Hackish i know, will modfiy very soon
 		var that = this;
+		if (!fsApi.requestFullscreen || window.top !== window.self) {
+			this.fullWindow ? this.exitFullWindow() : this.enterFullWindow();
+			return;
+		}
 		if (runPrefixMethod(document, "FullScreen") || runPrefixMethod(document, "IsFullScreen")) {
 			runPrefixMethod(document, "CancelFullScreen");
-			this.props.updateMediaAttributes({ fullScreen: false });
 			that.exitHandler();
 		} else {
-			this.props.updateMediaAttributes({ fullScreen: true });
 			runPrefixMethod(parent, "RequestFullScreen") || runPrefixMethod(parent, "RequestFullscreen");
+			if(typeof this.fullWindow === "undefined"){
+				this.fullWindow =  true;
+				this.props.updateMediaAttributes({ fullScreen: true });
+			}
 			setTimeout(function() {
 				pfx.forEach(function(prefix) {
 					parent.addEventListener(prefix + "fullscreenchange", that.exitHandler.bind(that), false);
+					document.addEventListener(prefix + "fullscreenchange", that.exitHandler.bind(that), false);
 				});
 			}, 700);
 		}
@@ -116,12 +188,12 @@ class VideoControls extends Component {
 		if (percentage < 0) {
 			percentage = 0;
 		}
-		if(xPos < 0) {
+		if (xPos < 0) {
 			xPos = 0;
 		}
 
-		let time = (percentage / 100 * video.duration),
-			availableWindowForCommentHelperBox = xPos + 200 ,
+		let time = percentage / 100 * video.duration,
+			availableWindowForCommentHelperBox = xPos + 200,
 			upperXLimit = e.target.clientWidth,
 			downArrowXPos;
 		downArrowXPos = 8;
@@ -151,13 +223,12 @@ class VideoControls extends Component {
 			return;
 		}
 
-		let  style = window.getComputedStyle(e.target, null);
-		let xPos = parseInt(style.getPropertyValue('left'));
+		let style = window.getComputedStyle(e.target, null);
+		let xPos = parseInt(style.getPropertyValue("left"));
 		let targetElement = e.target.parentElement;
 		let clientWidth = targetElement.clientWidth;
 
-
-		let availableWindowForCommentHelperBox = xPos + 300 ,
+		let availableWindowForCommentHelperBox = xPos + 300,
 			upperXLimit = clientWidth,
 			downArrowXPos,
 			_xPos = xPos;
@@ -179,7 +250,28 @@ class VideoControls extends Component {
 			readOnly: true,
 			downArrowXPos: downArrowXPos
 		});
+	}
 
+	toggleSubtitles() {
+		let subtitlesOn = this.state.subtitlesOn;
+		this.setState({
+			subtitlesOn: !subtitlesOn
+		});
+		this.applySubtitleState();
+	}
+
+	disableSubtitles() {
+		this.video.textTracks[0].mode = 'disabled';
+	}
+
+	applySubtitleState() {
+		let vttTrack = this.video.textTracks[0]; // We only have one text track at the moment.
+		if (this.state.subtitlesOn) {
+			vttTrack.mode = 'showing';
+		}
+		else {
+			vttTrack.mode = 'hidden';
+		}
 	}
 
 	commentBarDotOnMouseOutHandler(event) {
@@ -192,7 +284,7 @@ class VideoControls extends Component {
 		}
 		this.props.hideCommentBox();
 	}
-	
+
 	onMouseOutHandler(event) {
 		if (this.props.isCommentBoxActive) {
 			return;
@@ -203,6 +295,9 @@ class VideoControls extends Component {
 		}
 		this.props.hideCommentHelperBox();
 		this.props.hideCommentBox();
+	}
+	componentDidMount() {
+		this.rootElem = this.container.parentNode.parentNode.parentNode;
 	}
 
 	render = (
@@ -223,22 +318,31 @@ class VideoControls extends Component {
 			namespace,
 			videoPauseAtTimeHandler,
 			controlOptions = {},
-			downloadSrc
+			downloadSrc,
+			popupSelector
 		},
 		{ showTrackList }
 	) => {
 		this.video = document.getElementById(targetPlayerId);
-		controlOptions = { ...defaultControlOptions, ...controlOptions };
+		let _controlOptions = { ...defaultControlOptions, ...controlOptions };
+		if(isIE()) {
+			_controlOptions.subtitles = false;
+		}
+		if (this.video) {
+			(!_controlOptions.subtitles) ? this.disableSubtitles(): this.applySubtitleState();
+		}
+
+
 		let currentTimeString = "00:00",
 			seekTime = 0;
 		if (this.video) {
 			currentTimeString =
-				(!currentTime || currentTime === 0 )
+				!currentTime || currentTime === 0
 					? "00:00"
 					: toHHMMSS(currentTime) + " / " + toHHMMSS(this.video.duration);
 			seekTime = currentTime / this.video.duration * 100;
 		}
-		seekTime = (seekTime) ? (seekTime - 0.01) : 0;
+		seekTime = seekTime ? seekTime - 0.01 : 0;
 		let mediaPlayPauseKlass;
 		switch (mediaState) {
 			case "PLAY":
@@ -253,8 +357,9 @@ class VideoControls extends Component {
 		let colorMap = getColorMap(authors);
 
 		let videoControlsStyle = {
-			height: isIE() ? '60px': '55px'
+			height: isIE() ? "60px" : "55px"
 		};
+		let subtitlesOn = this.state.subtitlesOn;
 
 		return (
 			<div
@@ -283,6 +388,19 @@ class VideoControls extends Component {
 						{currentTimeString}
 					</div>
 					<div className={style.floatR}>
+						{_controlOptions.subtitles && (
+							<div className={style.controlButton}>
+								<div>
+									<button
+										style="border:none"
+										type="button"
+										className={style.subtitles}
+										onClick={this.toggleSubtitles}
+									/>
+								</div>
+								<div className={[subtitlesOn ? style.subtitlesUnderline : null].join(" ")} />
+							</div>
+						)}
 						{videoTracks &&
 							videoTracks.length > 1 && (
 								<div
@@ -300,7 +418,7 @@ class VideoControls extends Component {
 									)}
 								</div>
 							)}
-						{controlOptions.download &&
+						{_controlOptions.download &&
 							downloadSrc && (
 								<div className={style.controlButton}>
 									<a
@@ -313,7 +431,7 @@ class VideoControls extends Component {
 									/>
 								</div>
 							)}
-						{controlOptions.fullScreen && (
+						{_controlOptions.fullScreen && (
 							<div className={style.controlButton}>
 								<button
 									style="border:none"
@@ -326,7 +444,9 @@ class VideoControls extends Component {
 					</div>
 					<div className={style.clear} />
 				</div>
-				{commentBox.show ? <CommentBox edit={edit} namespace={namespace} /> : null}
+				{commentBox.show ? (
+					<CommentBox edit={edit} namespace={namespace} popupSelector={popupSelector} />
+				) : null}
 				{commentHelperBox.show && edit ? (
 					<CommentHelperBox
 						targetPlayerId={targetPlayerId}

@@ -4,6 +4,8 @@ import { actions } from '../../actions';
 import { toHHMMSS } from '@utils/core';
 import { namespaceConnect} from '@utils/enhancer';
 import EmojiPicker from '@components/EmojiPicker';
+import { track } from "@api/api";
+import event from "@config/trackEvents";
 
 class CommentHelperBox extends Component {
 	constructor() {
@@ -45,7 +47,7 @@ class CommentHelperBox extends Component {
 		if(typeof this.props.onClickHandler === "function") {
 			this.props.onClickHandler(time);
 		}
-		
+		track(event.ADD_COMMENT);
 	}
 
 	emojiOnSelectHandler(selectedEmoji) {
@@ -55,7 +57,7 @@ class CommentHelperBox extends Component {
 		});
 	}
 
-	render({ xPos, time, downArrowXPos }) {
+	render({ xPos, time, downArrowXPos ,fullScreen}) {
 		let divStyle = {
 				left: xPos
 			},
@@ -66,6 +68,9 @@ class CommentHelperBox extends Component {
 				left: downArrowXPos + 'px'
 			};
 		}
+		if(fullScreen){
+			divStyle.position = 'fixed !important';
+		}
 		return (
 			<div style={divStyle} className={style.chBox}>
 				<div className={style.downArrow} style={downArrowStyle} />
@@ -74,7 +79,10 @@ class CommentHelperBox extends Component {
 						<span className={style.plusIcon}>+</span> Add Comments @{timestampReadable}
 					</div>
 					<div className={style.chBoxControls}>
-						<EmojiPicker onSelect={this.emojiOnSelectHandler} />
+						<EmojiPicker onSelect={this.emojiOnSelectHandler} onClick={() => {
+							let { time, onClickHandler } = this.props;
+							onClickHandler(time);
+						}} />
 					</div>
 					<div className={style.clear} />
 				</div>
@@ -85,6 +93,7 @@ class CommentHelperBox extends Component {
 
 function mapStateToProps(state) {
 	return {
+		fullScreen: state.media.fullScreen,
 		xPos: state.commentHelperBox.data.xPos,
 		time: state.commentHelperBox.data.time,
 		downArrowXPos: state.commentHelperBox.data.downArrowXPos
