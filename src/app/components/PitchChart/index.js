@@ -29,7 +29,7 @@ class PitchChart extends Component {
 		});
 		return Highcharts.chart(this.getChartContainerId(), config);
 	}
-	render({ style, userName }) {
+	render({ style }) {
 		const id = this.getChartContainerId();
 		return <div style={style} id={id} />;
 	}

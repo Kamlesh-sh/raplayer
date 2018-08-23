@@ -3825,8 +3825,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			}, {
 				key: "render",
 				value: function render(_ref2) {
-					var style = _ref2.style,
-					    userName = _ref2.userName;
+					var style = _ref2.style;
 
 					var id = this.getChartContainerId();
 					return (0, _preact.h)("div", { style: style, id: id });
