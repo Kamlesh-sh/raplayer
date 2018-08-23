@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import Highcharts from "highcharts";
+import Highcharts from "highcharts/highcharts.js";
 
 import { GET_CHART_CONFIG_BY_TYPE } from "./constants";
 
