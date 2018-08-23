@@ -1,5 +1,8 @@
-let colorMap = {};
+import isPlainObject from "is-plain-object";
+
 export deepmerge from "deepmerge";
+
+let colorMap = {};
 
 /**
  * Throws an error if the passed string has whitespace. This is used by
@@ -114,10 +117,6 @@ export function getPrefixes() {
 	return pfx;
 }
 
-export const isUndefined = value => {
-  return typeof value === "undefined";
-};
-
 export function titleCase(str) {
 	str = str.toLowerCase().split(" ");
 	for (var i = 0; i < str.length; i++) {
@@ -144,6 +143,25 @@ export function runPrefixMethod(obj, method) {
 		}
 		p++;
 	}
+}
+
+export function isObject(x) {
+	return isPlainObject(x);
+}
+
+export const isString = value => {
+	return typeof value === "string";
+}
+
+export const isUndefined = value => {
+	return typeof value === "undefined";
+}
+
+export function isEmpty(x) {
+	if (isObject(x) && !Object.keys(x).length) return true;
+	if (Array.isArray(x) && !x.length) return true;
+	if (isString(x) && !x.length) return true;
+	return false;
 }
 
 export function toHHMMSS(str) {
@@ -234,20 +252,23 @@ export function insertAtCursor(myField, myValue) {
 		var startPos = myField.selectionStart;
 		var endPos = myField.selectionEnd;
 		myField.value =
-			myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+			myField.value.substring(0, startPos) +
+			myValue +
+			myField.value.substring(endPos, myField.value.length);
 	} else {
 		myField.value += myValue;
 	}
 }
 
 export function capitalizeKeys(obj) {
-	const isObject = o => Object.prototype.toString.apply(o) === "[object Object]";
+	const isObject = o =>
+		Object.prototype.toString.apply(o) === "[object Object]";
 	const isArray = o => Object.prototype.toString.apply(o) === "[object Array]";
 
 	let transformedObj = isArray(obj) ? [] : {};
 
 	for (let key in obj) {
-		const transformedKey = key.replace(/^\w/, (c) => c.toUpperCase());
+		const transformedKey = key.replace(/^\w/, c => c.toUpperCase());
 		if (isObject(obj[key]) || isArray(obj[key])) {
 			transformedObj[transformedKey] = capitalizeKeys(obj[key]);
 		} else {

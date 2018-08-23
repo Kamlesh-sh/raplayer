@@ -17,15 +17,20 @@ class PitchChart {
 		let { targetChartContainer } = this.props;
 		let namespace = "pitch_" + count++;
 		let store = getStore(namespace, {
-			app: this.props.context || {}
+			app: this.props.app || {}
 		});
-
-		this.root = render(
-			<Provider store={store}>
-				<App {...this.props} namespace={namespace} />
-			</Provider>,
-			document.getElementById(targetChartContainer)
-		);
+		try {
+			this.root = render(
+				<Provider store={store}>
+					<App {...this.props} namespace={namespace} />
+					dasdasdasdas
+				</Provider>,
+				document.getElementById(targetChartContainer)
+			);
+		} catch (ex) {
+			console.log(ex); //eslint-disable-line
+		}
+		window.store = store;
 	}
 
 	destroy() {

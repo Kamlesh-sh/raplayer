@@ -1,10 +1,9 @@
-import createStore from 'unistore';
-import devtools from 'unistore/devtools';
-import { deepmerge } from '@utils/core';
+import createStore from "unistore";
+import devtools from "unistore/devtools";
+import { deepmerge } from "@utils/core";
 
 const initialState = {
-	app: {
-	},
+	app: {},
 	commentHelperBox: {
 		show: false,
 		data: {}
@@ -12,18 +11,18 @@ const initialState = {
 	commentBox: {
 		show: false,
 		data: {
-			text: ''
+			text: ""
 		}
 	},
 	media: {
 		currentTime: 0,
-		state: 'PAUSE'
+		state: "PAUSE"
 	},
 	commentPane: {
 		allComments: [],
 		activeComments: []
 	},
-	pitch:{},
+	pitch: {},
 	transcriptionPane: {
 		searchBar: {
 			searchWords: [],
@@ -50,8 +49,12 @@ export function getStore(namespace, initialProps = {}) {
 		return store;
 	}
 	if (namespace) {
-		state[namespace] = state[namespace] || deepmerge(initialState, initialProps);
+		state[namespace] =
+			state[namespace] || deepmerge(initialState, initialProps);
 	}
-	store = process.env.ENV === 'prod' ? createStore(state) : devtools(createStore(state));
+	store =
+		process.env.ENV === "prod"
+			? createStore(state)
+			: devtools(createStore(state));
 	return store;
 }

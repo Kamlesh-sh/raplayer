@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 142);
+/******/ 	return __webpack_require__(__webpack_require__.s = 146);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -807,6 +807,368 @@ var preact = {
 
 /***/ }),
 
+/***/ 1:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(16), __webpack_require__(17)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(exports, require("is-plain-object"), require("deepmerge"));
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod.exports, global.isPlainObject, global.deepmerge);
+		global.core = mod.exports;
+	}
+})(this, function (exports) {
+	"use strict";
+
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+		return typeof obj;
+	} : function (obj) {
+		return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+	};
+
+	(function (global, factory) {
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(16), __webpack_require__(17)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof exports !== "undefined") {
+			factory(exports);
+		} else {
+			var mod = {
+				exports: {}
+			};
+			factory(mod.exports, global.isPlainObject, global.deepmerge);
+			global.core = mod.exports;
+		}
+	})(undefined, function (exports, _isPlainObject, _deepmerge2) {
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+		exports.isUndefined = exports.isString = exports.deepmerge = undefined;
+		exports.hasClass = hasClass;
+		exports.addClass = addClass;
+		exports.removeClass = removeClass;
+		exports.getPrefixes = getPrefixes;
+		exports.titleCase = titleCase;
+		exports.runPrefixMethod = runPrefixMethod;
+		exports.isObject = isObject;
+		exports.isEmpty = isEmpty;
+		exports.toHHMMSS = toHHMMSS;
+		exports.getElementOffset = getElementOffset;
+		exports.getColorMap = getColorMap;
+		exports.parseText = parseText;
+		exports.isIE = isIE;
+		exports.insertAtCursor = insertAtCursor;
+		exports.capitalizeKeys = capitalizeKeys;
+
+		var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+		var _deepmerge3 = _interopRequireDefault(_deepmerge2);
+
+		function _interopRequireDefault(obj) {
+			return obj && obj.__esModule ? obj : {
+				default: obj
+			};
+		}
+
+		var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+			return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+		} : function (obj) {
+			return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+		};
+
+		exports.deepmerge = _deepmerge3.default;
+
+		var colorMap = {};
+
+		/**
+   * Throws an error if the passed string has whitespace. This is used by
+   * class methods to be relatively consistent with the classList API.
+   *
+   * @param {string} str
+   *         The string to check for whitespace.
+   *
+   * @throws {Error}
+   *         Throws an error if there is whitespace in the string.
+   *
+   */
+		function throwIfWhitespace(str) {
+			if (/\s/.test(str)) {
+				throw new Error("class has illegal whitespace characters");
+			}
+		}
+
+		/**
+   * Produce a regular expression for matching a className within an elements className.
+   *
+   * @param {string} className
+   *         The className to generate the RegExp for.
+   *
+   * @return {RegExp}
+   *         The RegExp that will check for a specific `className` in an elements
+   *         className.
+   */
+		function classRegExp(className) {
+			return new RegExp("(^|\\s)" + className + "($|\\s)");
+		}
+
+		/**
+   * Check if an element has a CSS class
+   *
+   * @param {Element} element
+   *        Element to check
+   *
+   * @param {string} classToCheck
+   *        Class name to check for
+   *
+   * @return {boolean}
+   *         - True if the element had the class
+   *         - False otherwise.
+   *
+   * @throws {Error}
+   *         Throws an error if `classToCheck` has white space.
+   */
+		function hasClass(element, classToCheck) {
+			throwIfWhitespace(classToCheck);
+			if (element.classList) {
+				return element.classList.contains(classToCheck);
+			}
+			return classRegExp(classToCheck).test(element.className);
+		}
+
+		/**
+   * Add a CSS class name to an element
+   *
+   * @param {Element} element
+   *        Element to add class name to.
+   *
+   * @param {string} classToAdd
+   *        Class name to add.
+   *
+   * @return {Element}
+   *         The dom element with the added class name.
+   */
+		function addClass(element, classToAdd) {
+			if (element.classList) {
+				element.classList.add(classToAdd);
+
+				// Don't need to `throwIfWhitespace` here because `hasElClass` will do it
+				// in the case of classList not being supported.
+			} else if (!hasClass(element, classToAdd)) {
+				element.className = (element.className + " " + classToAdd).trim();
+			}
+
+			return element;
+		}
+
+		/**
+   * Remove a CSS class name from an element
+   *
+   * @param {Element} element
+   *        Element to remove a class name from.
+   *
+   * @param {string} classToRemove
+   *        Class name to remove
+   *
+   * @return {Element}
+   *         The dom element with class name removed.
+   */
+		function removeClass(element, classToRemove) {
+			if (element.classList) {
+				element.classList.remove(classToRemove);
+			} else {
+				throwIfWhitespace(classToRemove);
+				element.className = element.className.split(/\s+/).filter(function (c) {
+					return c !== classToRemove;
+				}).join(" ");
+			}
+
+			return element;
+		}
+
+		function getPrefixes() {
+			var pfx = ["webkit", "moz", "ms", "o", "", "MS"];
+			return pfx;
+		}
+
+		function titleCase(str) {
+			str = str.toLowerCase().split(" ");
+			for (var i = 0; i < str.length; i++) {
+				str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+			}
+			return str.join(" ");
+		}
+
+		function runPrefixMethod(obj, method) {
+			var pfx = getPrefixes();
+			var p = 0,
+			    m,
+			    t;
+			while (p < pfx.length && !obj[m]) {
+				m = method;
+				if (pfx[p] == "") {
+					m = m.substr(0, 1).toLowerCase() + m.substr(1);
+				}
+				m = pfx[p] + m;
+				t = _typeof(obj[m]);
+				if (t != "undefined") {
+					pfx = [pfx[p]];
+					return t == "function" ? obj[m]() : obj[m];
+				}
+				p++;
+			}
+		}
+
+		function isObject(x) {
+			return (0, _isPlainObject2.default)(x);
+		}
+
+		var isString = exports.isString = function isString(value) {
+			return typeof value === "string";
+		};
+
+		var isUndefined = exports.isUndefined = function isUndefined(value) {
+			return typeof value === "undefined";
+		};
+
+		function isEmpty(x) {
+			if (isObject(x) && !Object.keys(x).length) return true;
+			if (Array.isArray(x) && !x.length) return true;
+			if (isString(x) && !x.length) return true;
+			return false;
+		}
+
+		function toHHMMSS(str) {
+			if (!str) {
+				return "00:00";
+			}
+			var sec_num = Math.round(str);
+			var hours = Math.floor(sec_num / 3600);
+			var minutes = Math.floor((sec_num - hours * 3600) / 60);
+			var seconds = sec_num - hours * 3600 - minutes * 60;
+			if (hours < 10) {
+				hours = "0" + hours;
+			}
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			if (seconds < 10) {
+				seconds = "0" + seconds;
+			}
+			var minsec = minutes + ":" + seconds;
+			return hours != "00" ? hours + ":" + minsec : minsec;
+		}
+
+		function getElementOffset(element) {
+			var de = document.documentElement;
+			var box = element.getBoundingClientRect();
+			var top = box.top + window.pageYOffset - de.clientTop;
+			var left = box.left + window.pageXOffset - de.clientLeft;
+			return { top: top, left: left };
+		}
+
+		function getColorMap(authors) {
+			if (!authors || !authors.length) {
+				return colorMap;
+			}
+			var colors = ["#0ed5c9", "#069eff", "#000000"];
+			var j = 0;
+			authors.map(function (author) {
+				if (!colorMap[author]) {
+					colorMap[author] = colors[j++];
+				}
+			});
+			return colorMap;
+		}
+
+		function parseText(text) {
+			if (!text) {
+				return "";
+			}
+			return text.replace(/\r?\n/g, "\n");
+		}
+
+		function isIE() {
+			var ua = window.navigator.userAgent;
+
+			var msie = ua.indexOf("MSIE ");
+			if (msie > 0) {
+				// IE 10 or older => return version number
+				return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+			}
+
+			var trident = ua.indexOf("Trident/");
+			if (trident > 0) {
+				// IE 11 => return version number
+				var rv = ua.indexOf("rv:");
+				return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+			}
+
+			var edge = ua.indexOf("Edge/");
+			if (edge > 0) {
+				// Edge (IE 12+) => return version number
+				return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+			}
+
+			// other browser
+			return false;
+		}
+
+		function insertAtCursor(myField, myValue) {
+			var sel = void 0;
+			//IE support
+			if (document.selection) {
+				myField.focus();
+				sel = document.selection.createRange();
+				sel.text = myValue;
+			} else if (myField.selectionStart || myField.selectionStart == "0") {
+				//MOZILLA and others
+				var startPos = myField.selectionStart;
+				var endPos = myField.selectionEnd;
+				myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+			} else {
+				myField.value += myValue;
+			}
+		}
+
+		function capitalizeKeys(obj) {
+			var isObject = function isObject(o) {
+				return Object.prototype.toString.apply(o) === "[object Object]";
+			};
+			var isArray = function isArray(o) {
+				return Object.prototype.toString.apply(o) === "[object Array]";
+			};
+
+			var transformedObj = isArray(obj) ? [] : {};
+
+			for (var key in obj) {
+				var transformedKey = key.replace(/^\w/, function (c) {
+					return c.toUpperCase();
+				});
+				if (isObject(obj[key]) || isArray(obj[key])) {
+					transformedObj[transformedKey] = capitalizeKeys(obj[key]);
+				} else {
+					transformedObj[transformedKey] = obj[key];
+				}
+			}
+			return transformedObj;
+		}
+	});
+});
+
+/***/ }),
+
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -879,12 +1241,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /* WEBPACK VAR INJECTION */(function(process) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(147), __webpack_require__(146), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(19), __webpack_require__(18), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (typeof exports !== "undefined") {
-		factory(exports, require('unistore'), require('unistore/devtools'), require('@utils/core'));
+		factory(exports, require("unistore"), require("unistore/devtools"), require("@utils/core"));
 	} else {
 		var mod = {
 			exports: {}
@@ -893,11 +1255,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		global.store = mod.exports;
 	}
 })(this, function (exports) {
-	'use strict';
+	"use strict";
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(147), __webpack_require__(146), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(19), __webpack_require__(18), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -911,7 +1273,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			global.store = mod.exports;
 		}
 	})(undefined, function (exports, _unistore, _devtools, _core) {
-		'use strict';
+		"use strict";
 
 		Object.defineProperty(exports, "__esModule", {
 			value: true
@@ -937,12 +1299,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			commentBox: {
 				show: false,
 				data: {
-					text: ''
+					text: ""
 				}
 			},
 			media: {
 				currentTime: 0,
-				state: 'PAUSE'
+				state: "PAUSE"
 			},
 			commentPane: {
 				allComments: [],
@@ -979,12 +1341,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			if (namespace) {
 				state[namespace] = state[namespace] || (0, _core.deepmerge)(initialState, initialProps);
 			}
-			store = process.env.ENV === 'prod' ? (0, _unistore2.default)(state) : (0, _devtools2.default)((0, _unistore2.default)(state));
+			store = process.env.ENV === "prod" ? (0, _unistore2.default)(state) : (0, _devtools2.default)((0, _unistore2.default)(state));
 			return store;
 		}
 	});
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
 
 /***/ }),
 
@@ -1479,59 +1841,218 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (typeof exports !== "undefined") {
-		factory(module);
-	} else {
-		var mod = {
-			exports: {}
-		};
-		factory(mod);
-		global.global = mod.exports;
-	}
+    } else if (typeof exports !== "undefined") {
+        factory(module);
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod);
+        global.browser = mod.exports;
+    }
 })(this, function (module) {
-	"use strict";
+    'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-		return typeof obj;
-	} : function (obj) {
-		return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-	};
+    // shim for using process in browser
+    var process = module.exports = {};
 
-	var g;
+    // cached from whatever global is present so that test runners that stub it
+    // don't break things.  But we need to wrap it in a try catch in case it is
+    // wrapped in strict mode code which doesn't define any globals.  It's inside a
+    // function because try/catches deoptimize in certain engines.
 
-	// This works in non-strict mode
-	g = function () {
-		return this;
-	}();
+    var cachedSetTimeout;
+    var cachedClearTimeout;
 
-	try {
-		// This works if eval is allowed (see CSP)
-		g = g || Function("return this")() || (1, eval)("this");
-	} catch (e) {
-		// This works if the window reference is available
-		if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
-	}
+    function defaultSetTimout() {
+        throw new Error('setTimeout has not been defined');
+    }
+    function defaultClearTimeout() {
+        throw new Error('clearTimeout has not been defined');
+    }
+    (function () {
+        try {
+            if (typeof setTimeout === 'function') {
+                cachedSetTimeout = setTimeout;
+            } else {
+                cachedSetTimeout = defaultSetTimout;
+            }
+        } catch (e) {
+            cachedSetTimeout = defaultSetTimout;
+        }
+        try {
+            if (typeof clearTimeout === 'function') {
+                cachedClearTimeout = clearTimeout;
+            } else {
+                cachedClearTimeout = defaultClearTimeout;
+            }
+        } catch (e) {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    })();
+    function runTimeout(fun) {
+        if (cachedSetTimeout === setTimeout) {
+            //normal enviroments in sane situations
+            return setTimeout(fun, 0);
+        }
+        // if setTimeout wasn't available but was latter defined
+        if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+            cachedSetTimeout = setTimeout;
+            return setTimeout(fun, 0);
+        }
+        try {
+            // when when somebody has screwed with setTimeout but no I.E. maddness
+            return cachedSetTimeout(fun, 0);
+        } catch (e) {
+            try {
+                // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+                return cachedSetTimeout.call(null, fun, 0);
+            } catch (e) {
+                // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+                return cachedSetTimeout.call(this, fun, 0);
+            }
+        }
+    }
+    function runClearTimeout(marker) {
+        if (cachedClearTimeout === clearTimeout) {
+            //normal enviroments in sane situations
+            return clearTimeout(marker);
+        }
+        // if clearTimeout wasn't available but was latter defined
+        if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+            cachedClearTimeout = clearTimeout;
+            return clearTimeout(marker);
+        }
+        try {
+            // when when somebody has screwed with setTimeout but no I.E. maddness
+            return cachedClearTimeout(marker);
+        } catch (e) {
+            try {
+                // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+                return cachedClearTimeout.call(null, marker);
+            } catch (e) {
+                // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+                // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+                return cachedClearTimeout.call(this, marker);
+            }
+        }
+    }
+    var queue = [];
+    var draining = false;
+    var currentQueue;
+    var queueIndex = -1;
 
-	// g can still be undefined, but nothing to do about it...
-	// We return undefined, instead of nothing here, so it's
-	// easier to handle this case. if(!global) { ...}
+    function cleanUpNextTick() {
+        if (!draining || !currentQueue) {
+            return;
+        }
+        draining = false;
+        if (currentQueue.length) {
+            queue = currentQueue.concat(queue);
+        } else {
+            queueIndex = -1;
+        }
+        if (queue.length) {
+            drainQueue();
+        }
+    }
 
-	module.exports = g;
+    function drainQueue() {
+        if (draining) {
+            return;
+        }
+        var timeout = runTimeout(cleanUpNextTick);
+        draining = true;
+
+        var len = queue.length;
+        while (len) {
+            currentQueue = queue;
+            queue = [];
+            while (++queueIndex < len) {
+                if (currentQueue) {
+                    currentQueue[queueIndex].run();
+                }
+            }
+            queueIndex = -1;
+            len = queue.length;
+        }
+        currentQueue = null;
+        draining = false;
+        runClearTimeout(timeout);
+    }
+
+    process.nextTick = function (fun) {
+        var args = new Array(arguments.length - 1);
+        if (arguments.length > 1) {
+            for (var i = 1; i < arguments.length; i++) {
+                args[i - 1] = arguments[i];
+            }
+        }
+        queue.push(new Item(fun, args));
+        if (queue.length === 1 && !draining) {
+            runTimeout(drainQueue);
+        }
+    };
+
+    // v8 likes predictible objects
+    function Item(fun, array) {
+        this.fun = fun;
+        this.array = array;
+    }
+    Item.prototype.run = function () {
+        this.fun.apply(null, this.array);
+    };
+    process.title = 'browser';
+    process.browser = true;
+    process.env = {};
+    process.argv = [];
+    process.version = ''; // empty string to avoid regexp issues
+    process.versions = {};
+
+    function noop() {}
+
+    process.on = noop;
+    process.addListener = noop;
+    process.once = noop;
+    process.off = noop;
+    process.removeListener = noop;
+    process.removeAllListeners = noop;
+    process.emit = noop;
+    process.prependListener = noop;
+    process.prependOnceListener = noop;
+
+    process.listeners = function (name) {
+        return [];
+    };
+
+    process.binding = function (name) {
+        throw new Error('process.binding is not supported');
+    };
+
+    process.cwd = function () {
+        return '/';
+    };
+    process.chdir = function (dir) {
+        throw new Error('process.chdir is not supported');
+    };
+    process.umask = function () {
+        return 0;
+    };
 });
 
 /***/ }),
 
-/***/ 142:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(11), __webpack_require__(10), __webpack_require__(91), __webpack_require__(90), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(11), __webpack_require__(10), __webpack_require__(95), __webpack_require__(94), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1549,7 +2070,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(11), __webpack_require__(10), __webpack_require__(91), __webpack_require__(90), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(11), __webpack_require__(10), __webpack_require__(95), __webpack_require__(94), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1633,10 +2154,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 					var namespace = "pitch_" + count++;
 					var store = (0, _store.getStore)(namespace, {
-						app: this.props.context || {}
+						app: this.props.app || {}
 					});
-
-					this.root = (0, _preact.render)((0, _preact.h)(_preact2.Provider, { store: store }, (0, _preact.h)(_PitchChartWrapper2.default, _extends({}, this.props, { namespace: namespace }))), document.getElementById(targetChartContainer));
+					try {
+						this.root = (0, _preact.render)((0, _preact.h)(_preact2.Provider, { store: store }, (0, _preact.h)(_PitchChartWrapper2.default, _extends({}, this.props, { namespace: namespace })), "dasdasdasdas"), document.getElementById(targetChartContainer));
+					} catch (ex) {
+						console.log(ex); //eslint-disable-line
+					}
+					window.store = store;
 				}
 			}, {
 				key: "destroy",
@@ -1658,7 +2183,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 143:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(setImmediate) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -1912,16 +2437,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   exports.default = Promise;
   module.exports = exports['default'];
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(144).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(148).setImmediate))
 
 /***/ }),
 
-/***/ 144:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(145)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(149)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1993,11 +2518,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   exports.setImmediate = typeof self !== "undefined" && self.setImmediate || typeof global !== "undefined" && global.setImmediate || undefined && undefined.setImmediate;
   exports.clearImmediate = typeof self !== "undefined" && self.clearImmediate || typeof global !== "undefined" && global.clearImmediate || undefined && undefined.clearImmediate;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 
-/***/ 145:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -2201,11 +2726,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         attachTo.clearImmediate = clearImmediate;
     })(typeof self === "undefined" ? typeof global === "undefined" ? undefined : global : self);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14), __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15), __webpack_require__(14)))
 
 /***/ }),
 
-/***/ 146:
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -2221,112 +2746,99 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			exports: {}
 		};
 		factory(mod);
-		global.devtools = mod.exports;
+		global.global = mod.exports;
 	}
 })(this, function (module) {
-	'use strict';
+	"use strict";
 
-	module.exports = function unistoreDevTools(store) {
-		var extension = window.__REDUX_DEVTOOLS_EXTENSION__ || window.top.__REDUX_DEVTOOLS_EXTENSION__;
-		var ignoreState = false;
-
-		if (!extension) {
-			console.warn('Please install/enable Redux devtools extension');
-			store.devtools = null;
-
-			return store;
-		}
-
-		if (!store.devtools) {
-			store.devtools = extension.connect();
-			store.devtools.subscribe(function (message) {
-				if (message.type === 'DISPATCH' && message.state) {
-					ignoreState = message.payload.type === 'JUMP_TO_ACTION' || message.payload.type === 'JUMP_TO_STATE';
-					store.setState(JSON.parse(message.state), true);
-				}
-			});
-			store.devtools.init(store.getState());
-			store.subscribe(function (state, action) {
-				var actionName = action && action.name || 'setState';
-
-				if (!ignoreState) {
-					store.devtools.send(actionName, state);
-				} else {
-					ignoreState = false;
-				}
-			});
-		}
-
-		return store;
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+		return typeof obj;
+	} : function (obj) {
+		return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 	};
+
+	var g;
+
+	// This works in non-strict mode
+	g = function () {
+		return this;
+	}();
+
+	try {
+		// This works if eval is allowed (see CSP)
+		g = g || Function("return this")() || (1, eval)("this");
+	} catch (e) {
+		// This works if the window reference is available
+		if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
+	}
+
+	// g can still be undefined, but nothing to do about it...
+	// We return undefined, instead of nothing here, so it's
+	// easier to handle this case. if(!global) { ...}
+
+	module.exports = g;
 });
 
 /***/ }),
 
-/***/ 147:
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(24)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(module, exports);
+    factory(module, require('isobject'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod, mod.exports);
-    global.unistoreEs = mod.exports;
+    factory(mod, global.isobject);
+    global.index = mod.exports;
   }
-})(this, function (module, exports) {
-  "use strict";
+})(this, function (module, isObject) {
+  /*!
+   * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+   *
+   * Copyright (c) 2014-2017, Jon Schlinkert.
+   * Released under the MIT License.
+   */
 
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
+  'use strict';
 
-  exports.default = function (t) {
-    var r = [];function u(n) {
-      for (var t = [], u = 0; u < r.length; u++) {
-        r[u] === n ? n = null : t.push(r[u]);
-      }r = t;
-    }function e(u, e, f) {
-      t = e ? u : n(n({}, t), u);for (var i = r, o = 0; o < i.length; o++) {
-        i[o](t, f);
-      }
-    }return t = t || {}, { action: function action(n) {
-        function r(t) {
-          e(t, !1, n);
-        }return function () {
-          for (var u = arguments, e = [t], f = 0; f < arguments.length; f++) {
-            e.push(u[f]);
-          }var i = n.apply(this, e);if (null != i) return i.then ? i.then(r) : r(i);
-        };
-      }, setState: e, subscribe: function subscribe(n) {
-        return r.push(n), function () {
-          u(n);
-        };
-      }, unsubscribe: u, getState: function getState() {
-        return t;
-      } };
+  function isObjectObject(o) {
+    return isObject(o) === true && Object.prototype.toString.call(o) === '[object Object]';
+  }
+
+  module.exports = function isPlainObject(o) {
+    var ctor, prot;
+
+    if (isObjectObject(o) === false) return false;
+
+    // If has modified constructor
+    ctor = o.constructor;
+    if (typeof ctor !== 'function') return false;
+
+    // If has modified prototype
+    prot = ctor.prototype;
+    if (isObjectObject(prot) === false) return false;
+
+    // If constructor does not have an Object-specific method
+    if (prot.hasOwnProperty('isPrototypeOf') === false) {
+      return false;
+    }
+
+    // Most likely a plain Object
+    return true;
   };
-
-  function n(n, t) {
-    for (var r in t) {
-      n[r] = t[r];
-    }return n;
-  };
-  //# sourceMappingURL=unistore.es.js.map
-
-  module.exports = exports["default"];
 });
 
 /***/ }),
 
-/***/ 15:
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -2446,554 +2958,164 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 20:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof exports !== "undefined") {
-        factory(module);
-    } else {
-        var mod = {
-            exports: {}
-        };
-        factory(mod);
-        global.browser = mod.exports;
-    }
-})(this, function (module) {
-    'use strict';
-
-    // shim for using process in browser
-    var process = module.exports = {};
-
-    // cached from whatever global is present so that test runners that stub it
-    // don't break things.  But we need to wrap it in a try catch in case it is
-    // wrapped in strict mode code which doesn't define any globals.  It's inside a
-    // function because try/catches deoptimize in certain engines.
-
-    var cachedSetTimeout;
-    var cachedClearTimeout;
-
-    function defaultSetTimout() {
-        throw new Error('setTimeout has not been defined');
-    }
-    function defaultClearTimeout() {
-        throw new Error('clearTimeout has not been defined');
-    }
-    (function () {
-        try {
-            if (typeof setTimeout === 'function') {
-                cachedSetTimeout = setTimeout;
-            } else {
-                cachedSetTimeout = defaultSetTimout;
-            }
-        } catch (e) {
-            cachedSetTimeout = defaultSetTimout;
-        }
-        try {
-            if (typeof clearTimeout === 'function') {
-                cachedClearTimeout = clearTimeout;
-            } else {
-                cachedClearTimeout = defaultClearTimeout;
-            }
-        } catch (e) {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    })();
-    function runTimeout(fun) {
-        if (cachedSetTimeout === setTimeout) {
-            //normal enviroments in sane situations
-            return setTimeout(fun, 0);
-        }
-        // if setTimeout wasn't available but was latter defined
-        if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-            cachedSetTimeout = setTimeout;
-            return setTimeout(fun, 0);
-        }
-        try {
-            // when when somebody has screwed with setTimeout but no I.E. maddness
-            return cachedSetTimeout(fun, 0);
-        } catch (e) {
-            try {
-                // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-                return cachedSetTimeout.call(null, fun, 0);
-            } catch (e) {
-                // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-                return cachedSetTimeout.call(this, fun, 0);
-            }
-        }
-    }
-    function runClearTimeout(marker) {
-        if (cachedClearTimeout === clearTimeout) {
-            //normal enviroments in sane situations
-            return clearTimeout(marker);
-        }
-        // if clearTimeout wasn't available but was latter defined
-        if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-            cachedClearTimeout = clearTimeout;
-            return clearTimeout(marker);
-        }
-        try {
-            // when when somebody has screwed with setTimeout but no I.E. maddness
-            return cachedClearTimeout(marker);
-        } catch (e) {
-            try {
-                // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-                return cachedClearTimeout.call(null, marker);
-            } catch (e) {
-                // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-                // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-                return cachedClearTimeout.call(this, marker);
-            }
-        }
-    }
-    var queue = [];
-    var draining = false;
-    var currentQueue;
-    var queueIndex = -1;
-
-    function cleanUpNextTick() {
-        if (!draining || !currentQueue) {
-            return;
-        }
-        draining = false;
-        if (currentQueue.length) {
-            queue = currentQueue.concat(queue);
-        } else {
-            queueIndex = -1;
-        }
-        if (queue.length) {
-            drainQueue();
-        }
-    }
-
-    function drainQueue() {
-        if (draining) {
-            return;
-        }
-        var timeout = runTimeout(cleanUpNextTick);
-        draining = true;
-
-        var len = queue.length;
-        while (len) {
-            currentQueue = queue;
-            queue = [];
-            while (++queueIndex < len) {
-                if (currentQueue) {
-                    currentQueue[queueIndex].run();
-                }
-            }
-            queueIndex = -1;
-            len = queue.length;
-        }
-        currentQueue = null;
-        draining = false;
-        runClearTimeout(timeout);
-    }
-
-    process.nextTick = function (fun) {
-        var args = new Array(arguments.length - 1);
-        if (arguments.length > 1) {
-            for (var i = 1; i < arguments.length; i++) {
-                args[i - 1] = arguments[i];
-            }
-        }
-        queue.push(new Item(fun, args));
-        if (queue.length === 1 && !draining) {
-            runTimeout(drainQueue);
-        }
-    };
-
-    // v8 likes predictible objects
-    function Item(fun, array) {
-        this.fun = fun;
-        this.array = array;
-    }
-    Item.prototype.run = function () {
-        this.fun.apply(null, this.array);
-    };
-    process.title = 'browser';
-    process.browser = true;
-    process.env = {};
-    process.argv = [];
-    process.version = ''; // empty string to avoid regexp issues
-    process.versions = {};
-
-    function noop() {}
-
-    process.on = noop;
-    process.addListener = noop;
-    process.once = noop;
-    process.off = noop;
-    process.removeListener = noop;
-    process.removeAllListeners = noop;
-    process.emit = noop;
-    process.prependListener = noop;
-    process.prependOnceListener = noop;
-
-    process.listeners = function (name) {
-        return [];
-    };
-
-    process.binding = function (name) {
-        throw new Error('process.binding is not supported');
-    };
-
-    process.cwd = function () {
-        return '/';
-    };
-    process.chdir = function (dir) {
-        throw new Error('process.chdir is not supported');
-    };
-    process.umask = function () {
-        return 0;
-    };
-});
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(15)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (typeof exports !== "undefined") {
-		factory(exports, require("deepmerge"));
+		factory(module);
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod.exports, global.deepmerge);
-		global.core = mod.exports;
+		factory(mod);
+		global.devtools = mod.exports;
 	}
-})(this, function (exports) {
-	"use strict";
+})(this, function (module) {
+	'use strict';
 
-	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-		return typeof obj;
-	} : function (obj) {
-		return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+	module.exports = function unistoreDevTools(store) {
+		var extension = window.__REDUX_DEVTOOLS_EXTENSION__ || window.top.__REDUX_DEVTOOLS_EXTENSION__;
+		var ignoreState = false;
+
+		if (!extension) {
+			console.warn('Please install/enable Redux devtools extension');
+			store.devtools = null;
+
+			return store;
+		}
+
+		if (!store.devtools) {
+			store.devtools = extension.connect();
+			store.devtools.subscribe(function (message) {
+				if (message.type === 'DISPATCH' && message.state) {
+					ignoreState = message.payload.type === 'JUMP_TO_ACTION' || message.payload.type === 'JUMP_TO_STATE';
+					store.setState(JSON.parse(message.state), true);
+				}
+			});
+			store.devtools.init(store.getState());
+			store.subscribe(function (state, action) {
+				var actionName = action && action.name || 'setState';
+
+				if (!ignoreState) {
+					store.devtools.send(actionName, state);
+				} else {
+					ignoreState = false;
+				}
+			});
+		}
+
+		return store;
 	};
+});
 
-	(function (global, factory) {
-		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(15)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof exports !== "undefined") {
-			factory(exports);
-		} else {
-			var mod = {
-				exports: {}
-			};
-			factory(mod.exports, global.deepmerge);
-			global.core = mod.exports;
-		}
-	})(undefined, function (exports, _deepmerge2) {
-		"use strict";
+  } else if (typeof exports !== "undefined") {
+    factory(module, exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod, mod.exports);
+    global.unistoreEs = mod.exports;
+  }
+})(this, function (module, exports) {
+  "use strict";
 
-		Object.defineProperty(exports, "__esModule", {
-			value: true
-		});
-		exports.isUndefined = exports.deepmerge = undefined;
-		exports.hasClass = hasClass;
-		exports.addClass = addClass;
-		exports.removeClass = removeClass;
-		exports.getPrefixes = getPrefixes;
-		exports.titleCase = titleCase;
-		exports.runPrefixMethod = runPrefixMethod;
-		exports.toHHMMSS = toHHMMSS;
-		exports.getElementOffset = getElementOffset;
-		exports.getColorMap = getColorMap;
-		exports.parseText = parseText;
-		exports.isIE = isIE;
-		exports.insertAtCursor = insertAtCursor;
-		exports.capitalizeKeys = capitalizeKeys;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
 
-		var _deepmerge3 = _interopRequireDefault(_deepmerge2);
+  exports.default = function (t) {
+    var r = [];function u(n) {
+      for (var t = [], u = 0; u < r.length; u++) {
+        r[u] === n ? n = null : t.push(r[u]);
+      }r = t;
+    }function e(u, e, f) {
+      t = e ? u : n(n({}, t), u);for (var i = r, o = 0; o < i.length; o++) {
+        i[o](t, f);
+      }
+    }return t = t || {}, { action: function action(n) {
+        function r(t) {
+          e(t, !1, n);
+        }return function () {
+          for (var u = arguments, e = [t], f = 0; f < arguments.length; f++) {
+            e.push(u[f]);
+          }var i = n.apply(this, e);if (null != i) return i.then ? i.then(r) : r(i);
+        };
+      }, setState: e, subscribe: function subscribe(n) {
+        return r.push(n), function () {
+          u(n);
+        };
+      }, unsubscribe: u, getState: function getState() {
+        return t;
+      } };
+  };
 
-		function _interopRequireDefault(obj) {
-			return obj && obj.__esModule ? obj : {
-				default: obj
-			};
-		}
+  function n(n, t) {
+    for (var r in t) {
+      n[r] = t[r];
+    }return n;
+  };
+  //# sourceMappingURL=unistore.es.js.map
 
-		var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-			return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-		} : function (obj) {
-			return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-		};
+  module.exports = exports["default"];
+});
 
-		var colorMap = {};
-		exports.deepmerge = _deepmerge3.default;
+/***/ }),
 
-		/**
-   * Throws an error if the passed string has whitespace. This is used by
-   * class methods to be relatively consistent with the classList API.
+/***/ 24:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(module);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod);
+    global.index = mod.exports;
+  }
+})(this, function (module) {
+  /*!
+   * isobject <https://github.com/jonschlinkert/isobject>
    *
-   * @param {string} str
-   *         The string to check for whitespace.
-   *
-   * @throws {Error}
-   *         Throws an error if there is whitespace in the string.
-   *
+   * Copyright (c) 2014-2017, Jon Schlinkert.
+   * Released under the MIT License.
    */
-		function throwIfWhitespace(str) {
-			if (/\s/.test(str)) {
-				throw new Error("class has illegal whitespace characters");
-			}
-		}
 
-		/**
-   * Produce a regular expression for matching a className within an elements className.
-   *
-   * @param {string} className
-   *         The className to generate the RegExp for.
-   *
-   * @return {RegExp}
-   *         The RegExp that will check for a specific `className` in an elements
-   *         className.
-   */
-		function classRegExp(className) {
-			return new RegExp("(^|\\s)" + className + "($|\\s)");
-		}
+  'use strict';
 
-		/**
-   * Check if an element has a CSS class
-   *
-   * @param {Element} element
-   *        Element to check
-   *
-   * @param {string} classToCheck
-   *        Class name to check for
-   *
-   * @return {boolean}
-   *         - True if the element had the class
-   *         - False otherwise.
-   *
-   * @throws {Error}
-   *         Throws an error if `classToCheck` has white space.
-   */
-		function hasClass(element, classToCheck) {
-			throwIfWhitespace(classToCheck);
-			if (element.classList) {
-				return element.classList.contains(classToCheck);
-			}
-			return classRegExp(classToCheck).test(element.className);
-		}
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
 
-		/**
-   * Add a CSS class name to an element
-   *
-   * @param {Element} element
-   *        Element to add class name to.
-   *
-   * @param {string} classToAdd
-   *        Class name to add.
-   *
-   * @return {Element}
-   *         The dom element with the added class name.
-   */
-		function addClass(element, classToAdd) {
-			if (element.classList) {
-				element.classList.add(classToAdd);
-
-				// Don't need to `throwIfWhitespace` here because `hasElClass` will do it
-				// in the case of classList not being supported.
-			} else if (!hasClass(element, classToAdd)) {
-				element.className = (element.className + " " + classToAdd).trim();
-			}
-
-			return element;
-		}
-
-		/**
-   * Remove a CSS class name from an element
-   *
-   * @param {Element} element
-   *        Element to remove a class name from.
-   *
-   * @param {string} classToRemove
-   *        Class name to remove
-   *
-   * @return {Element}
-   *         The dom element with class name removed.
-   */
-		function removeClass(element, classToRemove) {
-			if (element.classList) {
-				element.classList.remove(classToRemove);
-			} else {
-				throwIfWhitespace(classToRemove);
-				element.className = element.className.split(/\s+/).filter(function (c) {
-					return c !== classToRemove;
-				}).join(" ");
-			}
-
-			return element;
-		}
-
-		function getPrefixes() {
-			var pfx = ["webkit", "moz", "ms", "o", "", "MS"];
-			return pfx;
-		}
-
-		var isUndefined = exports.isUndefined = function isUndefined(value) {
-			return typeof value === "undefined";
-		};
-
-		function titleCase(str) {
-			str = str.toLowerCase().split(" ");
-			for (var i = 0; i < str.length; i++) {
-				str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-			}
-			return str.join(" ");
-		}
-
-		function runPrefixMethod(obj, method) {
-			var pfx = getPrefixes();
-			var p = 0,
-			    m,
-			    t;
-			while (p < pfx.length && !obj[m]) {
-				m = method;
-				if (pfx[p] == "") {
-					m = m.substr(0, 1).toLowerCase() + m.substr(1);
-				}
-				m = pfx[p] + m;
-				t = _typeof(obj[m]);
-				if (t != "undefined") {
-					pfx = [pfx[p]];
-					return t == "function" ? obj[m]() : obj[m];
-				}
-				p++;
-			}
-		}
-
-		function toHHMMSS(str) {
-			if (!str) {
-				return "00:00";
-			}
-			var sec_num = Math.round(str);
-			var hours = Math.floor(sec_num / 3600);
-			var minutes = Math.floor((sec_num - hours * 3600) / 60);
-			var seconds = sec_num - hours * 3600 - minutes * 60;
-			if (hours < 10) {
-				hours = "0" + hours;
-			}
-			if (minutes < 10) {
-				minutes = "0" + minutes;
-			}
-			if (seconds < 10) {
-				seconds = "0" + seconds;
-			}
-			var minsec = minutes + ":" + seconds;
-			return hours != "00" ? hours + ":" + minsec : minsec;
-		}
-
-		function getElementOffset(element) {
-			var de = document.documentElement;
-			var box = element.getBoundingClientRect();
-			var top = box.top + window.pageYOffset - de.clientTop;
-			var left = box.left + window.pageXOffset - de.clientLeft;
-			return { top: top, left: left };
-		}
-
-		function getColorMap(authors) {
-			if (!authors || !authors.length) {
-				return colorMap;
-			}
-			var colors = ["#0ed5c9", "#069eff", "#000000"];
-			var j = 0;
-			authors.map(function (author) {
-				if (!colorMap[author]) {
-					colorMap[author] = colors[j++];
-				}
-			});
-			return colorMap;
-		}
-
-		function parseText(text) {
-			if (!text) {
-				return "";
-			}
-			return text.replace(/\r?\n/g, "\n");
-		}
-
-		function isIE() {
-			var ua = window.navigator.userAgent;
-
-			var msie = ua.indexOf("MSIE ");
-			if (msie > 0) {
-				// IE 10 or older => return version number
-				return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
-			}
-
-			var trident = ua.indexOf("Trident/");
-			if (trident > 0) {
-				// IE 11 => return version number
-				var rv = ua.indexOf("rv:");
-				return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
-			}
-
-			var edge = ua.indexOf("Edge/");
-			if (edge > 0) {
-				// Edge (IE 12+) => return version number
-				return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
-			}
-
-			// other browser
-			return false;
-		}
-
-		function insertAtCursor(myField, myValue) {
-			var sel = void 0;
-			//IE support
-			if (document.selection) {
-				myField.focus();
-				sel = document.selection.createRange();
-				sel.text = myValue;
-			} else if (myField.selectionStart || myField.selectionStart == "0") {
-				//MOZILLA and others
-				var startPos = myField.selectionStart;
-				var endPos = myField.selectionEnd;
-				myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-			} else {
-				myField.value += myValue;
-			}
-		}
-
-		function capitalizeKeys(obj) {
-			var isObject = function isObject(o) {
-				return Object.prototype.toString.apply(o) === "[object Object]";
-			};
-			var isArray = function isArray(o) {
-				return Object.prototype.toString.apply(o) === "[object Array]";
-			};
-
-			var transformedObj = isArray(obj) ? [] : {};
-
-			for (var key in obj) {
-				var transformedKey = key.replace(/^\w/, function (c) {
-					return c.toUpperCase();
-				});
-				if (isObject(obj[key]) || isArray(obj[key])) {
-					transformedObj[transformedKey] = capitalizeKeys(obj[key]);
-				} else {
-					transformedObj[transformedKey] = obj[key];
-				}
-			}
-			return transformedObj;
-		}
-	});
+  module.exports = function isObject(val) {
+    return val != null && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && Array.isArray(val) === false;
+  };
 });
 
 /***/ }),
@@ -3145,12 +3267,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 90:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(143)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(147)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3194,16 +3316,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     globalNS.Promise = _index2.default;
   }
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 
-/***/ 91:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(3), __webpack_require__(93), __webpack_require__(92)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(1), __webpack_require__(97), __webpack_require__(96)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3227,7 +3349,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(3), __webpack_require__(93), __webpack_require__(92)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(1), __webpack_require__(97), __webpack_require__(96)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3340,18 +3462,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					    _this$props$pitchPace = _this$props.pitchPace,
 					    pitchPace = _this$props$pitchPace === undefined ? {} : _this$props$pitchPace;
 
-					var pitchLengthProps = {
-						current: pitchLength.current,
-						average: pitchLength.average,
-						expected: pitchLength.expected,
-						chartType: "pace"
-					};
-					var pitchPaceProps = {
-						current: pitchPace.current,
-						average: pitchPace.average,
-						expected: pitchPace.expected,
+					var pitchLengthProps = _extends({}, pitchLength, {
 						chartType: "length"
-					};
+					});
+					var pitchPaceProps = _extends({}, pitchPace, {
+						chartType: "pace"
+					});
 					return {
 						pitchLength: pitchLengthProps,
 						pitchPace: pitchPaceProps
@@ -3367,9 +3483,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			}, {
 				key: "render",
 				value: function render(_ref2) {
-					var isLoading = _ref2.isLoading;
+					var isLoading = _ref2.isLoading,
+					    error = _ref2.error,
+					    userName = _ref2.userName;
 
-					if ((0, _core.isUndefined)(isLoading) || isLoading) {
+					if ((0, _core.isUndefined)(isLoading) || isLoading || !(0, _core.isUndefined)(error)) {
 						return null;
 					}
 
@@ -3377,7 +3495,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					    pitchLength = _getProps.pitchLength,
 					    pitchPace = _getProps.pitchPace;
 
-					return (0, _preact.h)("div", null, (0, _preact.h)(_PitchChart2.default, _extends({}, pitchLength, { style: "width:325px; height:200px; float:left" })), (0, _preact.h)(_PitchChart2.default, _extends({}, pitchPace, { style: "width:325px; height:200px; float:right" })));
+					return (0, _preact.h)("div", null, !(0, _core.isEmpty)(this.props.pitchLength) && (0, _preact.h)(_PitchChart2.default, _extends({}, pitchLength, {
+						userName: userName,
+						style: "width:324px; height:250px; float:left"
+					})), !(0, _core.isEmpty)(this.props.pitchPace) && (0, _preact.h)(_PitchChart2.default, _extends({}, pitchPace, {
+						userName: userName,
+						style: "width:324px; height:250px; float:right"
+					})));
 				}
 			}]);
 
@@ -3388,12 +3512,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			var _ref3 = state.pitch || {},
 			    _ref3$data = _ref3.data,
 			    data = _ref3$data === undefined ? {} : _ref3$data,
-			    isLoading = _ref3.isLoading;
+			    isLoading = _ref3.isLoading,
+			    error = _ref3.error;
+
+			var userName = state.app.userName;
 
 			return {
 				pitchLength: data.pitchLength,
 				pitchPace: data.pitchPace,
-				isLoading: isLoading
+				isLoading: isLoading,
+				error: error,
+				userName: userName
 			};
 		}
 
@@ -3404,22 +3533,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 92:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (typeof exports !== "undefined") {
-		factory(module, exports);
+		factory(module, exports, require("@utils/core"));
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod, mod.exports);
+		factory(mod, mod.exports, global.core);
 		global.actions = mod.exports;
 	}
 })(this, function (module, exports) {
@@ -3427,7 +3556,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3437,10 +3566,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			var mod = {
 				exports: {}
 			};
-			factory(mod, mod.exports);
+			factory(mod, mod.exports, global.core);
 			global.actions = mod.exports;
 		}
-	})(undefined, function (module, exports) {
+	})(undefined, function (module, exports, _core) {
 		"use strict";
 
 		Object.defineProperty(exports, "__esModule", {
@@ -3461,8 +3590,33 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			return target;
 		};
 
-		// import { get } from "@utils/apiUtils";
 		// import apiConfig from "./api.config";
+
+		var getLabel = function getLabel(value) {
+			if ((0, _core.isUndefined)(value)) return "";
+			return value > 60 ? (value / 60).toFixed(2) + " min" : value + " sec";
+		};
+
+		var pitchParser = function pitchParser(length, pace) {
+			var result = { pitchLength: {}, pitchPace: {} };
+			if (!(0, _core.isEmpty)(length)) result.pitchLength = {
+				average: length.averageLength,
+				current: length.contentLength,
+				expected: length.targetLength,
+				averageLabel: getLabel(length.averageLength),
+				currentLabel: getLabel(length.contentLength),
+				expectedLabel: getLabel(length.targetLength)
+			};
+			if (!(0, _core.isEmpty)(pace)) result.pitchPace = {
+				average: pace.averagePace,
+				current: pace.contentPace,
+				expected: pace.industryPace,
+				averageLabel: Math.round(pace.averagePace),
+				currentLabel: Math.round(pace.contentPace) + " words/min",
+				expectedLabel: Math.round(pace.industryPace)
+			};
+			return result;
+		};
 
 		var actions = function actions() {
 			return {
@@ -3473,30 +3627,40 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						}
 					}));
 					return Promise.resolve({
-						pitchLength: {
-							current: 11,
-							average: 10,
-							expected: 12
+						length: {
+							averageLength: 30,
+							contentLength: 15,
+							targetLength: 90
 						},
-						pitchPace: {
-							current: 11,
-							average: 10,
-							expected: 12
+						pace: {
+							averagePace: 4.761904761904763,
+							contentPace: 4.761904761904763,
+							industryPace: 2.5
 						}
 					}).then(function () {
-						var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+						var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+						    length = _ref.length,
+						    pace = _ref.pace;
 
 						setState(_extends({}, state, {
-							pitch: { isLoading: false, data: data }
+							pitch: { isLoading: false, data: pitchParser(length, pace) }
 						}));
 					});
-					// return get(apiConfig.getPitchData()).then(
+					// return get(apiConfig.getPitchData(state.app)).then(
 					// 	response => {
-					// 		if (!response.id) {
-					// 			return {};
-					// 		}
+					// 		const { length = {}, pace = {} } = response;
+
+					// 		setState({
+					// 			...state,
+					// 			pitch: { isLoading: false, data:pitchParser(length, pace) }
+					// 		});
 					// 	},
-					// 	() => {}
+					// 	error => {
+					// 		setState({
+					// 			...state,
+					// 			pitch: { isLoading: false, error: error }
+					// 		});
+					// 	}
 					// );
 				}
 			};
@@ -3509,12 +3673,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 93:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(95), __webpack_require__(94)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(99), __webpack_require__(98)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3538,7 +3702,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(95), __webpack_require__(94)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(99), __webpack_require__(98)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3640,23 +3804,29 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					    average = _props.average,
 					    current = _props.current,
 					    expected = _props.expected,
-					    chartType = _props.chartType;
+					    chartType = _props.chartType,
+					    expectedLabel = _props.expectedLabel,
+					    averageLabel = _props.averageLabel,
+					    currentLabel = _props.currentLabel,
+					    userName = _props.userName;
 
 					var config = (0, _constants.GET_CHART_CONFIG_BY_TYPE)({
 						chartType: chartType,
 						expected: expected,
-						expectedLabel: "sa",
-						averageLabel: "a",
-						currentLabel: "adsad",
+						expectedLabel: expectedLabel,
+						averageLabel: averageLabel,
+						currentLabel: currentLabel,
 						average: average,
-						current: current
+						current: current,
+						userName: userName
 					});
 					return _highcharts2.default.chart(this.getChartContainerId(), config);
 				}
 			}, {
 				key: "render",
 				value: function render(_ref2) {
-					var style = _ref2.style;
+					var style = _ref2.style,
+					    userName = _ref2.userName;
 
 					var id = this.getChartContainerId();
 					return (0, _preact.h)("div", { style: style, id: id });
@@ -3673,271 +3843,283 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 94:
+/***/ 98:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(3)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof exports !== "undefined") {
-        factory(exports, require("@utils/core"));
-    } else {
-        var mod = {
-            exports: {}
-        };
-        factory(mod.exports, global.core);
-        global.constants = mod.exports;
-    }
+	} else if (typeof exports !== "undefined") {
+		factory(exports, require("@utils/core"));
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod.exports, global.core);
+		global.constants = mod.exports;
+	}
 })(this, function (exports) {
-    "use strict";
+	"use strict";
 
-    (function (global, factory) {
-        if (true) {
-            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(3)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+	(function (global, factory) {
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-        } else if (typeof exports !== "undefined") {
-            factory(exports);
-        } else {
-            var mod = {
-                exports: {}
-            };
-            factory(mod.exports, global.core);
-            global.constants = mod.exports;
-        }
-    })(undefined, function (exports, _core) {
-        "use strict";
+		} else if (typeof exports !== "undefined") {
+			factory(exports);
+		} else {
+			var mod = {
+				exports: {}
+			};
+			factory(mod.exports, global.core);
+			global.constants = mod.exports;
+		}
+	})(undefined, function (exports, _core) {
+		"use strict";
 
-        Object.defineProperty(exports, "__esModule", {
-            value: true
-        });
-        exports.GET_CHART_CONFIG_BY_TYPE = exports.COMMON_HIGHCHART_CONFIG = exports.CHART_TYPE = undefined;
-        var CHART_TYPE = exports.CHART_TYPE = {
-            PITCH_PACE: "pace",
-            PITCH_LENGTH: "length"
-        };
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+		exports.GET_CHART_CONFIG_BY_TYPE = exports.COMMON_HIGHCHART_CONFIG = exports.CHART_TYPE = undefined;
+		var CHART_TYPE = exports.CHART_TYPE = {
+			PITCH_PACE: "pace",
+			PITCH_LENGTH: "length"
+		};
 
-        var COMMON_HIGHCHART_CONFIG = exports.COMMON_HIGHCHART_CONFIG = {
-            title: {
-                align: "left",
-                style: {
-                    fontWeight: "normal",
-                    fontSize: "12px",
-                    color: "#949494"
-                }
-            },
-            subtitle: {
-                align: "left",
-                style: {
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    color: "#000000"
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            chart: {
-                borderWidth: 1,
-                borderColor: "#e0e0e0"
-            },
-            yAxis: {
-                labels: {
-                    enabled: false
-                },
-                title: {
-                    enabled: false
-                },
-                lineWidth: 1,
-                lineColor: "#b1b1b1",
-                gridLineWidth: 0
-            },
-            exporting: {
-                enabled: false
-            },
-            tooltip: {
-                enabled: false
-            },
-            legend: {
-                align: "left",
-                itemDistance: 5,
-                itemStyle: {
-                    fontSize: "10px",
-                    fontWeight: "normal",
-                    cursor: "default"
-                }
-            },
-            plotOptions: {
-                series: {
-                    states: {
-                        hover: {
-                            enabled: false
-                        }
-                    },
-                    label: {
-                        enabled: false
-                    },
-                    marker: {
-                        enabled: false
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        formatter: function formatter() {
-                            if (this.x == 3) return this.point.label;
-                        }
-                    },
-                    events: {
-                        legendItemClick: function legendItemClick() {
-                            return false;
-                        }
-                    },
-                    allowPointSelect: false
-                },
-                line: {
-                    dashStyle: "dash"
-                },
-                bar: {
-                    pointWidth: 20
-                }
-            }
-        };
+		var COMMON_HIGHCHART_CONFIG = exports.COMMON_HIGHCHART_CONFIG = {
+			title: {
+				align: "left",
+				style: {
+					fontWeight: "normal",
+					fontSize: "11px",
+					color: "#666666"
+				}
+			},
+			subtitle: {
+				align: "left",
+				style: {
+					fontWeight: "600",
+					fontSize: "16px",
+					color: "#000000"
+				}
+			},
+			credits: {
+				enabled: false
+			},
+			chart: {
+				borderWidth: 1,
+				borderColor: "#e0e0e0",
+				spacing: [20, 20, 20, 20],
+				marginTop: 80,
+				style: {
+					fontFamily: "Open Sans"
+				}
+			},
+			yAxis: {
+				labels: {
+					enabled: false
+				},
+				title: {
+					enabled: false
+				},
+				lineWidth: 1,
+				lineColor: "#b1b1b1",
+				gridLineWidth: 0
+			},
+			exporting: {
+				enabled: false
+			},
+			tooltip: {
+				enabled: false
+			},
+			legend: {
+				align: "left",
+				itemMarginBottom: 3,
+				itemStyle: {
+					fontSize: "12px",
+					fontWeight: "normal",
+					cursor: "default",
+					color: "#999999"
+				}
+			},
+			plotOptions: {
+				series: {
+					states: {
+						hover: {
+							enabled: false
+						}
+					},
+					label: {
+						enabled: false
+					},
+					marker: {
+						enabled: false
+					},
+					dataLabels: {
+						enabled: true,
+						formatter: function formatter() {
+							if (this.x == 0) return this.point.label;
+						}
+					},
+					events: {
+						legendItemClick: function legendItemClick() {
+							return false;
+						}
+					},
+					allowPointSelect: false
+				},
+				line: {
+					dashStyle: "dash"
+				},
+				bar: {
+					pointWidth: 20
+				}
+			}
+		};
 
-        var HIGHCHART_CONSTANT_BY_CHART_TYPE = function HIGHCHART_CONSTANT_BY_CHART_TYPE(_ref) {
-            var chartType = _ref.chartType,
-                userName = _ref.userName,
-                average = _ref.average,
-                current = _ref.current,
-                expected = _ref.expected,
-                averageLabel = _ref.averageLabel,
-                expectedLabel = _ref.expectedLabel,
-                currentLabel = _ref.currentLabel;
+		var HIGHCHART_CONSTANT_BY_CHART_TYPE = function HIGHCHART_CONSTANT_BY_CHART_TYPE(_ref) {
+			var chartType = _ref.chartType,
+			    userName = _ref.userName,
+			    average = _ref.average,
+			    current = _ref.current,
+			    expected = _ref.expected,
+			    averageLabel = _ref.averageLabel,
+			    expectedLabel = _ref.expectedLabel,
+			    currentLabel = _ref.currentLabel;
 
-            var highchartConstants = {};
-            highchartConstants.subtitle = currentLabel;
-            highchartConstants.average = {
-                label: averageLabel,
-                seriesName: "Avg for this submission",
-                value: average
-            };
-            highchartConstants.expected = {
-                label: expectedLabel,
-                seriesName: "Expected length of submission",
-                value: expected
-            };
-            highchartConstants.current = {
-                label: currentLabel,
-                value: current,
-                seriesName: "Learner"
-            };
-            switch (chartType) {
-                case CHART_TYPE.PITCH_PACE:
-                    highchartConstants.title = "PITCH PACE OF " + userName;
-                    highchartConstants.xAxis = {
-                        category: "Length"
-                    };
-                    break;
-                case CHART_TYPE.PITCH_LENGTH:
-                    highchartConstants.title = "LENGTH OF SUBMISSION OF " + userName;
-                    highchartConstants.xAxis = {
-                        category: "Pace"
-                    };
-                    break;
-            }
-            return highchartConstants;
-        };
+			var highchartConstants = {};
+			highchartConstants.subtitle = currentLabel;
+			highchartConstants.average = {
+				label: averageLabel,
+				seriesName: "Avg for this submission",
+				value: average
+			};
+			highchartConstants.current = {
+				label: currentLabel,
+				value: current,
+				seriesName: "Learner"
+			};
+			switch (chartType) {
+				case CHART_TYPE.PITCH_PACE:
+					highchartConstants.title = "PITCH PACE OF " + userName;
+					highchartConstants.xAxis = {
+						category: "Pace"
+					};
+					highchartConstants.expected = {
+						label: expectedLabel,
+						seriesName: "Industry Standard",
+						value: expected
+					};
+					break;
+				case CHART_TYPE.PITCH_LENGTH:
+					highchartConstants.title = "LENGTH OF SUBMISSION OF " + userName;
+					highchartConstants.xAxis = {
+						category: "length"
+					};
+					highchartConstants.expected = {
+						label: expectedLabel,
+						seriesName: "Expected length of submission",
+						value: expected
+					};
+					break;
+			}
+			return highchartConstants;
+		};
 
-        var GET_LINE_CHART_DATA = function GET_LINE_CHART_DATA(_ref2) {
-            var value = _ref2.value,
-                label = _ref2.label;
+		var GET_LINE_CHART_DATA = function GET_LINE_CHART_DATA(_ref2) {
+			var value = _ref2.value,
+			    label = _ref2.label;
 
-            var result = [];
-            for (var i = 0; i < 10; i++) {
-                result.push({
-                    y: value,
-                    label: label
-                });
-            }
-            return result;
-        };
+			var result = [];
+			for (var i = 0; i < 10; i++) {
+				result.push({
+					y: value,
+					label: label
+				});
+			}
+			return result;
+		};
 
-        var GET_CHART_CONFIG_BY_TYPE = exports.GET_CHART_CONFIG_BY_TYPE = function GET_CHART_CONFIG_BY_TYPE(params) {
-            var highchartConstants = HIGHCHART_CONSTANT_BY_CHART_TYPE(params);
+		var GET_CHART_CONFIG_BY_TYPE = exports.GET_CHART_CONFIG_BY_TYPE = function GET_CHART_CONFIG_BY_TYPE(params) {
+			var highchartConstants = HIGHCHART_CONSTANT_BY_CHART_TYPE(params);
 
-            var config = {
-                title: {
-                    text: highchartConstants.title
-                },
-                subtitle: {
-                    text: highchartConstants.subtitle
-                },
-                xAxis: [{
-                    categories: [highchartConstants.xAxis.category],
-                    tickWidth: 0,
-                    lineColor: "#b1b1b1",
-                    labels: {
-                        style: {
-                            color: "#000000"
-                        }
-                    }
-                }, {
-                    opposite: true,
-                    visible: false
-                }],
-                series: [{
-                    name: highchartConstants.average.seriesName,
-                    color: "#82c984",
-                    data: [],
-                    legendIndex: 1,
-                    type: "bar"
-                }, {
-                    name: highchartConstants.current.seriesName,
-                    type: "bar",
-                    xAxis: 0,
-                    color: "#ffa800",
-                    legendIndex: 0,
-                    data: [highchartConstants.current.value]
-                }, {
-                    name: highchartConstants.expected.seriesName,
-                    color: "#58a6ec",
-                    data: [],
-                    legendIndex: 2,
-                    type: "bar"
-                }, {
-                    name: highchartConstants.average.value,
-                    type: "line",
-                    showInLegend: false,
-                    xAxis: 1,
-                    color: "#82c984",
-                    dataLabels: {
-                        align: "right",
-                        color: "#82c984"
-                    },
-                    data: GET_LINE_CHART_DATA(highchartConstants.average)
-                }, {
-                    name: highchartConstants.expected.value,
-                    type: "line",
-                    xAxis: 1,
-                    showInLegend: false,
-                    dataLabels: {
-                        align: "left",
-                        color: "#58a6ec"
-                    },
-                    color: "#58a6ec",
-                    data: GET_LINE_CHART_DATA(highchartConstants.expected)
-                }]
-            };
-            return (0, _core.deepmerge)(COMMON_HIGHCHART_CONFIG, config);
-        };
-    });
+			var config = {
+				title: {
+					text: highchartConstants.title
+				},
+				subtitle: {
+					text: highchartConstants.subtitle
+				},
+				xAxis: [{
+					categories: [highchartConstants.xAxis.category],
+					tickWidth: 0,
+					lineColor: "#b1b1b1",
+					labels: {
+						style: {
+							color: "#000000"
+						}
+					}
+				}, {
+					opposite: true,
+					visible: false
+				}],
+				series: [{
+					name: highchartConstants.average.seriesName,
+					color: "#58b75b",
+					data: [],
+					legendIndex: 1,
+					type: "bar"
+				}, {
+					name: highchartConstants.current.seriesName,
+					type: "bar",
+					xAxis: 0,
+					color: "#ffa800",
+					legendIndex: 0,
+					data: [highchartConstants.current.value]
+				}, {
+					name: highchartConstants.expected.seriesName,
+					color: "#1e88e5",
+					data: [],
+					legendIndex: 2,
+					type: "bar"
+				}, {
+					name: highchartConstants.average.value,
+					type: "line",
+					showInLegend: false,
+					xAxis: 1,
+					color: "#58b75b",
+					dataLabels: {
+						align: highchartConstants.average.value < highchartConstants.expected.value ? "right" : "left",
+						color: "#58b75b"
+					},
+					data: GET_LINE_CHART_DATA(highchartConstants.average)
+				}, {
+					name: highchartConstants.expected.value,
+					type: "line",
+					xAxis: 1,
+					showInLegend: false,
+					dataLabels: {
+						align: highchartConstants.expected.value < highchartConstants.average.value ? "right" : "left",
+						color: "#1e88e5"
+					},
+					color: "#1e88e5",
+					data: GET_LINE_CHART_DATA(highchartConstants.expected)
+				}]
+			};
+			debugger; //eslint-disable-line
+			return (0, _core.deepmerge)(COMMON_HIGHCHART_CONFIG, config);
+		};
+	});
 });
 
 /***/ }),
 
-/***/ 95:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {

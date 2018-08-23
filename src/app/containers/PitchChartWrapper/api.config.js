@@ -1,9 +1,10 @@
 let apiUrls = {
-	getPitchData({ cname, subjectId, entityId, learnerId }) {
+	getPitchData({ cname, subjectId, entityId }) {
 		return {
-			url: `/${cname}/social/mission?submissionId=${subjectId}&entityId=${entityId}&learnerId=${learnerId}`
+			url: `/${cname}/entity/${entityId}/${subjectId}/pace_and_length`
 		};
 	}
 };
 
 export default apiUrls;
+
