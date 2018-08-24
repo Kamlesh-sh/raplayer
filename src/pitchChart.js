@@ -4,7 +4,8 @@ import { Provider } from "unistore/preact";
 import "promise-polyfill/src/polyfill";
 import "whatwg-fetch";
 
-import App from "./app/containers/PitchChartWrapper";
+window.Highcharts = undefined; // hack for aa-java
+const App = require("./app/containers/PitchChartWrapper");
 
 let count = 0;
 
