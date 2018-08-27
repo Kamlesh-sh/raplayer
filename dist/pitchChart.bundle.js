@@ -2781,6 +2781,67 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ 150:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(module, exports);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod, mod.exports);
+		global.apiConfig = mod.exports;
+	}
+})(this, function (module, exports) {
+	"use strict";
+
+	(function (global, factory) {
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof exports !== "undefined") {
+			factory(module, exports);
+		} else {
+			var mod = {
+				exports: {}
+			};
+			factory(mod, mod.exports);
+			global.apiConfig = mod.exports;
+		}
+	})(undefined, function (module, exports) {
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+		var apiUrls = {
+			getPitchData: function getPitchData(_ref) {
+				var cname = _ref.cname,
+				    subjectId = _ref.subjectId,
+				    entityId = _ref.entityId;
+
+				return {
+					url: "/" + cname + "/entity/" + entityId + "/" + subjectId + "/pace_and_length"
+				};
+			}
+		};
+
+		exports.default = apiUrls;
+		module.exports = exports["default"];
+	});
+});
+
+/***/ }),
+
 /***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3116,6 +3177,135 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   module.exports = function isObject(val) {
     return val != null && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && Array.isArray(val) === false;
   };
+});
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(exports);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod.exports);
+		global.apiUtils = mod.exports;
+	}
+})(this, function (exports) {
+	"use strict";
+
+	(function (global, factory) {
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof exports !== "undefined") {
+			factory(exports);
+		} else {
+			var mod = {
+				exports: {}
+			};
+			factory(mod.exports);
+			global.apiUtils = mod.exports;
+		}
+	})(undefined, function (exports) {
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+
+		var _extends = Object.assign || function (target) {
+			for (var i = 1; i < arguments.length; i++) {
+				var source = arguments[i];
+
+				for (var key in source) {
+					if (Object.prototype.hasOwnProperty.call(source, key)) {
+						target[key] = source[key];
+					}
+				}
+			}
+
+			return target;
+		};
+
+		var getHeaders = function getHeaders() {
+			var headers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+			var additionalHeaders = {
+				"Content-Type": "application/json"
+			};
+			return _extends({}, additionalHeaders, headers);
+		};
+
+		var makeCall = function makeCall(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			return fetch(urlObj.url, _extends({}, reqObj, { credentials: "same-origin" })).then(function (resp) {
+				var json = void 0;
+				if (resp.ok) {
+					json = resp.json();
+				}
+				if (resp.status >= 200 && resp.status < 300) {
+					return json;
+				} else {
+					return Promise.reject(Error("error"));
+				}
+			}).catch(function (error) {
+				return Promise.reject(Error(error.message));
+			});
+		};
+
+		var get = function get(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "GET";
+			reqObj.headers = getHeaders(reqObj.headers);
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+
+		var post = function post(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "POST";
+			reqObj.headers = getHeaders(reqObj.headers);
+			if (reqObj.body && reqObj.headers["Content-Type"] === "application/json") {
+				reqObj.body = JSON.stringify(reqObj.body);
+			}
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+
+		var put = function put(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "PUT";
+			reqObj.headers = getHeaders(reqObj.headers);
+			if (reqObj.body && reqObj.headers["Content-Type"] === "application/json") {
+				reqObj.body = JSON.stringify(reqObj.body);
+			}
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+		var del = function del(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "DELETE";
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+
+		exports.get = get;
+		exports.post = post;
+		exports.put = put;
+		exports.del = del;
+	});
 });
 
 /***/ }),
@@ -3538,17 +3728,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(31), __webpack_require__(1), __webpack_require__(150)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (typeof exports !== "undefined") {
-		factory(module, exports, require("@utils/core"));
+		factory(module, exports, require("@utils/apiUtils"), require("@utils/core"), require("./api.config"));
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod, mod.exports, global.core);
+		factory(mod, mod.exports, global.apiUtils, global.core, global.api);
 		global.actions = mod.exports;
 	}
 })(this, function (module, exports) {
@@ -3556,7 +3746,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(31), __webpack_require__(1), __webpack_require__(150)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3566,15 +3756,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			var mod = {
 				exports: {}
 			};
-			factory(mod, mod.exports, global.core);
+			factory(mod, mod.exports, global.apiUtils, global.core, global.api);
 			global.actions = mod.exports;
 		}
-	})(undefined, function (module, exports, _core) {
+	})(undefined, function (module, exports, _apiUtils, _core, _api) {
 		"use strict";
 
 		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
+
+		var _api2 = _interopRequireDefault(_api);
+
+		function _interopRequireDefault(obj) {
+			return obj && obj.__esModule ? obj : {
+				default: obj
+			};
+		}
 
 		var _extends = Object.assign || function (target) {
 			for (var i = 1; i < arguments.length; i++) {
@@ -3589,8 +3787,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 			return target;
 		};
-
-		// import apiConfig from "./api.config";
 
 		var getLabel = function getLabel(value) {
 			if ((0, _core.isUndefined)(value)) return "";
@@ -3626,42 +3822,37 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 							isLoading: true
 						}
 					}));
-					return Promise.resolve({
-						length: {
-							averageLength: 30,
-							contentLength: 15,
-							targetLength: 90
-						},
-						pace: {
-							averagePace: 4.761904761904763,
-							contentPace: 4.761904761904763,
-							industryPace: 2.5
-						}
-					}).then(function () {
-						var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-						    length = _ref.length,
-						    pace = _ref.pace;
+					// return Promise.resolve({
+					// 	length: {
+					// 		averageLength: 30,
+					// 		contentLength: 15,
+					// 		targetLength: 90
+					// 	},
+					// 	pace: {
+					// 		averagePace: 4.761904761904763,
+					// 		contentPace: 4.761904761904763,
+					// 		industryPace: 2.5
+					// 	}
+					// }).then(({ length, pace } = {}) => {
+					// 	setState({
+					// 		...state,
+					// 		pitch: { isLoading: false, data: pitchParser(length, pace) }
+					// 	});
+					// });
+					return (0, _apiUtils.get)(_api2.default.getPitchData(state.app)).then(function (response) {
+						var _response$length = response.length,
+						    length = _response$length === undefined ? {} : _response$length,
+						    _response$pace = response.pace,
+						    pace = _response$pace === undefined ? {} : _response$pace;
 
 						setState(_extends({}, state, {
 							pitch: { isLoading: false, data: pitchParser(length, pace) }
 						}));
+					}, function (error) {
+						setState(_extends({}, state, {
+							pitch: { isLoading: false, error: error }
+						}));
 					});
-					// return get(apiConfig.getPitchData(state.app)).then(
-					// 	response => {
-					// 		const { length = {}, pace = {} } = response;
-
-					// 		setState({
-					// 			...state,
-					// 			pitch: { isLoading: false, data:pitchParser(length, pace) }
-					// 		});
-					// 	},
-					// 	error => {
-					// 		setState({
-					// 			...state,
-					// 			pitch: { isLoading: false, error: error }
-					// 		});
-					// 	}
-					// );
 				}
 			};
 		};
