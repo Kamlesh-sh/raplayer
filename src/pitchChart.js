@@ -3,9 +3,7 @@ import { getStore } from "./app/store";
 import { Provider } from "unistore/preact";
 import "promise-polyfill/src/polyfill";
 import "whatwg-fetch";
-
-window.Highcharts = undefined; // hack for aa-java
-const App = require("./app/containers/PitchChartWrapper");
+import App from "./app/containers/PitchChartWrapper";
 
 let count = 0;
 

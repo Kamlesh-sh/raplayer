@@ -1,6 +1,6 @@
-// import { get } from "@utils/apiUtils";
+import { get } from "@utils/apiUtils";
 import { isUndefined, isEmpty } from "@utils/core";
-// import apiConfig from "./api.config";
+import apiConfig from "./api.config";
 
 const getLabel = value => {
 	if (isUndefined(value)) return "";
@@ -38,39 +38,39 @@ let actions = () => ({
 				isLoading: true
 			}
 		});
-		return Promise.resolve({
-			length: {
-				averageLength: 30,
-				contentLength: 15,
-				targetLength: 90
-			},
-			pace: {
-				averagePace: 4.761904761904763,
-				contentPace: 4.761904761904763,
-				industryPace: 2.5
-			}
-		}).then(({ length, pace } = {}) => {
-			setState({
-				...state,
-				pitch: { isLoading: false, data: pitchParser(length, pace) }
-			});
-		});
-		// return get(apiConfig.getPitchData(state.app)).then(
-		// 	response => {
-		// 		const { length = {}, pace = {} } = response;
-		
-		// 		setState({
-		// 			...state,
-		// 			pitch: { isLoading: false, data:pitchParser(length, pace) }
-		// 		});
+		// return Promise.resolve({
+		// 	length: {
+		// 		averageLength: 30,
+		// 		contentLength: 15,
+		// 		targetLength: 90
 		// 	},
-		// 	error => {
-		// 		setState({
-		// 			...state,
-		// 			pitch: { isLoading: false, error: error }
-		// 		});
+		// 	pace: {
+		// 		averagePace: 4.761904761904763,
+		// 		contentPace: 4.761904761904763,
+		// 		industryPace: 2.5
 		// 	}
-		// );
+		// }).then(({ length, pace } = {}) => {
+		// 	setState({
+		// 		...state,
+		// 		pitch: { isLoading: false, data: pitchParser(length, pace) }
+		// 	});
+		// });
+		return get(apiConfig.getPitchData(state.app)).then(
+			response => {
+				const { length = {}, pace = {} } = response;
+		
+				setState({
+					...state,
+					pitch: { isLoading: false, data:pitchParser(length, pace) }
+				});
+			},
+			error => {
+				setState({
+					...state,
+					pitch: { isLoading: false, error: error }
+				});
+			}
+		);
 	}
 });
 
