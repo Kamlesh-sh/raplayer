@@ -34,5 +34,6 @@ class PitchChart extends Component {
 		return <div style={style} id={id} />;
 	}
 }
+window.Highcharts = Highcharts;
 
 export default PitchChart;

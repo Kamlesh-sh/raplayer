@@ -2083,12 +2083,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			factory(mod, mod.exports, global.preact, global.store, global.preact, global.PitchChartWrapper, global.polyfill, global.whatwgFetch);
 			global.pitchChart = mod.exports;
 		}
-	})(undefined, function (module, exports, _preact, _store, _preact2, App) {
+	})(undefined, function (module, exports, _preact, _store, _preact2, _PitchChartWrapper) {
 		"use strict";
 
 		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
+
+		var _PitchChartWrapper2 = _interopRequireDefault(_PitchChartWrapper);
+
+		function _interopRequireDefault(obj) {
+			return obj && obj.__esModule ? obj : {
+				default: obj
+			};
+		}
 
 		var _extends = Object.assign || function (target) {
 			for (var i = 1; i < arguments.length; i++) {
@@ -2128,9 +2136,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			};
 		}();
 
-		window.Highcharts = undefined; // hack for aa-java
-
-
 		var count = 0;
 
 		var PitchChart = function () {
@@ -2152,7 +2157,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						app: this.props.app || {}
 					});
 					try {
-						this.root = (0, _preact.render)((0, _preact.h)(_preact2.Provider, { store: store }, (0, _preact.h)(App, _extends({}, this.props, { namespace: namespace })), "dasdasdasdas"), document.getElementById(targetChartContainer));
+						this.root = (0, _preact.render)((0, _preact.h)(_preact2.Provider, { store: store }, (0, _preact.h)(_PitchChartWrapper2.default, _extends({}, this.props, { namespace: namespace })), "dasdasdasdas"), document.getElementById(targetChartContainer));
 					} catch (ex) {
 						console.log(ex); //eslint-disable-line
 					}
@@ -3829,6 +3834,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 			return PitchChart;
 		}(_preact.Component);
+
+		window.Highcharts = _highcharts2.default;
 
 		exports.default = PitchChart;
 		module.exports = exports["default"];
