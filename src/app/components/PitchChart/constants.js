@@ -231,6 +231,5 @@ export const GET_CHART_CONFIG_BY_TYPE = params => {
 			}
 		]
 	};
-	debugger; //eslint-disable-line
 	return deepmerge(COMMON_HIGHCHART_CONFIG, config);
 };

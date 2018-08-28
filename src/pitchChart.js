@@ -7,6 +7,8 @@ import App from "./app/containers/PitchChartWrapper";
 
 let count = 0;
 
+// const App = ()=><div>dasdasdas</div>
+
 class PitchChart {
 	constructor(props = {}) {
 		this.props = props;
@@ -24,7 +26,6 @@ class PitchChart {
 			this.root = render(
 				<Provider store={store}>
 					<App {...this.props} namespace={namespace} />
-					dasdasdasdas
 				</Provider>,
 				containerEl
 			);
@@ -39,6 +40,7 @@ class PitchChart {
 		let containerEl = document.getElementById(targetChartContainer);
 		if(!containerEl) return;
 		render("", containerEl, this.root);
+		containerEl.innerHTML = "";
 		return this;
 	}
 }

@@ -55,6 +55,7 @@
 try{
 const PitchChart = new RaPlayer.pitchChart({targetChartContainer:"prashank"});
 PitchChart.setup()
+window.PitchChart =PitchChart;
 }catch(ex){
 	console.info(ex);
 }
