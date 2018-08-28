@@ -18,13 +18,15 @@ class PitchChart {
 		let store = getStore(namespace, {
 			app: this.props.app || {}
 		});
+		let containerEl = document.getElementById(targetChartContainer);
+		if(!containerEl) return;
 		try {
 			this.root = render(
 				<Provider store={store}>
 					<App {...this.props} namespace={namespace} />
 					dasdasdasdas
 				</Provider>,
-				document.getElementById(targetChartContainer)
+				containerEl
 			);
 		} catch (ex) {
 			console.log(ex); //eslint-disable-line
@@ -34,7 +36,9 @@ class PitchChart {
 
 	destroy() {
 		let { targetChartContainer } = this.props;
-		render("", document.getElementById(targetChartContainer), this.root);
+		let containerEl = document.getElementById(targetChartContainer);
+		if(!containerEl) return;
+		render("", containerEl, this.root);
 		return this;
 	}
 }
