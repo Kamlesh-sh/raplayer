@@ -1,10 +1,20 @@
 import { get } from "@utils/apiUtils";
-import { isUndefined, isEmpty } from "@utils/core";
+import { isUndefined, isEmpty, splitSeconds } from "@utils/core";
 import apiConfig from "./api.config";
 
 const getLabel = value => {
 	if (isUndefined(value)) return "";
-	return value > 60 ? `${(value / 60).toFixed(2)} min` : `${value} sec`;
+	const { days, hours, minutes, seconds } = splitSeconds(value);
+	const daysLabel = days > 0 ? `${days} days` : "";
+	const hoursLabel = hours > 0 ? `${hours} hours` : "";
+	const minutesLabel = minutes > 0 ? `${minutes} min` : "";
+	const secondsLabel = seconds > 0 ? `${seconds} sec` : "";
+	const digitalMinute = minutes < 10 ? `0${minutes}` : minutes;
+	const digitalSecond = seconds < 10 ? `0${seconds}` : seconds;
+	return {
+		label: `${daysLabel} ${hoursLabel} ${minutesLabel} ${secondsLabel}`,
+		labelDigital: `${digitalMinute}:${digitalSecond}`
+	};
 };
 
 const pitchParser = (length, pace) => {
@@ -14,9 +24,9 @@ const pitchParser = (length, pace) => {
 			average: length.averageLength,
 			current: length.contentLength,
 			expected: length.targetLength,
-			averageLabel: getLabel(length.averageLength),
-			currentLabel: getLabel(length.contentLength),
-			expectedLabel: getLabel(length.targetLength)
+			averageLabel: getLabel(length.averageLength).labelDigital,
+			currentLabel: getLabel(length.contentLength).label,
+			expectedLabel: getLabel(length.targetLength).labelDigital
 		};
 	if (!isEmpty(pace))
 		result.pitchPace = {
@@ -41,8 +51,8 @@ let actions = () => ({
 		// return Promise.resolve({
 		// 	length: {
 		// 		averageLength: 30,
-		// 		contentLength: 15,
-		// 		targetLength: 90
+		// 		contentLength: 65,
+		// 		targetLength: 65
 		// 	},
 		// 	pace: {
 		// 		averagePace: 4.761904761904763,
@@ -58,7 +68,7 @@ let actions = () => ({
 		return get(apiConfig.getPitchData(state.app)).then(
 			response => {
 				const { length = {}, pace = {} } = response;
-		
+
 				setState({
 					...state,
 					pitch: { isLoading: false, data:pitchParser(length, pace) }

@@ -277,3 +277,18 @@ export function capitalizeKeys(obj) {
 	}
 	return transformedObj;
 }
+
+export const splitSeconds = (seconds = 0) => {
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds - days * 86400) / 3600);
+  const minutes = Math.floor((seconds - (days * 86400 + hours * 3600)) / 60);
+  const remainingSeconds = Math.floor(
+    seconds - (days * 86400 + hours * 3600 + minutes * 60)
+  );
+  return {
+    days,
+    hours,
+    minutes,
+    seconds: remainingSeconds
+  };
+};
