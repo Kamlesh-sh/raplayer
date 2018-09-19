@@ -80,28 +80,16 @@ const pitchParser = (length, pace) => {
 
 let actions = () => ({
 	getPitchData: (state, payload, setState) => {
-		debugger; // eslint-disable-line
 		setState({
 			...state,
 			pitch: {
 				isLoading: true
 			}
 		});
-		// return Promise.resolve({
-		// 	"length": {
-		// 		"bin": 1,
-		// 		"value": 120,
-		// 		"target": 120
-		// 	},
-		// 	"pace": {
-		// 		"bin": 1,
-		// 		"value": 115,
-		// 		"targetRange": [120, 160]
-		// 	}
-		// }).then(({ length, pace } = {}) => {
+		// return Promise.resolve({"length":{"bin":1,"value":11,"target":120},"pace":null}).then(({ length, pace } = {}) => {
 		// 	setState({
 		// 		...state,
-		// 		pitch: { isLoading: false, data: pitchParser(length, pace) }
+		// 		pitch: { isLoading: false, data: pitchParser(length||{}, pace||{}) }
 		// 	});
 		// });
 
@@ -112,7 +100,7 @@ let actions = () => ({
 
 					setState({
 						...state,
-						pitch: { isLoading: false, data: pitchParser(length, pace) }
+						pitch: { isLoading: false, data: pitchParser(length||{}, pace||{}) }
 					});
 				},
 				error => {
@@ -122,7 +110,7 @@ let actions = () => ({
 					});
 				}
 			);
-		// }
+		
 	}
 });
 

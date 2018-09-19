@@ -7,7 +7,6 @@ import style from './index.scss';
 
 class PitchWrapper extends Component {
 	componentDidMount() {
-		debugger; //eslint-disable-line
 		this.props.getPitchData();
 	}
 
