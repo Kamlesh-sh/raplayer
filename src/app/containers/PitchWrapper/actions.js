@@ -45,7 +45,8 @@ const stateColorMap = {
 		2: {
 			color: "#FFA421",
 			text: "Slow"
-		}, 3: {
+		}, 
+		3: {
 			color: "#58B75B",
 			text: "Appropriate"
 		}
@@ -69,7 +70,7 @@ const pitchParser = (length, pace) => {
 		};
 	if (!isEmpty(pace))
 		result.pitchPace = {
-			state: getState('pace', length.bin),
+			state: getState('pace', pace.bin),
 			current: pace.value,
 			expected: pace.targetRange,
 			currentLabel: `${Math.round(pace.value)} words/min`,
@@ -86,7 +87,7 @@ let actions = () => ({
 				isLoading: true
 			}
 		});
-		// return Promise.resolve({"length":{"bin":1,"value":11,"target":120},"pace":null}).then(({ length, pace } = {}) => {
+		// return Promise.resolve({"length":{"bin":5,"value":324,"target":120},"pace":{"bin":3,"value":168,"targetRange":[120,160]}}).then(({ length, pace } = {}) => {
 		// 	setState({
 		// 		...state,
 		// 		pitch: { isLoading: false, data: pitchParser(length||{}, pace||{}) }
