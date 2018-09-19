@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("pitchChart", [], factory);
+		define("pitch", [], factory);
 	else if(typeof exports === 'object')
-		exports["pitchChart"] = factory();
+		exports["pitch"] = factory();
 	else
-		root["RaPlayer"] = root["RaPlayer"] || {}, root["RaPlayer"]["pitchChart"] = factory();
+		root["RaPlayer"] = root["RaPlayer"] || {}, root["RaPlayer"]["pitch"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -804,6 +804,105 @@ var preact = {
 
 //# sourceMappingURL=preact.mjs.map
 
+
+/***/ }),
+
+/***/ 1:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(module);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod);
+		global.cssBase = mod.exports;
+	}
+})(this, function (module) {
+	"use strict";
+
+	/*
+ 	MIT License http://www.opensource.org/licenses/mit-license.php
+ 	Author Tobias Koppers @sokra
+ */
+	// css base code, injected by the css-loader
+	module.exports = function (useSourceMap) {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			return this.map(function (item) {
+				var content = cssWithMappingToString(item, useSourceMap);
+				if (item[2]) {
+					return "@media " + item[2] + "{" + content + "}";
+				} else {
+					return content;
+				}
+			}).join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function (modules, mediaQuery) {
+			if (typeof modules === "string") modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for (var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if (typeof id === "number") alreadyImportedModules[id] = true;
+			}
+			for (i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if (typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if (mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if (mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+	function cssWithMappingToString(item, useSourceMap) {
+		var content = item[1] || '';
+		var cssMapping = item[3];
+		if (!cssMapping) {
+			return content;
+		}
+
+		if (useSourceMap && typeof btoa === 'function') {
+			var sourceMapping = toComment(cssMapping);
+			var sourceURLs = cssMapping.sources.map(function (source) {
+				return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+			});
+
+			return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+		}
+
+		return [content].join('\n');
+	}
+
+	// Adapted from convert-source-map (MIT)
+	function toComment(sourceMap) {
+		// eslint-disable-next-line no-undef
+		var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+		var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+		return '/*# ' + data + ' */';
+	}
+});
 
 /***/ }),
 
@@ -1778,16 +1877,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// const App = ()=><div>dasdasdas</div>
 
-		var PitchChart = function () {
-			function PitchChart() {
+		var Pitch = function () {
+			function Pitch() {
 				var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-				_classCallCheck(this, PitchChart);
+				_classCallCheck(this, Pitch);
 
 				this.props = props;
 			}
 
-			_createClass(PitchChart, [{
+			_createClass(Pitch, [{
 				key: "setup",
 				value: function setup() {
 					var targetChartContainer = this.props.targetChartContainer;
@@ -1818,10 +1917,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				}
 			}]);
 
-			return PitchChart;
+			return Pitch;
 		}();
 
-		exports.default = PitchChart;
+		exports.default = Pitch;
 		module.exports = exports["default"];
 	});
 });
@@ -2375,6 +2474,94 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ 147:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(148);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(2)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--5-1!../../../../node_modules/postcss-loader/lib/index.js??postcss!../../../../node_modules/sass-loader/lib/loader.js!./index.scss", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--5-1!../../../../node_modules/postcss-loader/lib/index.js??postcss!../../../../node_modules/sass-loader/lib/loader.js!./index.scss");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 148:
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(9);
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".PitchWrapper__videoDetailsWrapper___hxMX0 {\n  width: 672px;\n  font-size: 13px;\n  font-family: 'Open Sans', 'Arial', sans-serif; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__submissionLengthBlock___1pYN_ {\n    float: left; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__pitchPaceBlock___13grk {\n    float: right; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__headingText___dTK7m {\n    margin-left: 5px;\n    float: left; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__clear___3TP2d {\n    clear: both; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__iconStyle___1guJP {\n    margin-right: 10px;\n    margin-top: 1px;\n    background-image: url(" + escape(__webpack_require__(149)) + ");\n    background-repeat: no-repeat;\n    background-size: cover;\n    width: 16px;\n    height: 14px;\n    float: left; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__headingBlock___DWLBS {\n    font-weight: 600; }\n    .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__headingBlock___DWLBS .PitchWrapper__heading___25D55 {\n      color: #000000;\n      float: left; }\n  .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__descriptionBlock___2uWib {\n    margin-top: 8px; }\n    .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__descriptionBlock___2uWib .PitchWrapper__pitchLength___1q-iI {\n      color: #000000;\n      float: left;\n      margin-right: 8px; }\n    .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__descriptionBlock___2uWib .PitchWrapper__targetBlock___1tOdr {\n      float: left; }\n      .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__descriptionBlock___2uWib .PitchWrapper__targetBlock___1tOdr .PitchWrapper__dot___3DbpB {\n        height: 3px;\n        width: 3px;\n        background-color: #000;\n        border-radius: 50%;\n        float: left;\n        margin-top: 8px;\n        margin-right: 8px; }\n      .PitchWrapper__videoDetailsWrapper___hxMX0 .PitchWrapper__descriptionBlock___2uWib .PitchWrapper__targetBlock___1tOdr .PitchWrapper__target___2HA06 {\n        color: #999; }\n", ""]);
+
+// exports
+exports.locals = {
+	"videoDetailsWrapper": "PitchWrapper__videoDetailsWrapper___hxMX0",
+	"submissionLengthBlock": "PitchWrapper__submissionLengthBlock___1pYN_",
+	"pitchPaceBlock": "PitchWrapper__pitchPaceBlock___13grk",
+	"headingText": "PitchWrapper__headingText___dTK7m",
+	"clear": "PitchWrapper__clear___3TP2d",
+	"iconStyle": "PitchWrapper__iconStyle___1guJP",
+	"headingBlock": "PitchWrapper__headingBlock___DWLBS",
+	"heading": "PitchWrapper__heading___25D55",
+	"descriptionBlock": "PitchWrapper__descriptionBlock___2uWib",
+	"pitchLength": "PitchWrapper__pitchLength___1q-iI",
+	"targetBlock": "PitchWrapper__targetBlock___1tOdr",
+	"dot": "PitchWrapper__dot___3DbpB",
+	"target": "PitchWrapper__target___2HA06"
+};
+
+/***/ }),
+
+/***/ 149:
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjciIGhlaWdodD0iMjMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUgNy41YS41LjUgMCAwIDAtLjUuNXYxMi45NDFhLjUuNSAwIDAgMCAuNS41aDE3YS41LjUgMCAwIDAgLjUtLjVWOGEuNS41IDAgMCAwLS41LS41SDV6TTUgNmgxN2EyIDIgMCAwIDEgMiAydjEyLjk0MWEyIDIgMCAwIDEtMiAySDVhMiAyIDAgMCAxLTItMlY4YTIgMiAwIDAgMSAyLTJ6bTE4LjUgMTAuNWgxYS41LjUgMCAwIDAgLjUtLjV2LTJhLjUuNSAwIDAgMC0uNS0uNWgtMVYxMmgxYTIgMiAwIDAgMSAyIDJ2MmEyIDIgMCAwIDEtMiAyaC0xdi0xLjV6bS0yMSAwaDFWMThoLTFhMiAyIDAgMCAxLTItMnYtMmEyIDIgMCAwIDEgMi0yaDF2MS41aC0xYS41LjUgMCAwIDAtLjUuNXYyYS41LjUgMCAwIDAgLjUuNXpNMTQuMjUgN2gtMS41VjRoMS41djN6TTkuNSAxNmExLjUgMS41IDAgMSAwIDAtMyAxLjUgMS41IDAgMCAwIDAgM3ptMCAxLjVhMyAzIDAgMSAxIDAtNiAzIDMgMCAwIDEgMCA2em00LTEyLjc1YTIuMjUgMi4yNSAwIDEgMSAwLTQuNSAyLjI1IDIuMjUgMCAwIDEgMCA0LjV6bTAtMS41YS43NS43NSAwIDEgMCAwLTEuNS43NS43NSAwIDAgMCAwIDEuNXptNCAxMi43NWExLjUgMS41IDAgMSAwIDAtMyAxLjUgMS41IDAgMCAwIDAgM3ptMCAxLjVhMyAzIDAgMSAxIDAtNiAzIDMgMCAwIDEgMCA2eiIgZmlsbD0iIzhBOEE4QSIvPjwvc3ZnPg=="
+
+/***/ }),
+
 /***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2422,6 +2609,67 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	// easier to handle this case. if(!global) { ...}
 
 	module.exports = g;
+});
+
+/***/ }),
+
+/***/ 150:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(module, exports);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod, mod.exports);
+		global.apiConfig = mod.exports;
+	}
+})(this, function (module, exports) {
+	"use strict";
+
+	(function (global, factory) {
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof exports !== "undefined") {
+			factory(module, exports);
+		} else {
+			var mod = {
+				exports: {}
+			};
+			factory(mod, mod.exports);
+			global.apiConfig = mod.exports;
+		}
+	})(undefined, function (module, exports) {
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+		var apiUrls = {
+			getPitchData: function getPitchData(_ref) {
+				var cname = _ref.cname,
+				    subjectId = _ref.subjectId,
+				    entityId = _ref.entityId;
+
+				return {
+					url: "/" + cname + "/entity/" + entityId + "/" + subjectId + "/pace_and_length"
+				};
+			}
+		};
+
+		exports.default = apiUrls;
+		module.exports = exports["default"];
+	});
 });
 
 /***/ }),
@@ -2721,6 +2969,389 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   module.exports = exports["default"];
 });
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getTarget = function (target) {
+  return document.querySelector(target);
+};
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(target) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target);
+			// Special case to return head of iframe instead of iframe itself
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[target] = styleTarget;
+		}
+		return memo[target]
+	};
+})();
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(99);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+        if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
 
 /***/ }),
 
@@ -3142,6 +3773,135 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(exports);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod.exports);
+		global.apiUtils = mod.exports;
+	}
+})(this, function (exports) {
+	"use strict";
+
+	(function (global, factory) {
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof exports !== "undefined") {
+			factory(exports);
+		} else {
+			var mod = {
+				exports: {}
+			};
+			factory(mod.exports);
+			global.apiUtils = mod.exports;
+		}
+	})(undefined, function (exports) {
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+
+		var _extends = Object.assign || function (target) {
+			for (var i = 1; i < arguments.length; i++) {
+				var source = arguments[i];
+
+				for (var key in source) {
+					if (Object.prototype.hasOwnProperty.call(source, key)) {
+						target[key] = source[key];
+					}
+				}
+			}
+
+			return target;
+		};
+
+		var getHeaders = function getHeaders() {
+			var headers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+			var additionalHeaders = {
+				"Content-Type": "application/json"
+			};
+			return _extends({}, additionalHeaders, headers);
+		};
+
+		var makeCall = function makeCall(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			return fetch(urlObj.url, _extends({}, reqObj, { credentials: "same-origin" })).then(function (resp) {
+				var json = void 0;
+				if (resp.ok) {
+					json = resp.json();
+				}
+				if (resp.status >= 200 && resp.status < 300) {
+					return json;
+				} else {
+					return Promise.reject(Error("error"));
+				}
+			}).catch(function (error) {
+				return Promise.reject(Error(error.message));
+			});
+		};
+
+		var get = function get(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "GET";
+			reqObj.headers = getHeaders(reqObj.headers);
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+
+		var post = function post(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "POST";
+			reqObj.headers = getHeaders(reqObj.headers);
+			if (reqObj.body && reqObj.headers["Content-Type"] === "application/json") {
+				reqObj.body = JSON.stringify(reqObj.body);
+			}
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+
+		var put = function put(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "PUT";
+			reqObj.headers = getHeaders(reqObj.headers);
+			if (reqObj.body && reqObj.headers["Content-Type"] === "application/json") {
+				reqObj.body = JSON.stringify(reqObj.body);
+			}
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+		var del = function del(urlObj) {
+			var reqObj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			reqObj.method = "DELETE";
+			return makeCall(urlObj, _extends({}, reqObj));
+		};
+
+		exports.get = get;
+		exports.post = post;
+		exports.put = put;
+		exports.del = del;
+	});
+});
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3289,6 +4049,47 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module);
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod);
+        global.escape = mod.exports;
+    }
+})(this, function (module) {
+    'use strict';
+
+    module.exports = function escape(url) {
+        if (typeof url !== 'string') {
+            return url;
+        }
+        // If url is already wrapped in quotes, remove them
+        if (/^['"].*['"]$/.test(url)) {
+            url = url.slice(1, -1);
+        }
+        // Should url be wrapped?
+        // See https://drafts.csswg.org/css-values-3/#urls
+        if (/["'() \t\n]/.test(url)) {
+            return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"';
+        }
+
+        return url;
+    };
+});
+
+/***/ }),
+
 /***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3347,17 +4148,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(3), __webpack_require__(96)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(3), __webpack_require__(96), __webpack_require__(147)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (typeof exports !== "undefined") {
-		factory(module, exports, require("preact"), require("@utils/enhancer"), require("@utils/core"), require("./actions"));
+		factory(module, exports, require("preact"), require("@utils/enhancer"), require("@utils/core"), require("./actions"), require("./index.scss"));
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod, mod.exports, global.preact, global.enhancer, global.core, global.actions);
+		factory(mod, mod.exports, global.preact, global.enhancer, global.core, global.actions, global.index);
 		global.index = mod.exports;
 	}
 })(this, function (module, exports) {
@@ -3371,7 +4172,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(3), __webpack_require__(96)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(0), __webpack_require__(4), __webpack_require__(3), __webpack_require__(96), __webpack_require__(147)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3381,10 +4182,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			var mod = {
 				exports: {}
 			};
-			factory(mod, mod.exports, global.preact, global.enhancer, global.core, global.actions);
+			factory(mod, mod.exports, global.preact, global.enhancer, global.core, global.actions, global.index);
 			global.index = mod.exports;
 		}
-	})(undefined, function (module, exports, _preact, _enhancer, _core, _actions) {
+	})(undefined, function (module, exports, _preact, _enhancer, _core, _actions, _index) {
 		"use strict";
 
 		Object.defineProperty(exports, "__esModule", {
@@ -3392,6 +4193,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		});
 
 		var _actions2 = _interopRequireDefault(_actions);
+
+		var _index2 = _interopRequireDefault(_index);
 
 		function _interopRequireDefault(obj) {
 			return obj && obj.__esModule ? obj : {
@@ -3459,6 +4262,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			_createClass(PitchWrapper, [{
 				key: "componentDidMount",
 				value: function componentDidMount() {
+					debugger; //eslint-disable-line
 					this.props.getPitchData();
 				}
 			}, {
@@ -3477,7 +4281,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					var _pitchPace$state = pitchPace.state,
 					    pitchPaceState = _pitchPace$state === undefined ? {} : _pitchPace$state;
 
-					return (0, _preact.h)("div", null, !(0, _core.isEmpty)(this.props.pitchLength) && (0, _preact.h)("div", null, (0, _preact.h)("span", null, "Submission Length:"), (0, _preact.h)("span", { style: { "color": pitchLengthState.color } }, pitchLengthState.text), (0, _preact.h)("span", null, pitchLength.currentLabel, " Target: ", pitchLength.expectedLabel)), !(0, _core.isEmpty)(this.props.pitchPace) && (0, _preact.h)("div", null, (0, _preact.h)("span", null, "Pace of pitch:"), (0, _preact.h)("span", { style: { "color": pitchPaceState.color } }, pitchPaceState.text), (0, _preact.h)("span", null, pitchLength.currentLabel, " Target: ", pitchLength.expectedLabel)));
+					return (0, _preact.h)("div", { className: _index2.default.videoDetailsWrapper }, !(0, _core.isEmpty)(this.props.pitchLength) && (0, _preact.h)("div", { className: _index2.default.submissionLengthBlock }, (0, _preact.h)("div", { className: _index2.default.headingBlock }, (0, _preact.h)("div", { className: _index2.default.iconStyle }), (0, _preact.h)("div", { className: _index2.default.heading }, "Submission Length:"), (0, _preact.h)("div", { style: { "color": pitchLengthState.color }, className: _index2.default.headingText }, pitchLengthState.text), (0, _preact.h)("div", { className: _index2.default.clear })), (0, _preact.h)("div", { className: _index2.default.descriptionBlock }, (0, _preact.h)("div", { className: _index2.default.pitchLength }, pitchLength.currentLabel), (0, _preact.h)("div", { "class": _index2.default.targetBlock }, (0, _preact.h)("span", { className: _index2.default.dot }), (0, _preact.h)("span", { className: _index2.default.target }, "Target: ", pitchLength.expectedLabel), (0, _preact.h)("div", { className: _index2.default.clear })))), !(0, _core.isEmpty)(this.props.pitchPace) && (0, _preact.h)("div", { className: _index2.default.pitchPaceBlock }, (0, _preact.h)("div", { className: _index2.default.headingBlock }, (0, _preact.h)("div", { className: _index2.default.iconStyle }), (0, _preact.h)("div", { className: _index2.default.heading }, "Pace of pitch:"), (0, _preact.h)("div", { style: { "color": pitchPaceState.color }, className: _index2.default.headingText }, pitchPaceState.text), (0, _preact.h)("div", { className: _index2.default.clear })), (0, _preact.h)("div", { className: _index2.default.descriptionBlock }, (0, _preact.h)("div", { className: _index2.default.pitchLength }, pitchPace.currentLabel), (0, _preact.h)("div", { "class": _index2.default.targetBlock }, (0, _preact.h)("span", { className: _index2.default.dot }), (0, _preact.h)("span", { className: _index2.default.target }, "Regular Conversation Rate: ", pitchPace.expectedLabel), (0, _preact.h)("div", { className: _index2.default.clear })), (0, _preact.h)("div", { className: _index2.default.clear }))), (0, _preact.h)("div", { "class": _index2.default.clear }));
 				}
 			}]);
 
@@ -3511,17 +4315,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(3)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(31), __webpack_require__(3), __webpack_require__(150)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (typeof exports !== "undefined") {
-		factory(module, exports, require("@utils/core"));
+		factory(module, exports, require("@utils/apiUtils"), require("@utils/core"), require("./api.config"));
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod, mod.exports, global.core);
+		factory(mod, mod.exports, global.apiUtils, global.core, global.api);
 		global.actions = mod.exports;
 	}
 })(this, function (module, exports) {
@@ -3529,7 +4333,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	(function (global, factory) {
 		if (true) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(3)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(31), __webpack_require__(3), __webpack_require__(150)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3539,15 +4343,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			var mod = {
 				exports: {}
 			};
-			factory(mod, mod.exports, global.core);
+			factory(mod, mod.exports, global.apiUtils, global.core, global.api);
 			global.actions = mod.exports;
 		}
-	})(undefined, function (module, exports, _core) {
+	})(undefined, function (module, exports, _apiUtils, _core, _api) {
 		"use strict";
 
 		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
+
+		var _api2 = _interopRequireDefault(_api);
+
+		function _interopRequireDefault(obj) {
+			return obj && obj.__esModule ? obj : {
+				default: obj
+			};
+		}
 
 		var _extends = Object.assign || function (target) {
 			for (var i = 1; i < arguments.length; i++) {
@@ -3562,8 +4374,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 			return target;
 		};
-
-		// import apiConfig from "./api.config";
 
 		var getLabel = function getLabel(value) {
 			if ((0, _core.isUndefined)(value)) return "";
@@ -3581,48 +4391,48 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			var digitalMinute = minutes < 10 ? "0" + minutes : minutes;
 			var digitalSecond = seconds < 10 ? "0" + seconds : seconds;
 			return {
-				label: daysLabel + " " + hoursLabel + " " + minutesLabel + " " + secondsLabel,
-				labelDigital: digitalMinute + ":" + digitalSecond
+				label: (daysLabel + " " + hoursLabel + " " + minutesLabel + " " + secondsLabel).trim(),
+				labelDigital: (digitalMinute + ":" + digitalSecond).trim()
 			};
 		};
 
 		var stateColorMap = {
 			LENGTH: {
 				1: {
-					color: "#444",
+					color: "#E57373",
 					text: "Too Short"
 				},
 				2: {
-					color: "#444",
-					text: "Too Short"
+					color: "#FFA421",
+					text: "Short"
 				}, 3: {
-					color: "#444",
-					text: "Too Short"
+					color: "#58B75B",
+					text: "Appropriate"
 				}, 4: {
-					color: "#444",
-					text: "Too Short"
+					color: "#FFA421",
+					text: "Long"
 				}, 5: {
-					color: "#444",
-					text: "Too Short"
+					color: "#E57373",
+					text: "Too Long"
 				}
 			},
 			PACE: {
 				1: {
-					color: "#444",
-					text: "Too Short"
+					color: "#FFA421",
+					text: "Fast"
 				},
 				2: {
-					color: "#444",
-					text: "Too Short"
+					color: "#FFA421",
+					text: "Slow"
 				}, 3: {
-					color: "#444",
-					text: "Too Short"
+					color: "#58B75B",
+					text: "Appropriate"
 				}
 			}
 		};
 
 		var getState = function getState(type, value) {
-			var state = stateColorMap[type.toUpperCase] || {};
+			var state = stateColorMap[type.toUpperCase()] || {};
 			return state[value];
 		};
 
@@ -3632,15 +4442,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				state: getState('length', length.bin),
 				current: length.value,
 				expected: length.target,
-				currentLabel: getLabel(length.contentLength).label,
-				expectedLabel: getLabel(length.targetLength).labelDigital
+				currentLabel: getLabel(length.value).label,
+				expectedLabel: getLabel(length.target).labelDigital
 			};
 			if (!(0, _core.isEmpty)(pace)) result.pitchPace = {
 				state: getState('pace', length.bin),
 				current: pace.value,
-				expected: pace.target,
-				currentLabel: Math.round(pace.contentPace) + " words/min",
-				expectedLabel: pace.target.join(" - ") + "WPM"
+				expected: pace.targetRange,
+				currentLabel: Math.round(pace.value) + " words/min",
+				expectedLabel: pace.targetRange.join(" - ") + "WPM"
 			};
 			return result;
 		};
@@ -3648,48 +4458,45 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		var actions = function actions() {
 			return {
 				getPitchData: function getPitchData(state, payload, setState) {
+					debugger; // eslint-disable-line
 					setState(_extends({}, state, {
 						pitch: {
 							isLoading: true
 						}
 					}));
-					return Promise.resolve({
-						"length": {
-							"bin": 1,
-							"value": 120,
-							"target": 120
-						},
-						"pace": {
-							"bin": 1,
-							"value": 115,
-							"targetRange": [120, 160]
-						}
-					}).then(function () {
-						var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-						    length = _ref.length,
-						    pace = _ref.pace;
+					// return Promise.resolve({
+					// 	"length": {
+					// 		"bin": 1,
+					// 		"value": 120,
+					// 		"target": 120
+					// 	},
+					// 	"pace": {
+					// 		"bin": 1,
+					// 		"value": 115,
+					// 		"targetRange": [120, 160]
+					// 	}
+					// }).then(({ length, pace } = {}) => {
+					// 	setState({
+					// 		...state,
+					// 		pitch: { isLoading: false, data: pitchParser(length, pace) }
+					// 	});
+					// });
+
+
+					return (0, _apiUtils.get)(_api2.default.getPitchData(state.app)).then(function (response) {
+						var _response$length = response.length,
+						    length = _response$length === undefined ? {} : _response$length,
+						    _response$pace = response.pace,
+						    pace = _response$pace === undefined ? {} : _response$pace;
 
 						setState(_extends({}, state, {
 							pitch: { isLoading: false, data: pitchParser(length, pace) }
 						}));
+					}, function (error) {
+						setState(_extends({}, state, {
+							pitch: { isLoading: false, error: error }
+						}));
 					});
-
-					// 	return get(apiConfig.getPitchData(state.app)).then(
-					// 		response => {
-					// 			const { length = {}, pace = {} } = response;
-
-					// 			setState({
-					// 				...state,
-					// 				pitch: { isLoading: false, data: pitchParser(length, pace) }
-					// 			});
-					// 		},
-					// 		error => {
-					// 			setState({
-					// 				...state,
-					// 				pitch: { isLoading: false, error: error }
-					// 			});
-					// 		}
-					// 	);
 					// }
 				}
 			};
@@ -3698,6 +4505,118 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		exports.default = actions;
 		module.exports = exports["default"];
 	});
+});
+
+/***/ }),
+
+/***/ 99:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(module);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod);
+		global.urls = mod.exports;
+	}
+})(this, function (module) {
+	"use strict";
+
+	/**
+  * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+  * embed the css on the page. This breaks all relative urls because now they are relative to a
+  * bundle instead of the current page.
+  *
+  * One solution is to only use full urls, but that may be impossible.
+  *
+  * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+  *
+  * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+  *
+  */
+
+	module.exports = function (css) {
+		// get current location
+		var location = typeof window !== "undefined" && window.location;
+
+		if (!location) {
+			throw new Error("fixUrls requires window.location");
+		}
+
+		// blank or null?
+		if (!css || typeof css !== "string") {
+			return css;
+		}
+
+		var baseUrl = location.protocol + "//" + location.host;
+		var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+		// convert each url(...)
+		/*
+  This regular expression is just a way to recursively match brackets within
+  a string.
+  	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+     (  = Start a capturing group
+       (?:  = Start a non-capturing group
+           [^)(]  = Match anything that isn't a parentheses
+           |  = OR
+           \(  = Match a start parentheses
+               (?:  = Start another non-capturing groups
+                   [^)(]+  = Match anything that isn't a parentheses
+                   |  = OR
+                   \(  = Match a start parentheses
+                       [^)(]*  = Match anything that isn't a parentheses
+                   \)  = Match a end parentheses
+               )  = End Group
+               *\) = Match anything and then a close parens
+           )  = Close non-capturing group
+           *  = Match anything
+        )  = Close capturing group
+   \)  = Match a close parens
+  	 /gi  = Get all matches, not the first.  Be case insensitive.
+   */
+		var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
+			// strip quotes (if they exist)
+			var unquotedOrigUrl = origUrl.trim().replace(/^"(.*)"$/, function (o, $1) {
+				return $1;
+			}).replace(/^'(.*)'$/, function (o, $1) {
+				return $1;
+			});
+
+			// already a full url? no change
+			if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+				return fullMatch;
+			}
+
+			// convert the url to a full url
+			var newUrl;
+
+			if (unquotedOrigUrl.indexOf("//") === 0) {
+				//TODO: should we add protocol?
+				newUrl = unquotedOrigUrl;
+			} else if (unquotedOrigUrl.indexOf("/") === 0) {
+				// path should be relative to the base url
+				newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+			} else {
+				// path should be relative to current directory
+				newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+			}
+
+			// send back the fixed url(...)
+			return "url(" + JSON.stringify(newUrl) + ")";
+		});
+
+		// send back the fixed css
+		return fixedCss;
+	};
 });
 
 /***/ })

@@ -5,7 +5,7 @@ var resolve = require("path").resolve;
 var WebpackConfig = {
     entry: {
         player: "./src/index.js",
-        pitchChart: "./src/pitchChart.js"
+        pitch: "./src/pitch.js"
     },
     output: {
         path: path.join(__dirname, "dist"),

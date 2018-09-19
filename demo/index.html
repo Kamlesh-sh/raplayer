@@ -1,7 +1,7 @@
 <html>
 <head>
 	<!-- <script type="text/javascript" src='../dist/player.bundle.js'></script> -->
-	<script type="text/javascript" src='../dist/pitchChart.bundle.js'></script>
+	<script type="text/javascript" src='../dist/pitch.bundle.js'></script>
 </head>
 <body>
 		 <!-- <div id='targetContainer' style='width:672px;height:378px;float:left'></div>
@@ -53,9 +53,9 @@
 // 	console.info(ex);
 // }
 try{
-const PitchChart = new RaPlayer.pitchChart({targetChartContainer:"prashank"});
-PitchChart.setup()
-window.PitchChart =PitchChart;
+const Pitch = new RaPlayer.pitch({targetChartContainer:"prashank"});
+Pitch.setup()
+window.Pitch =Pitch;
 }catch(ex){
 	console.info(ex);
 }

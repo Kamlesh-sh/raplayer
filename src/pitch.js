@@ -3,13 +3,13 @@ import { getStore } from "./app/store";
 import { Provider } from "unistore/preact";
 import "promise-polyfill/src/polyfill";
 import "whatwg-fetch";
-import App from "./app/containers/PitchChartWrapper";
+import App from "./app/containers/PitchWrapper";
 
 let count = 0;
 
 // const App = ()=><div>dasdasdas</div>
 
-class PitchChart {
+class Pitch {
 	constructor(props = {}) {
 		this.props = props;
 	}
@@ -45,4 +45,4 @@ class PitchChart {
 	}
 }
 
-export default PitchChart;
+export default Pitch;

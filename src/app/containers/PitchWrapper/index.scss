@@ -1,0 +1,59 @@
+.videoDetailsWrapper {
+    width: 672px;
+    font-size: 13px;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+
+    .submissionLengthBlock {
+        float: left;
+    }
+    .pitchPaceBlock {
+        float: right;
+    }
+    .headingText {
+        margin-left: 5px;
+        float: left;
+    }
+    .clear {
+        clear: both;
+    }
+    .iconStyle {
+        margin-right: 10px;
+        margin-top: 1px;
+        background-image: url(images/robot.svg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 16px;
+        height: 14px;
+        float: left;
+    }
+    .headingBlock {
+        font-weight: 600;
+        .heading {
+            color: #000000;
+            float: left;
+        }
+    }
+    .descriptionBlock {
+        margin-top: 8px;
+        .pitchLength {
+            color: #000000;
+            float: left;
+            margin-right: 8px;
+        }
+        .targetBlock {
+            float: left;
+            .dot {
+                height: 3px;
+                width: 3px;
+                background-color: #000;
+                border-radius: 50%;
+                float: left;
+                margin-top: 8px;
+                margin-right: 8px;
+            }
+            .target {
+                color: #999;
+            }
+        }
+    }
+}
