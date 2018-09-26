@@ -40,15 +40,15 @@ const stateColorMap = {
 	PACE: {
 		1: {
 			color: "#FFA421",
-			text: "Fast"
+			text: "Slow"
 		},
 		2: {
-			color: "#FFA421",
-			text: "Slow"
-		}, 
-		3: {
 			color: "#58B75B",
 			text: "Appropriate"
+		}, 
+		3: {
+			color: "#FFA421",
+			text: "Fast"
 		}
 	}
 }
@@ -87,7 +87,7 @@ let actions = () => ({
 				isLoading: true
 			}
 		});
-		// return Promise.resolve({"length":{"bin":5,"value":324,"target":120},"pace":{"bin":3,"value":168,"targetRange":[120,160]}}).then(({ length, pace } = {}) => {
+		// return Promise.resolve({"length":{"bin":5,"value":324,"target":120},"pace":{"bin":1,"value":15,"targetRange":[120,160]}}).then(({ length, pace } = {}) => {
 		// 	setState({
 		// 		...state,
 		// 		pitch: { isLoading: false, data: pitchParser(length||{}, pace||{}) }

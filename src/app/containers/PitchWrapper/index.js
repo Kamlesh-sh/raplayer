@@ -40,7 +40,7 @@ class PitchWrapper extends Component {
 					<div className={style.pitchPaceBlock} >
 						<div className={style.headingBlock}>
 							<div className={style.iconStyle} />
-							<div className={style.heading}>Pace of pitch:</div>
+							<div className={style.heading}>Pace of Speech:</div>
 							<div style={{ "color": pitchPaceState.color }} className={style.headingText}>{pitchPaceState.text}</div>
 							<div className={style.clear} />
 						</div>
@@ -48,7 +48,7 @@ class PitchWrapper extends Component {
 							<div className={style.pitchLength}>{pitchPace.currentLabel}</div>
 							<div class={style.targetBlock}>
 								<span className={style.dot} />
-								<span className={style.target}>Regular Conversation Rate: {pitchPace.expectedLabel}</span>
+								<span className={style.target}>Average Speaking Rate: {pitchPace.expectedLabel}</span>
 								<div className={style.clear} />
 							</div>
 							<div className={style.clear} />
