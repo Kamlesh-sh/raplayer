@@ -40,7 +40,7 @@ class PitchWrapper extends Component {
 					<div className={style.pitchPaceBlock} >
 						<div className={style.headingBlock}>
 							<div className={style.iconStyle} />
-							<div className={style.heading}>Pace of Speech:</div>
+							<div className={style.heading}>Speech Pace:</div>
 							<div style={{ "color": pitchPaceState.color }} className={style.headingText}>{pitchPaceState.text}</div>
 							<div className={style.clear} />
 						</div>

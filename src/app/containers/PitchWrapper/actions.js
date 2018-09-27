@@ -73,8 +73,8 @@ const pitchParser = (length, pace) => {
 			state: getState('pace', pace.bin),
 			current: pace.value,
 			expected: pace.targetRange,
-			currentLabel: `${Math.round(pace.value)} words/min`,
-			expectedLabel: `${pace.targetRange.join(" - ")}WPM`
+			currentLabel: `${Math.round(pace.value)} WPM`,
+			expectedLabel: `${pace.targetRange.join(" - ")} WPM`
 		};
 	return result;
 };
