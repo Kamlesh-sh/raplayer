@@ -8,7 +8,8 @@ let events = {
 	EMOJI_CLICKED: "emoji clicked",
 	EMOJI_CHOSEN: "emoji chosen",
 	SEARCH_IN_TRANSCRIPTION: "manager_transcription_search",
-	TRANSCRIPTION_CARD_CLICKED: "mission transcription card clicked"
+	TRANSCRIPTION_CARD_CLICKED: "mission transcription card clicked",
+	SUBTITLE_BUTTON_CLICKED: "mission subtitle button clicked"
 };
 
 export default events;

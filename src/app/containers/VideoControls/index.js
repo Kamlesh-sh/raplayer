@@ -19,6 +19,8 @@ import VolumeBar from "@components/VolumeBar";
 import CommentBarDot from "@components/CommentBarDot";
 import TracksList from "@components/TracksList";
 import FullscreenApi from "@api/fullscreen-api.js";
+import { track } from "@api/api";
+import trackEvents from "@config/trackEvents";
 
 let defaultControlOptions = {
 	download: true,
@@ -253,6 +255,9 @@ class VideoControls extends Component {
 	}
 
 	toggleSubtitles() {
+		track(trackEvents.SUBTITLE_BUTTON_CLICKED, {
+			cur_state: this.state.subtitlesOn ? 'On' : 'Off'
+		}
 		let subtitlesOn = this.state.subtitlesOn;
 		this.setState({
 			subtitlesOn: !subtitlesOn
