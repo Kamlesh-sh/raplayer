@@ -257,7 +257,7 @@ class VideoControls extends Component {
 	toggleSubtitles() {
 		track(trackEvents.SUBTITLE_BUTTON_CLICKED, {
 			cur_state: this.state.subtitlesOn ? 'On' : 'Off'
-		};
+		});
 		let subtitlesOn = this.state.subtitlesOn;
 		this.setState({
 			subtitlesOn: !subtitlesOn
