@@ -255,10 +255,13 @@ class VideoControls extends Component {
 	}
 
 	toggleSubtitles() {
-		track(trackEvents.SUBTITLE_BUTTON_CLICKED, {
-			cur_state: this.state.subtitlesOn ? 'On' : 'Off'
-		});
 		let subtitlesOn = this.state.subtitlesOn;
+
+		track(trackEvents.SUBTITLE_BUTTON_CLICKED, {
+			prev_state: subtitlesOn ? 'On' : 'Off',
+			next_state: subtitlesOn ? 'Off' : 'On'
+		});
+
 		this.setState({
 			subtitlesOn: !subtitlesOn
 		});
